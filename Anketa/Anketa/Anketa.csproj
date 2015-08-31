@@ -360,6 +360,7 @@
     <Content Include="Views\Shared\_DynamicDisplay.cshtml" />
     <Content Include="Views\Shared\_DynamicIndexMobileItem.cshtml" />
     <Content Include="Views\Home\survey.cshtml" />
+    <Content Include="Views\Home\createSurvey.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
