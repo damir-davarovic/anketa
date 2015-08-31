@@ -22,3 +22,9 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+/* Helper classes for layout */
+.mt20{
+    margin-top: 20px;
+}
