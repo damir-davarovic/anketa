@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Anketa.Models.Survey
+@{
     ViewBag.Title = "Surveys";
 }
 <h2>@ViewBag.Title</h2>
@@ -34,7 +35,7 @@
             </tfoot>
             <tbody>
                 <tr>
-                    <td>Anketa o političarima</td>
+                    <td>@Model.surveyName</td>
                     <td>Damir</td>
                     <td>31.8.2015</td>
                 </tr>

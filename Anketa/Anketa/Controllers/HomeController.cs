@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Anketa.Models;
 
 namespace Anketa.Controllers
 {
@@ -28,12 +29,22 @@ namespace Anketa.Controllers
 
         public ActionResult Survey()
         {
-            return View();
+            var survey = new Survey
+            {
+                surveyName = "Testna anketa!",
+                surveyActive = true,
+                Question = new List<Question>(),
+                creationDate = new DateTime(),
+                ownerId = 1,
+                surveyID = 1
+            };
+            return View(survey);
         }
 
         public ActionResult CreateSurvey()
         {
             var userId = User.Identity.GetUserId();
+            var userName = User.Identity.GetUserName();
             ViewBag.Message = userId;
             return View();
         }
