@@ -13,6 +13,6 @@ namespace Anketa.Models
         public DateTime creationDate { get; set; }
         public bool surveyActive { get; set; }
 
-        public virtual ICollection<Question> Question { get; set; };
+        public virtual ICollection<Question> Question { get; set; }
     }
 }
