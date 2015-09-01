@@ -8,7 +8,7 @@ namespace Anketa.Models
     public class Survey
     {
         public int surveyID { get; set; }
-        public int ownerId { get; set; }
+        public string ownerID { get; set; }
         public String surveyName { get; set; }
         public DateTime creationDate { get; set; }
         public bool surveyActive { get; set; }

@@ -35,7 +35,7 @@ namespace Anketa.Controllers
                 surveyActive = true,
                 Question = new List<Question>(),
                 creationDate = new DateTime(),
-                ownerId = 1,
+                ownerID = "aaa",
                 surveyID = 1
             };
             return View(survey);

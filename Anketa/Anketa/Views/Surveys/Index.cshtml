@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Anketa.Models.Survey>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ownerID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.surveyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.creationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.surveyActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ownerID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.surveyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.creationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.surveyActive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.surveyID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.surveyID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.surveyID })
+        </td>
+    </tr>
+}
+
+</table>
