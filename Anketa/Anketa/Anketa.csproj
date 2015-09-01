@@ -168,6 +168,7 @@
     <Compile Include="Controllers\DynamicController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="DAL\SurveyContext.cs" />
     <Compile Include="DynamicMVC\DynamicControllerManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
