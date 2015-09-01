@@ -31,5 +31,10 @@ namespace Anketa.Controllers
         {
             return View();
         }
+
+        public ActionResult CreateSurvey()
+        {
+            return View();
+        }
     }
 }

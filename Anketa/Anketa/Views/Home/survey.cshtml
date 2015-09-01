@@ -8,14 +8,52 @@
     <li role="presentation"><a data-toggle="pill" href="#my">My Surveys</a></li>
 </ul>
 
+<div>
+    <p>@Html.ActionLink("Create a New Survey", "CreateSurvey", "Home", null, new { @class = "btn btn-success btn-lg mt20" })</p>
+</div>
+
 
 <div class="tab-content">
     <div id="all" class="tab-pane fade in active">
-        <h3>All Surveys</h3>
+        <h3>Surveys created and waiting to be solved.</h3>
         <p>All Surveys...</p>
+        <table id="all-surveys" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Creator</td>
+                    <td>Date</td>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td>Name</td>
+                    <td>Creator</td>
+                    <td>Date</td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr>
+                    <td>Anketa o političarima</td>
+                    <td>Damir</td>
+                    <td>31.8.2015</td>
+                </tr>
+                <tr>
+                    <td>Anketa o nogometu</td>
+                    <td>Damir</td>
+                    <td>30.8.2015</td>
+                </tr>
+                <tr>
+                    <td>Anketa o ženama</td>
+                    <td>David</td>
+                    <td>29.8.2015</td>
+                </tr>
+
+            </tbody>
+        </table>
     </div>
     <div id="my" class="tab-pane fade">
-        <h3>My Surveys</h3>
+        <h3>Surveys you have created.</h3>
         <p>My Surveys...</p>
     </div>
 
