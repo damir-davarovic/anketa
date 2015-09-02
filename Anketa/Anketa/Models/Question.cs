@@ -14,6 +14,7 @@ namespace Anketa.Models
     {
         public int ID { get; set; }
         public int surveyID { get; set; }
+        public string questionText { get; set; }
         public TipPitanja? TipPitanja { get; set; }
         public bool aktivnoPitanje { get; set; }
     }

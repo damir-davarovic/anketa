@@ -9,6 +9,7 @@ namespace Anketa.Models
     {
         public int ID { get; set; }
         public int questionID { get; set; }
-        public bool tocno { get; set; }
+        public string answerText { get; set; }
+        public bool correct { get; set; }
     }
 }

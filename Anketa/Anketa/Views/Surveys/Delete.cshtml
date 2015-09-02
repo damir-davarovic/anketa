@@ -1,0 +1,56 @@
+﻿@model Anketa.Models.Survey
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Survey</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ownerID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ownerID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.surveyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.surveyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.creationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.creationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.surveyActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.surveyActive)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
