@@ -43,10 +43,8 @@ namespace Anketa.Controllers
 
         public ActionResult CreateSurvey()
         {
-            var userId = User.Identity.GetUserId();
-            var userName = User.Identity.GetUserName();
-            ViewBag.Message = userId;
-            return View();
+            return RedirectToAction("Create", "Surveys");
+            //View();
         }
     }
 }

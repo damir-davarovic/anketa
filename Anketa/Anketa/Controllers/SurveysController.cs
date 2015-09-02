@@ -49,10 +49,12 @@ namespace Anketa.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "surveyID,ownerID,surveyName,creationDate,surveyActive")] Survey survey)
+        //public ActionResult Create([Bind(Include = "surveyID,ownerID,surveyName,creationDate,surveyActive")] Survey survey)
+        public ActionResult Create([Bind(Include = "surveyID,ownerID,surveyName,surveyActive")] Survey survey)
         {
             if (ModelState.IsValid)
             {
+                survey.creationDate = DateTime.Now;
                 db.Surveys.Add(survey);
                 db.SaveChanges();
                 return RedirectToAction("Index");
