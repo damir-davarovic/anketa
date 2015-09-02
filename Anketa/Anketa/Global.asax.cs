@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Anketa.DAL;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,6 +14,15 @@ namespace Anketa
     {
         protected void Application_Start()
         {
+            //// Initializes and seeds the database.
+            //Database.SetInitializer(new SurveyInitializer());
+
+            //// Forces initialization of database on model changes.
+            //using (var context = new SurveyContext())
+            //{
+            //    context.Database.Initialize(force: true);
+            //}
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

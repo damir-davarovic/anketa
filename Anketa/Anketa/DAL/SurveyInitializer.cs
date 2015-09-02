@@ -12,7 +12,10 @@ using Anketa.Models; // Ako se ne koristi ovo enumeracija zahtijeva dodavanje An
 
 namespace Anketa.DAL
 {
-    public class SurveyInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<SurveyContext>
+    public class SurveyInitializer : System.Data.Entity.DropCreateDatabaseAlways<SurveyContext>
+        // clean - build - refresh connection on database - close connection - repeat
+        // start in debug 
+        // logoff - login, start tackling tables
     {
         protected override void Seed(SurveyContext context)
         {
@@ -20,7 +23,7 @@ namespace Anketa.DAL
             {
                 new Survey{surveyID=1,ownerID="aaa",surveyName="Prva Anketa",creationDate=DateTime.Parse("2015-09-01")},
                 new Survey{surveyID=2,ownerID="bbb",surveyName="Druga Anketa",creationDate=DateTime.Parse("2015-09-01")},
-                new Survey{surveyID=3,ownerID="ccc",surveyName="Treća Anketa",creationDate=DateTime.Parse("2015-09-01")}
+                new Survey{surveyID=3,ownerID="cce",surveyName="Mijenjana Anketa",creationDate=DateTime.Parse("2015-09-01")}
             };
 
             surveys.ForEach(s => context.Surveys.Add(s));
