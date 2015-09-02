@@ -13,7 +13,7 @@ namespace Anketa.Migrations
 
         string IMigrationMetadata.Id
         {
-            get { return "201504250539373_initial"; }
+            get { return "201504250539373_initial"; } //return "201509021520479_InitialCreate";  drugi izbor, jedino što još u bazi postoji.
         }
 
         string IMigrationMetadata.Source

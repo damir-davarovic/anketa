@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Anketa.Models;
+using Anketa.DAL;
 
 namespace Anketa.Controllers
 {
@@ -17,6 +18,7 @@ namespace Anketa.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private SurveyContext dbContext = new SurveyContext();
 
         public AccountController()
         {
@@ -153,6 +155,11 @@ namespace Anketa.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                //User newUser = new User(); // ovo je početak kreiranja usera
+                //newUser.Id = user.Id;
+                //newUser.Email = user.Email;
+                //dbContext.Users.Add(newUser);
+                //await dbContext.SaveChangesAsync();
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);

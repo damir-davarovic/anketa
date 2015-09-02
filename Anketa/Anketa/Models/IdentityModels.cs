@@ -21,7 +21,8 @@ namespace Anketa.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("SurveyContext", throwIfV1Schema: false)
+            // DefaultConnection ime referencijskog stringa unutar web.config
         {
         }
 
