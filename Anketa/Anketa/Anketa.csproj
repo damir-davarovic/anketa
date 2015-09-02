@@ -168,7 +168,9 @@
     <Compile Include="Controllers\DynamicController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SurveysController.cs" />
     <Compile Include="DAL\SurveyContext.cs" />
+    <Compile Include="DAL\SurveyInitializer.cs" />
     <Compile Include="DynamicMVC\DynamicControllerManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -446,6 +448,11 @@
     <Content Include="Views\Shared\_DynamicIndexMobileItem.cshtml" />
     <Content Include="Views\Home\survey.cshtml" />
     <Content Include="Views\Home\CreateSurvey.cshtml" />
+    <Content Include="Views\Surveys\Create.cshtml" />
+    <Content Include="Views\Surveys\Delete.cshtml" />
+    <Content Include="Views\Surveys\Details.cshtml" />
+    <Content Include="Views\Surveys\Edit.cshtml" />
+    <Content Include="Views\Surveys\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
