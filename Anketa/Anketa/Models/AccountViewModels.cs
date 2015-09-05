@@ -89,6 +89,10 @@ namespace Anketa.Models
         [DataType(DataType.Text)]
         [Display(Name = "Username")]
         public string userName { get; set; }
+
+        // tutorials
+        // https://developers.facebook.com/apps/1026629637419114/dashboard/
+        // http://www.itorian.com/2013/11/customize-users-profile-in-aspnet.html
     }
 
     public class ResetPasswordViewModel
