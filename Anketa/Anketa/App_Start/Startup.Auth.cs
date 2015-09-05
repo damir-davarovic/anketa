@@ -54,15 +54,18 @@ namespace Anketa
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "1026629637419114",
+               appSecret: "aeb471648ccce0db2d24fb9347122958");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "1082320184301-elouk7vdqtiplmdb8nntaccch11ndu9c.apps.googleusercontent.com",
+                ClientSecret = "6h5U_wwQs6-0rqeXEXREziOv"
+            });
+
+            // http://www.asp.net/mvc/overview/security/create-an-aspnet-mvc-5-app-with-facebook-and-google-oauth2-and-openid-sign-on
+            // tutorial for enabling logins from other services (Google / Facebook etc.)
         }
     }
 }

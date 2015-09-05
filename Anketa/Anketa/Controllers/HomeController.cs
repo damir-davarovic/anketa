@@ -8,6 +8,7 @@ using Anketa.Models;
 
 namespace Anketa.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()
