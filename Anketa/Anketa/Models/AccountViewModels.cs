@@ -48,10 +48,15 @@ namespace Anketa.Models
 
     public class LoginViewModel
     {
+        //[Required]
+        //[Display(Name = "Email")]
+        //[EmailAddress]
+        //public string Email { get; set; }
+
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [DataType(DataType.Text)]
+        [Display(Name = "Username")]
+        public string userName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
