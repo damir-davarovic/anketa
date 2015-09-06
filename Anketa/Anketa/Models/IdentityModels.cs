@@ -29,6 +29,7 @@ namespace Anketa.Models
         public string userName { get; set; }
     }
 
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()

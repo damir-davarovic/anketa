@@ -5,12 +5,16 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Anketa.Models;
+using Anketa.DAL;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Anketa.Controllers
 {
     [RequireHttps]
     public class HomeController : Controller
     {
+        private SurveyContext db = new SurveyContext();
+
         public ActionResult Index()
         {
             return View();
@@ -30,16 +34,10 @@ namespace Anketa.Controllers
 
         public ActionResult Survey()
         {
-            var survey = new Survey
-            {
-                surveyName = "Testna anketa!",
-                surveyActive = true,
-                Question = new List<Question>(),
-                creationDate = new DateTime(),
-                ownerID = "aaa",
-                surveyID = 1
-            };
-            return View(survey);
+            //var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            //var currentUser = manager.FindById(User.Identity.GetUserId()).UserProfileInfo.Id; 
+            // ovo je premješteno u survey.cshtml
+            return View(db.Surveys.ToList());
         }
 
         public ActionResult CreateSurvey()

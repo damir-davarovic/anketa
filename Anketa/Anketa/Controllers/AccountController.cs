@@ -153,8 +153,9 @@ namespace Anketa.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.userName, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.userName, Email = model.Email, UserProfileInfo = new UserProfileInfo()};
                 var result = await UserManager.CreateAsync(user, model.Password);
+                var userPInfo = user.UserProfileInfo.Id;
                 //User newUser = new User(); // ovo je početak kreiranja usera
                 //newUser.Id = user.Id;
                 //newUser.Email = user.Email;
