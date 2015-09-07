@@ -11,8 +11,12 @@ namespace Anketa
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/select2.js",
+                        "~/Scripts/scripts.js",
                         "~/Scripts/DynamicScript.js",
-                        "~/Scripts/jquery-ui-1.11.1.js"));
+                        "~/Scripts/jquery-ui-1.11.1.js"))
+                        ;
+            bundles.Add(new ScriptBundle("~/DataTables/jquery").IncludeDirectory("~/Scripts/DataTables", "*.js", true));
+            // sve iz DataTable direktorija u bundle
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                                  "~/Scripts/jquery.validate*",
@@ -30,10 +34,11 @@ namespace Anketa
             bundles.Add(new StyleBundle("~/Content/bundle/css").Include(
                     "~/Content/bootstrap.css",
                     "~/Content/DynamicStyle.css",
-                    "~/Content/site.css",
+                    "~/Content/Site.css",
                     "~/Content/Validation.css",
                     "~/Content/css/select2.css",
                     "~/Content/select2custom.css"));
+            bundles.Add(new StyleBundle("~/Content/bundle/DataTable").IncludeDirectory("~/Content/DataTables", "*.css", true));
         }
     }
 }

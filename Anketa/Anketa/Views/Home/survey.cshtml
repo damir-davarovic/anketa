@@ -1,12 +1,6 @@
 ﻿@model IEnumerable<Anketa.Models.Survey>
-@using System;
-@using System.Collections.Generic;
-@using System.Linq;
-@using System.Web;
-@using System.Web.Mvc;
 @using Microsoft.AspNet.Identity;
 @using Anketa.Models;
-@using Anketa.DAL;
 @using Microsoft.AspNet.Identity.EntityFramework;
 @{
     ViewBag.Title = "Surveys";
@@ -31,21 +25,24 @@
     <div id="all" class="tab-pane fade in active">
         <h3>Surveys created and waiting to be solved.</h3>
         <p>All Surveys...</p>
-        <table id="all-surveys" class="display table" cellspacing="0" width="100%">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ownerID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.surveyName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.creationDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.surveyActive)
-                </th>
-            </tr>
+        <table id="all-surveys">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ownerID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.surveyName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.creationDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.surveyActive)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
             @foreach (var item in Model) {
             <tr>
                 <td>
@@ -67,7 +64,29 @@
                 </td>
             </tr>
             }
+            </tbody>
     </table>
+<table id="table_id">
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>etc</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+            <td>etc</td>
+        </tr>
+        <tr>
+            <td>Row 2 Data 1</td>
+            <td>Row 2 Data 2</td>
+            <td>etc</td>
+        </tr>
+    </tbody>
+</table>
     </div>
     <div id="my" class="tab-pane fade">
         <h3>Surveys you have created.</h3>
@@ -112,5 +131,4 @@
             }
        </table>
     </div>
-
 </div>

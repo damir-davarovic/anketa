@@ -6,15 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Surveys - TVZ Students Application</title>
     @Styles.Render("~/Content/bundle/css")
-    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css" />
+    @Styles.Render("~/Content/bundle/DataTable")
+@*    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css" />
     <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    Sve treba prebacit u bundle. Ovako nema grešaka.
+    *@
 
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    @Scripts.Render("~/DataTables/jquery")
+@*    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/scripts.js"></script>
-    <link href="~/Content/Site.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    ovo bi trebalo u bundle premjestit. Ovako nema errora.    
+*@
+    
+    @*<link href="~/Content/Site.css" rel="stylesheet" />*@
+    @*<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />*@
+    @*Zakomentiro jer je dizalo security error *@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
