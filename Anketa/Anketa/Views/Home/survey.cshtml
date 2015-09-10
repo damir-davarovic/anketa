@@ -4,8 +4,15 @@
 @using Microsoft.AspNet.Identity.EntityFramework;
 @{
     ViewBag.Title = "Surveys";
+@*    var currentUser = 0;
+    var surveyUser = -1;
     var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-    var currentUser = manager.FindById(User.Identity.GetUserId()).UserProfileInfo.Id;
+    var userIdentity = User.Identity.GetUserId();
+    if (userIdentity != null)
+    {
+        ViewBag.User = manager.FindById(userIdentity).UserProfileInfo.Id;
+    }   
+    primjer mogućnosti van controllera. U biti isti kod, ali ovdje nemaš autocomplete i zujiš*@
 }
 <h2>@ViewBag.Title</h2>
 
@@ -17,7 +24,9 @@
 </ul>
 
 <div>
-    <p>@Html.ActionLink("Create a New Survey", "Create", new { controller = "Surveys" }, new { @class = "btn btn-success btn-lg mt20" })</p>
+    <p>@Html.ActionLink("Create a New Survey", "Create", new { controller = "Surveys" }, new{ @class = "btn btn-success btn-lg mt20"} )</p>
+        @* new{ @class = false ? "btn btn-success btn-lg mt20" : "btn-disabled btn btn-success btn-lg mt20"} *@ 
+        @* a way to add custom CSS *@
 </div>
 
 
@@ -40,13 +49,16 @@
                     <th>
                         @Html.DisplayNameFor(model => model.surveyActive)
                     </th>
+                    <th>
+                        Actions:
+                    </th>
                 </tr>
             </thead>
             <tbody>
             @foreach (var item in Model) {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ownerID)
+                    @Html.DisplayFor(modelItem => item.ownerID) 
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.surveyName)
@@ -57,36 +69,23 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.surveyActive)
                 </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit" , new { controller = "Surveys" , Id = item.surveyID }) |
-                    @Html.ActionLink("Details", "Details", new { controller = "Surveys" , Id = item.surveyID }) |
+                
+                <td> 
+                    @if(@ViewBag.User == Convert.ToInt64(item.ownerID)) { 
+                    @Html.ActionLink("Edit", "Edit" , new { controller = "Surveys" , Id = item.surveyID })  
+                    @Html.Raw(" | ")
+                    @Html.ActionLink("Details", "Details", new { controller = "Surveys" , Id = item.surveyID }) 
+                    @Html.Raw(" | ")
                     @Html.ActionLink("Delete", "Delete", new { controller = "Surveys" , Id = item.surveyID })
-                </td>
+                    }
+                    else{
+                        @Html.Raw("Sorry, but you have to be logged in!")
+                    }
+                </td>           
             </tr>
             }
             </tbody>
     </table>
-<table id="table_id">
-    <thead>
-        <tr>
-            <th>Column 1</th>
-            <th>Column 2</th>
-            <th>etc</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Row 1 Data 1</td>
-            <td>Row 1 Data 2</td>
-            <td>etc</td>
-        </tr>
-        <tr>
-            <td>Row 2 Data 1</td>
-            <td>Row 2 Data 2</td>
-            <td>etc</td>
-        </tr>
-    </tbody>
-</table>
     </div>
     <div id="my" class="tab-pane fade">
         <h3>Surveys you have created.</h3>
@@ -107,7 +106,7 @@
                 </th>
             </tr>
             @foreach (var item in Model) {
-            if(item.ownerID.AsInt() == currentUser){
+            
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.ownerID)
@@ -127,7 +126,7 @@
                     @Html.ActionLink("Delete", "Delete", new { controller = "Surveys" , Id = item.surveyID })
                 </td>
             </tr>
-                }
+                
             }
        </table>
     </div>

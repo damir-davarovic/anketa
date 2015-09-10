@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region using
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -8,6 +9,10 @@ using System.Web;
 using System.Web.Mvc;
 using Anketa.DAL;
 using Anketa.Models;
+using Microsoft.AspNet.Identity;
+using Anketa.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+#endregion using
 
 //Ovaj cijeli controller se generiro sam.
 

@@ -34,9 +34,21 @@ namespace Anketa.Controllers
 
         public ActionResult Survey()
         {
+            //var currentUser = 0;
             //var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            //var currentUser = manager.FindById(User.Identity.GetUserId()).UserProfileInfo.Id; 
+            //var userIdentity = User.Identity.GetUserId();
+            //if (userIdentity != null)
+            //{
+            //    currentUser = manager.FindById(userIdentity).UserProfileInfo.Id;
+            //}
             // ovo je premješteno u survey.cshtml
+            ViewBag.User = 0;
+            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            var userIdentity = User.Identity.GetUserId();
+            if (userIdentity != null)
+            {
+                ViewBag.User = manager.FindById(userIdentity).UserProfileInfo.Id;
+            } 
             return View(db.Surveys.ToList());
         }
 
