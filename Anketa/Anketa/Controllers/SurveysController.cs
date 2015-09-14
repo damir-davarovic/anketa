@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using Anketa.DAL;
 using Anketa.Models;
 using Microsoft.AspNet.Identity;
-using Anketa.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 //Ovaj cijeli controller se generiro sam.
