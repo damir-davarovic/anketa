@@ -13,10 +13,10 @@ using Anketa.Models; // Ako se ne koristi ovo enumeracija zahtijeva dodavanje An
 namespace Anketa.DAL
 {
     public class SurveyInitializer : System.Data.Entity.CreateDatabaseIfNotExists<SurveyContext>
-        //DropCreateDatabaseAlways<SurveyContext> Drop and recreate database every time
-        // clean - build - refresh connection on database - close connection - repeat
-        // start in debug 
-        // logoff - login, start tackling tables
+    //DropCreateDatabaseAlways<SurveyContext> Drop and recreate database every time
+    // clean - build - refresh connection on database - close connection - repeat
+    // start in debug 
+    // logoff - login, start tackling tables
     {
         protected override void Seed(SurveyContext context)
         {
