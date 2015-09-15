@@ -33,7 +33,6 @@
 <div class="tab-content">
     <div id="all" class="tab-pane fade in active">
         <h3>Surveys created and waiting to be solved.</h3>
-        <p>All Surveys...</p>
         <table id="all-surveys">
             <thead>
                 <tr>
@@ -79,7 +78,7 @@
                     @Html.ActionLink("Delete", "Delete", new { controller = "Surveys" , Id = item.surveyID })
                     }
                     else{
-                        @Html.Raw("Sorry, but you have to be logged in!")
+                        @Html.Raw("Sorry, you can't manage this survey!")
                     }
                 </td>           
             </tr>
@@ -89,8 +88,8 @@
     </div>
     <div id="my" class="tab-pane fade">
         <h3>Surveys you have created.</h3>
-        <p>My Surveys...</p>
-        <table id="my-surveys" class="display table" cellspacing="0" width="100%">
+        <table id="my-surveys" class="display table">
+            <thead>
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.ownerID)
@@ -104,9 +103,14 @@
                 <th>
                     @Html.DisplayNameFor(model => model.surveyActive)
                 </th>
+                <th>
+                    Actions:
+                </th>
             </tr>
+            </thead>
+            <tbody>
             @foreach (var item in Model) {
-            
+            if(@ViewBag.User == Convert.ToInt64(item.ownerID)) { 
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.ownerID)
@@ -126,8 +130,9 @@
                     @Html.ActionLink("Delete", "Delete", new { controller = "Surveys" , Id = item.surveyID })
                 </td>
             </tr>
-                
+                }
             }
+        </tbody>
        </table>
     </div>
 </div>
