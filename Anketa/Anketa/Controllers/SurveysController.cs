@@ -22,6 +22,14 @@ namespace Anketa.Controllers
         // GET: Surveys
         public ActionResult Index()
         {
+            ViewBag.User = 0;
+            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            var userIdentity = User.Identity.GetUserId();
+            if (userIdentity != null)
+            {
+                ViewBag.User = manager.FindById(userIdentity).UserProfileInfo.Id;
+                ViewBag.UserName = User.Identity.GetUserName();
+            }
             return View(db.Surveys.ToList());
         }
 

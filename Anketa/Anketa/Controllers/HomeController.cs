@@ -34,28 +34,13 @@ namespace Anketa.Controllers
 
         public ActionResult Survey()
         {
-            //var currentUser = 0;
-            //var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            //var userIdentity = User.Identity.GetUserId();
-            //if (userIdentity != null)
-            //{
-            //    currentUser = manager.FindById(userIdentity).UserProfileInfo.Id;
-            //}
-            // ovo je premješteno u survey.cshtml
-            ViewBag.User = 0;
-            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            var userIdentity = User.Identity.GetUserId();
-            if (userIdentity != null)
-            {
-                ViewBag.User = manager.FindById(userIdentity).UserProfileInfo.Id;
-            } 
-            return View(db.Surveys.ToList());
+            // logika prenesena u SurveyController.Index i u survey.cshtml
+            return RedirectToAction("Index", "Surveys");
         }
 
         public ActionResult CreateSurvey()
         {
             return RedirectToAction("Create", "Surveys");
-            //View();
         }
     }
 }

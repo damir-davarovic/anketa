@@ -1,51 +1,165 @@
 ﻿@model IEnumerable<Anketa.Models.Survey>
-
+@using Microsoft.AspNet.Identity;
+@using Anketa.Models;
+@using Microsoft.AspNet.Identity.EntityFramework;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Surveys";
+@*    var currentUser = 0;
+    var surveyUser = -1;
+    var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+    var userIdentity = User.Identity.GetUserId();
+    if (userIdentity != null)
+    {
+        ViewBag.User = manager.FindById(userIdentity).UserProfileInfo.Id;
+    }   
+    primjer mogućnosti van controllera. U biti isti kod, ali ovdje nemaš autocomplete i zujiš*@
 }
+<h2>@ViewBag.Title</h2>
 
-<h2>Index</h2>
+<ul class="nav nav-pills">
+    <li role="presentation" class="active"><a data-toggle="pill" href="#all">All Surveys</a></li>
+    @if(Request.IsAuthenticated){
+    <li role="presentation"><a data-toggle="pill" href="#my">My Surveys</a></li>
+    }
+</ul>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ownerID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.surveyName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.creationDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.surveyActive)
-        </th>
-        <th></th>
-    </tr>
+<div>
+    <p>@Html.ActionLink("Create a New Survey", "Create", new { controller = "Surveys" }, new{ @class = "btn btn-success btn-lg mt20"} )</p>
+        @* new{ @class = false ? "btn btn-success btn-lg mt20" : "btn-disabled btn btn-success btn-lg mt20"} *@ 
+        @* a way to add custom CSS *@
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ownerID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.surveyName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.creationDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.surveyActive)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.surveyID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.surveyID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.surveyID })
-        </td>
-    </tr>
-}
 
-</table>
+<div class="tab-content">
+    <div id="all" class="tab-pane fade in active">
+        <h3>Surveys created and waiting to be solved.</h3>
+        <table id="all-surveys">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ownerID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.surveyName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.creationDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.surveyActive)
+                    </th>
+                    <th>
+                        Actions:
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @if(@ViewBag.User == Convert.ToInt64(item.ownerID)) {
+                    @ViewBag.UserName
+                    }
+                    else{
+                    @Html.DisplayFor(modelItem => item.ownerID) 
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.surveyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.creationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.surveyActive)
+                </td>
+                
+                <td class="text-left"> 
+                    @if(@ViewBag.User == Convert.ToInt64(item.ownerID)) {
+                    <div class="btn-group btn-group-sm">
+                      <button type="button" class="btn btn-success">Action</button>
+                      <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Edit", "Edit" , new { controller = "Surveys" , Id = item.surveyID })</li>
+                        <li>@Html.ActionLink("Details", "Details", new { controller = "Surveys" , Id = item.surveyID })</li>
+                        <li>@Html.ActionLink("Delete", "Delete", new { controller = "Surveys" , Id = item.surveyID })</li>
+                        <li role="separator" class="divider"></li>
+                        <li>@Html.ActionLink("Modify questions", "Details", new { controller = "Surveys" , Id = item.surveyID })</li>
+                      </ul>
+                    </div>
+                    }
+                    else{
+                    <div class="btn-group btn-group-sm">
+                        @Html.ActionLink("Solve", "Edit", new { controller = "Surveys", Id = item.surveyID }, new{ @class = "btn btn-success"} )
+                    </div>
+                    }
+                </td>           
+            </tr>
+            }
+            </tbody>
+    </table>
+    </div>
+    <div id="my" class="tab-pane fade">
+        <h3>Surveys you have created.</h3>
+        <table id="my-surveys" class="display table">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ownerID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.surveyName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.creationDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.surveyActive)
+                </th>
+                <th>
+                    Actions:
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model) {
+            if(@ViewBag.User == Convert.ToInt64(item.ownerID)) { 
+            <tr>
+                <td>
+                    @ViewBag.UserName
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.surveyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.creationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.surveyActive)
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                      <button type="button" class="btn btn-success">Action</button>
+                      <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Edit", "Edit" , new { controller = "Surveys" , Id = item.surveyID })</li>
+                        <li>@Html.ActionLink("Details", "Details", new { controller = "Surveys" , Id = item.surveyID })</li>
+                        <li>@Html.ActionLink("Delete", "Delete", new { controller = "Surveys" , Id = item.surveyID })</li>
+                        <li role="separator" class="divider"></li>
+                        <li>@Html.ActionLink("Modify questions", "Details", new { controller = "Surveys" , Id = item.surveyID })</li>
+                      </ul>
+                    </div>
+                </td>
+            </tr>
+                }
+            }
+        </tbody>
+       </table>
+    </div>
+</div>
