@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Anketa.Models.Question>
+@using Microsoft.AspNet.Identity;
+@using Anketa.Models;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>View</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.surveyID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.questionText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipPitanja)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.surveyID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.questionText)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipPitanja)
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
