@@ -63,7 +63,7 @@
                 <td class="text-left"> 
                     @if(@ViewBag.User == Convert.ToInt64(item.ownerID)) {
                     <div class="btn-group btn-group-sm">
-                      <button type="button" class="btn btn-success">Action</button>
+                      <button type="button" class="btn btn-success">@Html.ActionLink("Solve", "Solve", new { controller = "Surveys", Id = item.surveyID })</button>
                       <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
@@ -79,7 +79,7 @@
                     }
                     else{
                     <div class="btn-group btn-group-sm">
-                        @Html.ActionLink("Solve", "Edit", new { controller = "Surveys", Id = item.surveyID }, new{ @class = "btn btn-success"} )
+                        @Html.ActionLink("Solve", "Solve", new { controller = "Surveys", Id = item.surveyID }, new{ @class = "btn btn-success"} )
                     </div>
                     }
                 </td>           

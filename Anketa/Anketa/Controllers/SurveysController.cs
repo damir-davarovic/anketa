@@ -108,6 +108,26 @@ namespace Anketa.Controllers
             return View(survey);
         }
 
+
+        // GET: Surveys/Solve/5
+        public ActionResult Solve(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Survey survey = db.Surveys.Find(id);
+            if (survey == null)
+            {
+                return HttpNotFound();
+            }
+
+            List<Question> result = db.Questions.Where(o => o.surveyID == survey.surveyID).ToList();
+
+            return View(result);
+        }
+
+
         // GET: Surveys/Delete/5
         public ActionResult Delete(int? id)
         {
