@@ -18,6 +18,7 @@ namespace Anketa.Controllers
     public class SurveysController : Controller
     {
         private SurveyContext db = new SurveyContext();
+        private ApplicationDbContext aDB = new ApplicationDbContext();
 
         // GET: Surveys
         public ActionResult Index()
@@ -25,10 +26,13 @@ namespace Anketa.Controllers
             ViewBag.User = 0;
             var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             var userIdentity = User.Identity.GetUserId();
+            Dictionary<int, string> dictUser = new Dictionary<int, string>();
+            dictUser = aDB.Users.Select(x => new { userId = x.UserProfileInfo.Id, userName = x.UserName }).ToDictionary(o => o.userId, o => o.userName );
             if (userIdentity != null)
             {
                 ViewBag.User = manager.FindById(userIdentity).UserProfileInfo.Id;
                 ViewBag.UserName = User.Identity.GetUserName();
+                ViewBag.UserDict = dictUser;
             }
             return View(db.Surveys.ToList());
         }
