@@ -15,7 +15,10 @@ namespace Anketa.App_Start
 {
     public static class GlobalVariables
     {
-        public static Dictionary<int, String> userNameIdDictionary = new ApplicationDbContext().Users.Select(x => new { userId = x.UserProfileInfo.Id, userName = x.UserName }).ToDictionary(o => o.userId, o => o.userName);
+        public static Dictionary<int, String> fetchUsernameIdDictionary()
+        {
+            return new ApplicationDbContext().Users.Select(x => new { userId = x.UserProfileInfo.Id, userName = x.UserName }).ToDictionary(o => o.userId, o => o.userName);
+        } 
 
         public static int getCurrentUser()
         {

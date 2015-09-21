@@ -19,7 +19,6 @@ namespace Anketa.Controllers
     public class SurveysController : Controller
     {
         private SurveyContext db = new SurveyContext();
-        private ApplicationDbContext aDB = new ApplicationDbContext();
 
         // GET: Surveys
         public ActionResult Index()
@@ -30,7 +29,7 @@ namespace Anketa.Controllers
 
         public class SurveyIndexModel
         {
-            public Dictionary<int, string> dictUser = GlobalVariables.userNameIdDictionary;
+            public Dictionary<int, string> dictUser = GlobalVariables.fetchUsernameIdDictionary();
             public IEnumerable<Survey> allSurveysList = new SurveyContext().Surveys.ToList();
             public int currentUser = GlobalVariables.getCurrentUser();
             public Survey surveyModel = new Survey();
