@@ -58,12 +58,15 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.surveyActive)
-                </td>
-                
+                </td>                
                 <td class="text-left"> 
                     @if(@ViewBag.User == Convert.ToInt64(item.ownerID)) {
                     <div class="btn-group btn-group-sm">
-                      <button type="button" class="btn btn-success">@Html.ActionLink("Solve", "Solve", new { controller = "Surveys", Id = item.surveyID })</button>
+                        @if(item.surveyActive){
+                        @Html.ActionLink("Solve", "Solve", new { controller = "Surveys", Id = item.surveyID }, new{ @class = "btn btn-success"})
+                        }else{
+                            <button type="button" class="btn btn-disabled">Solve</button>
+                        }
                       <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
@@ -93,42 +96,28 @@
         <table id="my-surveys" class="display table">
             <thead>
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ownerID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.surveyName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.creationDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.surveyActive)
-                </th>
-                <th>
-                    Actions:
-                </th>
+                <th>@Html.DisplayNameFor(model => model.ownerID)</th>
+                <th>@Html.DisplayNameFor(model => model.surveyName)</th>
+                <th>@Html.DisplayNameFor(model => model.creationDate)</th>
+                <th>@Html.DisplayNameFor(model => model.surveyActive)</th>
+                <th>Actions:</th>
             </tr>
             </thead>
             <tbody>
             @foreach (var item in Model) {
-            if(@ViewBag.User == Convert.ToInt64(item.ownerID)) { 
+                if(@ViewBag.User == Convert.ToInt64(item.ownerID)) { 
             <tr>
+                <td>@ViewBag.UserName</td>
+                <td>@Html.DisplayFor(modelItem => item.surveyName)</td>
+                <td>@Html.DisplayFor(modelItem => item.creationDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.surveyActive)</td>
                 <td>
-                    @ViewBag.UserName
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.surveyName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.creationDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.surveyActive)
-                </td>
-                <td>
-                    <div class="btn-group btn-group-sm">
-                      <button type="button" class="btn btn-success">Action</button>
+                    <div class="btn-group btn-group-sm">                    
+                      @if(item.surveyActive){
+                        @Html.ActionLink("Solve", "Solve", new { controller = "Surveys", Id = item.surveyID }, new{ @class = "btn btn-success"})
+                        }else{
+                            <button type="button" class="btn btn-disabled">Solve</button>
+                        }
                       <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>

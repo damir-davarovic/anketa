@@ -32,8 +32,8 @@ namespace Anketa.Controllers
             {
                 ViewBag.User = manager.FindById(userIdentity).UserProfileInfo.Id;
                 ViewBag.UserName = User.Identity.GetUserName();
-                ViewBag.UserDict = dictUser;
             }
+            ViewBag.UserDict = dictUser;
             return View(db.Surveys.ToList());
         }
 
