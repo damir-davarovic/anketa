@@ -10,6 +10,7 @@ using Anketa.DAL;
 using Anketa.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Anketa.App_Start;
 
 //Ovaj cijeli controller se generiro sam.
 
@@ -23,18 +24,16 @@ namespace Anketa.Controllers
         // GET: Surveys
         public ActionResult Index()
         {
-            ViewBag.User = 0;
-            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            var userIdentity = User.Identity.GetUserId();
-            Dictionary<int, string> dictUser = new Dictionary<int, string>();
-            dictUser = aDB.Users.Select(x => new { userId = x.UserProfileInfo.Id, userName = x.UserName }).ToDictionary(o => o.userId, o => o.userName );
-            if (userIdentity != null)
-            {
-                ViewBag.User = manager.FindById(userIdentity).UserProfileInfo.Id;
-                ViewBag.UserName = User.Identity.GetUserName();
-            }
-            ViewBag.UserDict = dictUser;
-            return View(db.Surveys.ToList());
+            var model = new SurveyIndexModel();
+            return View(model);
+        }
+
+        public class SurveyIndexModel
+        {
+            public Dictionary<int, string> dictUser = GlobalVariables.userNameIdDictionary;
+            public IEnumerable<Survey> allSurveysList = new SurveyContext().Surveys.ToList();
+            public int currentUser = GlobalVariables.getCurrentUser();
+            public Survey surveyModel = new Survey();
         }
 
         // GET: Surveys/Details/5

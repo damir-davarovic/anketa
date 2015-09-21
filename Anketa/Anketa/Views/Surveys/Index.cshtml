@@ -1,7 +1,10 @@
-﻿@model IEnumerable<Anketa.Models.Survey>
+﻿@*@model IEnumerable<Anketa.Models.Survey>*@
+@model Anketa.Controllers.SurveysController.SurveyIndexModel
 @using Microsoft.AspNet.Identity;
 @using Anketa.Models;
 @using Microsoft.AspNet.Identity.EntityFramework;
+@using Anketa.App_Start;
+@using System.Web.Mvc;
 @{
     ViewBag.Title = "Surveys";
 }
@@ -27,40 +30,22 @@
         <table id="all-surveys">
             <thead>
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ownerID)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.surveyName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.creationDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.surveyActive)
-                    </th>
-                    <th>
-                        Actions:
-                    </th>
+                    <th>@Html.DisplayNameFor(model => model.surveyModel.ownerID)</th>
+                    <th>@Html.DisplayNameFor(model => model.surveyModel.surveyName)</th>
+                    <th>@Html.DisplayNameFor(model => model.surveyModel.creationDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.surveyModel.surveyActive)</th>
+                    <th>Actions:</th>
                 </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model) {
+            @foreach (var item in Model.allSurveysList) {
             <tr>
-                <td>
-                    @ViewBag.UserDict[Convert.ToInt32(item.ownerID)]
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.surveyName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.creationDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.surveyActive)
-                </td>                
+                <td>@Model.dictUser[Convert.ToInt32(item.ownerID)]</td>
+                <td>@Html.DisplayFor(modelItem => item.surveyName)</td>
+                <td>@Html.DisplayFor(modelItem => item.creationDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.surveyActive)</td>                
                 <td class="text-left"> 
-                    @if(@ViewBag.User == Convert.ToInt64(item.ownerID)) {
+                    @if(@Model.currentUser == Convert.ToInt64(item.ownerID)) {
                     <div class="btn-group btn-group-sm">
                         @if(item.surveyActive){
                         @Html.ActionLink("Solve", "Solve", new { controller = "Surveys", Id = item.surveyID }, new{ @class = "btn btn-success"})
@@ -96,18 +81,18 @@
         <table id="my-surveys" class="display table">
             <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.ownerID)</th>
-                <th>@Html.DisplayNameFor(model => model.surveyName)</th>
-                <th>@Html.DisplayNameFor(model => model.creationDate)</th>
-                <th>@Html.DisplayNameFor(model => model.surveyActive)</th>
+                <th>@Html.DisplayNameFor(model => model.surveyModel.ownerID)</th>
+                <th>@Html.DisplayNameFor(model => model.surveyModel.surveyName)</th>
+                <th>@Html.DisplayNameFor(model => model.surveyModel.creationDate)</th>
+                <th>@Html.DisplayNameFor(model => model.surveyModel.surveyActive)</th>
                 <th>Actions:</th>
             </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model) {
-                if(@ViewBag.User == Convert.ToInt64(item.ownerID)) { 
+            @foreach (var item in Model.allSurveysList) {
+                if(@Model.currentUser == Convert.ToInt64(item.ownerID)) { 
             <tr>
-                <td>@ViewBag.UserName</td>
+                <td>@Model.dictUser[Convert.ToInt32(item.ownerID)]</td>
                 <td>@Html.DisplayFor(modelItem => item.surveyName)</td>
                 <td>@Html.DisplayFor(modelItem => item.creationDate)</td>
                 <td>@Html.DisplayFor(modelItem => item.surveyActive)</td>
