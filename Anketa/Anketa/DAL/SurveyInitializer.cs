@@ -8,7 +8,9 @@ using System.Data.Entity;
 //using Question = Anketa.Models.Question;
 //using Answer = Anketa.Models.Answer;
 
-using Anketa.Models; // Ako se ne koristi ovo enumeracija zahtijeva dodavanje Anketa.Models. ispred naziva, praktičnost.
+using Anketa.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity; // Ako se ne koristi ovo enumeracija zahtijeva dodavanje Anketa.Models. ispred naziva, praktičnost.
 
 namespace Anketa.DAL
 {
@@ -53,6 +55,11 @@ namespace Anketa.DAL
 
             answers.ForEach(s => context.Answers.Add(s));
             context.SaveChanges();
+
+            var userStore = new UserStore<ApplicationUser>(context);
+            var userManager = new UserManager<ApplicationUser>(userStore);
+            var userToSeed = new ApplicationUser { UserName = "Unidentified User", PasswordHash = new PasswordHasher().HashPassword("Password123!"), UserProfileInfo = new UserProfileInfo { Id = 0, userName = "Unidentified User" } };
+            userManager.Create(userToSeed);
 
         }
 
