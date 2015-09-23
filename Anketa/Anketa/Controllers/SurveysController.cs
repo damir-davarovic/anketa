@@ -120,7 +120,7 @@ namespace Anketa.Controllers
                 return HttpNotFound();
             }
 
-            List<Question> result = db.Questions.Where(o => o.surveyID == survey.surveyID).ToList();
+            List<Question> result = db.Questions.Where(o => o.SurveyID == survey.surveyID).ToList();
 
             return View(result);
         }
