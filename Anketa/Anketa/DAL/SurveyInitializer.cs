@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity; // Ako se ne koristi ovo enumeracija zahtijeva 
 
 namespace Anketa.DAL
 {
-    public class SurveyInitializer : System.Data.Entity.DropCreateDatabaseAlways<SurveyContext>
+    public class SurveyInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<SurveyContext>
     //DropCreateDatabaseAlways<SurveyContext> Drop and recreate database every time
     // clean - build - refresh connection on database - close connection - repeat
     // start in debug 
