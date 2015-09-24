@@ -27,14 +27,6 @@ namespace Anketa.Controllers
             return View(model);
         }
 
-        public class SurveyIndexModel
-        {
-            public Dictionary<int, string> dictUser = GlobalVariables.fetchUsernameIdDictionary();
-            public IEnumerable<Survey> allSurveysList = new SurveyContext().Surveys.ToList();
-            public int currentUser = GlobalVariables.getCurrentUser();
-            public Survey surveyModel = new Survey();
-        }
-
         // GET: Surveys/Details/5
         public ActionResult Details(int? id)
         {

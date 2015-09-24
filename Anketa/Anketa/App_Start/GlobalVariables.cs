@@ -17,16 +17,18 @@ namespace Anketa.App_Start
     {
         public static Dictionary<int, String> fetchUsernameIdDictionary()
         {
-            return new ApplicationDbContext().Users.Select(x => new { userId = x.UserProfileInfo.Id, userName = x.UserName }).ToDictionary(o => o.userId, o => o.userName);
+            return new SurveyContext().Users.Select(x => new { userId = x.UserProfileInfo.Id, userName = x.UserName }).ToDictionary(o => o.userId, o => o.userName);
         } 
 
         public static int getCurrentUser()
         {
-            UserManager<ApplicationUser> applicationUserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            UserManager<User> applicationUserManager = new UserManager<User>(new UserStore<User>(new SurveyContext()));
             var userIdentity = HttpContext.Current.User.Identity.GetUserId();
             if (userIdentity != null)
             {
-                return applicationUserManager.FindById(userIdentity).UserProfileInfo.Id;
+                User u = applicationUserManager.FindById(userIdentity);
+                UserProfileInfo upi = u.UserProfileInfo;
+                return upi.Id;
             }
             else
             {

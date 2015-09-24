@@ -34,7 +34,7 @@ namespace Anketa
             }
             var applicationMetadata = new DynamicMVC.Business.Models.ApplicationMetadata(typeof(MvcApplication).Assembly,
                 typeof(MvcApplication).Assembly, typeof(MvcApplication).Assembly,
-                () => new DynamicMVC.Data.DynamicRepository(new Anketa.Models.ApplicationDbContext()));
+                () => new DynamicMVC.Data.DynamicRepository(new SurveyContext()));
             DynamicMVC.Managers.DynamicMVCManager.ParseApplicationMetadata(applicationMetadata);
 
             DynamicMVC.Managers.DynamicMVCManager.SetDynamicRoutes(RouteTable.Routes);

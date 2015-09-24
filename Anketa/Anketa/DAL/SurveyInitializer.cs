@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity; // Ako se ne koristi ovo enumeracija zahtijeva 
 
 namespace Anketa.DAL
 {
-    public class SurveyInitializer : System.Data.Entity.CreateDatabaseIfNotExists<SurveyContext>
+    public class SurveyInitializer : System.Data.Entity.DropCreateDatabaseAlways<SurveyContext>
     //DropCreateDatabaseAlways<SurveyContext> Drop and recreate database every time
     // clean - build - refresh connection on database - close connection - repeat
     // start in debug 
@@ -56,11 +56,17 @@ namespace Anketa.DAL
             answers.ForEach(s => context.Answers.Add(s));
             context.SaveChanges();
 
-            var userStore = new UserStore<ApplicationUser>(context);
-            var userManager = new UserManager<ApplicationUser>(userStore);
-            var userToSeed = new ApplicationUser { UserName = "Unidentified User", PasswordHash = new PasswordHasher().HashPassword("Password123!"), UserProfileInfo = new UserProfileInfo { Id = 0, userName = "Unidentified User" } };
+            var userStore = new UserStore<User>(context);
+            var userManager = new UserManager<User>(userStore);
+            var userToSeed = new User
+            {
+                UserName = "Unidentified User",
+                PasswordHash = new PasswordHasher().HashPassword("Password123!"),
+                UserProfileInfo = new UserProfileInfo { Id = 1, userName = "Unidentified User" }
+            };
             userManager.Create(userToSeed);
-
+            context.Users.Add(userToSeed);
+            //context.SaveChanges();
         }
 
     }

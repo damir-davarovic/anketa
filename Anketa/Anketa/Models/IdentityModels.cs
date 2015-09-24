@@ -18,16 +18,16 @@ namespace Anketa.Models
             return userIdentity;
         }
     
-        public virtual UserProfileInfo UserProfileInfo { get; set; }
+        //public virtual UserProfileInfo UserProfileInfo { get; set; }
     }
 
-    public class UserProfileInfo
-    {
-        public int Id{ get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string userName { get; set; }
-    }
+    //public class UserProfileInfo
+    //{
+    //    public int Id{ get; set; }
+    //    public string firstName { get; set; }
+    //    public string lastName { get; set; }
+    //    public string userName { get; set; }
+    //}
 
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -38,7 +38,7 @@ namespace Anketa.Models
         {
         }
 
-        public System.Data.Entity.DbSet<UserProfileInfo> UserProfileInfo {get; set; }
+        //public System.Data.Entity.DbSet<UserProfileInfo> UserProfileInfo {get; set; }
 
         public static ApplicationDbContext Create()
         {
