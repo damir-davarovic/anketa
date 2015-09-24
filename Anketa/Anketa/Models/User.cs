@@ -13,8 +13,6 @@ namespace Anketa.Models
 {
     public class User : IdentityUser
     {
-        public virtual UserProfileInfo UserProfileInfo { get; set; }
-
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -22,6 +20,8 @@ namespace Anketa.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public virtual UserProfileInfo UserProfileInfo { get; set; }
     }
 
     public class UserProfileInfo
@@ -30,11 +30,11 @@ namespace Anketa.Models
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string userName { get; set; }
-        public enum userGender
-        {
-            M, F
-        }
-        public userGender userG { get; set; }
+        //public enum userGender
+        //{
+        //    M, F
+        //}
+        //public userGender userG { get; set; }
         //public DateTime birthDate { get; set; }
     }
 }

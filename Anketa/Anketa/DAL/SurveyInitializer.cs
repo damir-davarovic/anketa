@@ -64,8 +64,8 @@ namespace Anketa.DAL
                 PasswordHash = new PasswordHasher().HashPassword("Password123!"),
                 UserProfileInfo = new UserProfileInfo { Id = 1, userName = "Unidentified User" }
             };
-            userManager.Create(userToSeed);
-            context.Users.Add(userToSeed);
+            //userManager.Create(userToSeed);
+            //context.Users.Add(userToSeed);
             //context.SaveChanges();
         }
 

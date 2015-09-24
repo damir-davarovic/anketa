@@ -17,9 +17,9 @@ namespace Anketa.DAL
     {
         public SurveyContext() : base("SurveyContext") 
         {
-            Database.SetInitializer<SurveyContext>(null);
-            Configuration.LazyLoadingEnabled = false;
-            Configuration.ProxyCreationEnabled = false;
+            //Database.SetInitializer<SurveyContext>(null);
+            //Configuration.LazyLoadingEnabled = false;
+            //Configuration.ProxyCreationEnabled = false;
         }
 
         public static SurveyContext Create()
@@ -30,7 +30,7 @@ namespace Anketa.DAL
         public DbSet<Survey> Surveys { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
-        public DbSet<UserProfileInfo> UserProfileInfo { get; set; }
+        //public DbSet<UserProfileInfo> UserProfileInfo { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
