@@ -16,10 +16,7 @@ namespace Anketa.DAL
 {
     public class SurveyInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<SurveyContext>
     //DropCreateDatabaseAlways<SurveyContext> Drop and recreate database every time
-    // clean - build - refresh connection on database - close connection - repeat
-    // start in debug 
-    // logoff - login, start tackling tables
-        //CreateDatabaseIfNotExists
+    //CreateDatabaseIfNotExists
     {
         protected override void Seed(SurveyContext context)
         {
@@ -64,9 +61,10 @@ namespace Anketa.DAL
                 PasswordHash = new PasswordHasher().HashPassword("Password123!"),
                 UserProfileInfo = new UserProfileInfo { Id = 1, userName = "Unidentified User" }
             };
-            //userManager.Create(userToSeed);
-            //context.Users.Add(userToSeed);
-            //context.SaveChanges();
+            userManager.Create(userToSeed);
+            // ne znam koja točno naredba odradi, ali ovo radi... kad će mi se dat ću skužit, iako bih reko da je ovaj donji dio taj koji odradi
+            context.Users.Add(userToSeed);
+            context.SaveChanges();
         }
 
     }

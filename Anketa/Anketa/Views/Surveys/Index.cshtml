@@ -1,32 +1,46 @@
-﻿@*@model IEnumerable<Anketa.Models.Survey>*@
+﻿@*@model IEnumerable</nav>*@
 @model Anketa.Models.SurveyIndexModel
 @using Microsoft.AspNet.Identity;
 @using Anketa.Models;
 @using Microsoft.AspNet.Identity.EntityFramework;
 @using Anketa.App_Start;
 @using System.Web.Mvc;
-@{
-    ViewBag.Title = "Surveys";
-}
+
 <h2>@ViewBag.Title</h2>
+<nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand">Surveys menu</a>
+    </div>
 
-<ul class="nav nav-pills">
-    <li role="presentation" class="active"><a data-toggle="pill" href="#all">All Surveys</a></li>
-    @if(Request.IsAuthenticated){
-    <li role="presentation"><a data-toggle="pill" href="#my">My Surveys</a></li>
-    }
-</ul>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li role="presentation" class="active"><a data-toggle="pill" href="#all">All Surveys</a></li>
+        @if(Request.IsAuthenticated){
+        <li role="presentation"><a data-toggle="pill" href="#my">My Surveys</a></li>
+        }
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+         <li role="presentation" class="navbar-right navbar-control">@Html.ActionLink("Create new", "Create", new { controller = "Surveys" } )</li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
 
-<div>
-    <p>@Html.ActionLink("Create a New Survey", "Create", new { controller = "Surveys" }, new{ @class = "btn btn-success btn-lg mt20"} )</p>
-        @* new{ @class = false ? "btn btn-success btn-lg mt20" : "btn-disabled btn btn-success btn-lg mt20"} *@ 
-        @* a way to add custom CSS *@
-</div>
+
+
 
 
 <div class="tab-content">
     <div id="all" class="tab-pane fade in active">
-        <h3>Surveys created and waiting to be solved.</h3>
         <table id="all-surveys">
             <thead>
                 <tr>
@@ -67,7 +81,11 @@
                     }
                     else{
                     <div class="btn-group btn-group-sm">
-                        @Html.ActionLink("Solve", "Solve", new { controller = "Surveys", Id = item.surveyID }, new{ @class = "btn btn-success"} )
+                        @if(item.surveyActive){
+                            @Html.ActionLink("Solve", "Solve", new { controller = "Surveys", Id = item.surveyID }, new{ @class = "btn btn-success"} )
+                        }else{
+                            <button type="button" class="btn btn-disabled">Solve</button>
+                        }                        
                     </div>
                     }
                 </td>           
