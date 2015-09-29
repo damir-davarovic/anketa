@@ -15,6 +15,7 @@ namespace Anketa.Models
         [DisplayName("Survey owner")]
         public int ownerID { get; set; }
         [DisplayName("Survey name")]
+        [Required]
         public String surveyName { get; set; }
         [DisplayName("Creation date")]
         public DateTime creationDate { get; set; }

@@ -11,7 +11,6 @@ using Anketa.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Anketa.App_Start;
-using Anketa.Models.SurveyModels;
 
 //Ovaj cijeli controller se generiro sam.
 
@@ -59,7 +58,7 @@ namespace Anketa.Controllers
         {
             if (ModelState.IsValid)
             {
-                survey.creationDate = DateTime.Now; 
+                survey.creationDate = DateTime.Now;
                 db.Surveys.Add(survey);
                 db.SaveChanges();
                 return RedirectToAction("Index");

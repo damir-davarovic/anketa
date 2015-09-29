@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace Anketa.Models
 
     public class UserProfileInfo
     {
+        [DisplayName("Survey owner id")]
         public int Id { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }

@@ -6,6 +6,6 @@ namespace Anketa.Models.SurveyModels
     public class SurveyCreateModel
     {
         public User userObj = GlobalVariables.getCurrentUser();
-        public Survey surveyObj { get; set; }
+        public Survey surveyObj = new Survey();
     }
 }
