@@ -17,8 +17,12 @@ namespace Anketa.Models
         public String surveyName { get; set; }
         [DisplayName("Creation date")]
         public DateTime creationDate { get; set; }
+        [DisplayName("Edit date")]
+        public DateTime editDate { get; set; }
         [DisplayName("Survey active")]
         public bool surveyActive { get; set; }
+        [DisplayName("Survey region")]
+        public String surveyRegion { get; set; }
 
         public virtual ICollection<Question> Question { get; set; }
     }

@@ -22,9 +22,10 @@ namespace Anketa.DAL
         {
             var surveys = new List<Survey>
             {
-                new Survey{surveyID=1,ownerID=1,surveyName="Prva Anketa",creationDate=DateTime.Parse("2015-09-01")},
-                new Survey{surveyID=2,ownerID=1,surveyName="Druga Anketa",creationDate=DateTime.Parse("2015-09-01")},
-                new Survey{surveyID=3,ownerID=2,surveyName="Mijenjana Anketa",creationDate=DateTime.Parse("2015-09-01")}
+                //creationDate=DateTime.Parse("2015-09-01")
+                new Survey{surveyID=1,ownerID=1,surveyName="Prva Anketa",creationDate=DateTime.Now, editDate = DateTime.Now},
+                new Survey{surveyID=2,ownerID=1,surveyName="Druga Anketa",creationDate=DateTime.Now, editDate = DateTime.Now},
+                new Survey{surveyID=3,ownerID=2,surveyName="Mijenjana Anketa",creationDate=DateTime.Now, editDate = DateTime.Now}
             };
 
             surveys.ForEach(s => context.Surveys.Add(s));
@@ -55,16 +56,15 @@ namespace Anketa.DAL
 
             var userStore = new UserStore<User>(context);
             var userManager = new UserManager<User>(userStore);
-            var userToSeed = new User
+
+            var usersToSeed = new List<User>
             {
-                UserName = "Unidentified User",
-                PasswordHash = new PasswordHasher().HashPassword("Password123!"),
-                UserProfileInfo = new UserProfileInfo { Id = 1, userName = "Unidentified User" }
+                new User{UserName = "Unidentified User", PasswordHash = new PasswordHasher().HashPassword("Password123!"), UserProfileInfo = new UserProfileInfo { Id = 1, userName = "Unidentified User" }}
+                //new User{UserName = "Cubelaster", PasswordHash = new PasswordHasher().HashPassword("Password1234!"), Email = "david.cubela@gmail.com", UserProfileInfo = new UserProfileInfo { Id = 2, userName = "Cubelaster" }},
             };
-            userManager.Create(userToSeed);
-            // ne znam koja točno naredba odradi, ali ovo radi... kad će mi se dat ću skužit, iako bih reko da je ovaj donji dio taj koji odradi
-            context.Users.Add(userToSeed);
-            context.SaveChanges();
+
+            usersToSeed.ForEach(s => context.Users.Add(s));
+            // da bi mogli insertati usera s kojim se moguće ulogirati, treba nam async Task, kao u account controlleru u register
         }
 
     }
