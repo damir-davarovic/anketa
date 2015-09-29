@@ -20,7 +20,7 @@ namespace Anketa.App_Start
             return new SurveyContext().Users.Select(x => new { userId = x.UserProfileInfo.Id, userName = x.UserName }).ToDictionary(o => o.userId, o => o.userName);
         } 
 
-        public static int getCurrentUser()
+        public static int getUserProfileInfoId()
         {
             UserManager<User> applicationUserManager = new UserManager<User>(new UserStore<User>(new SurveyContext()));
             var userIdentity = HttpContext.Current.User.Identity.GetUserId();
@@ -33,6 +33,21 @@ namespace Anketa.App_Start
             else
             {
                 return 0;
+            }
+        }
+        public static User getCurrentUser()
+        {
+            UserManager<User> applicationUserManager = new UserManager<User>(new UserStore<User>(new SurveyContext()));
+            var userIdentity = HttpContext.Current.User.Identity.GetUserId();
+            if (userIdentity != null)
+            {
+                User user = applicationUserManager.FindById(userIdentity);
+                return user;
+            }
+            else
+            {
+                var user = new SurveyContext().Users.First(x => x.UserName == "Unidentified User" );
+                return user;
             }
         }
     }

@@ -11,7 +11,7 @@ namespace Anketa.Models
     {
         public Dictionary<int, string> dictUser = GlobalVariables.fetchUsernameIdDictionary();
         public IEnumerable<Survey> allSurveysList = SurveyRepository.fetchAllSurveys();
-        public int currentUser = GlobalVariables.getCurrentUser();
+        public int currentUser = GlobalVariables.getUserProfileInfoId();
         public Survey surveyModel = new Survey();
     }
 }
