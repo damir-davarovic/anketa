@@ -54,7 +54,7 @@ namespace Anketa.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Create([Bind(Include = "surveyID,ownerID,surveyName,creationDate,surveyActive")] Survey survey)
-        public ActionResult Create([Bind(Include = "surveyID,ownerID,surveyName,surveyActive")] Survey survey)
+        public ActionResult Create([Bind(Include = "ownerID,surveyName,surveyActive,surveyDescription")] Survey survey)
         {
             if (ModelState.IsValid)
             {
