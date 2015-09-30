@@ -59,6 +59,7 @@ namespace Anketa.Controllers
             if (ModelState.IsValid)
             {
                 survey.creationDate = DateTime.Now;
+                survey.ownerID = GlobalVariables.getUserProfileInfoId();
                 db.Surveys.Add(survey);
                 db.SaveChanges();
                 return RedirectToAction("Index");

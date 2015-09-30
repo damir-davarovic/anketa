@@ -14,13 +14,6 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.ownerID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ownerID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ownerID, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.surveyName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -30,21 +23,21 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.creationDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.creationDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.creationDate, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
         <div class="form-group">
             @Html.LabelFor(model => model.surveyActive, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.surveyActive)
+                    @Html.CheckBoxFor(model => model.surveyActive, new { @checked = "checked"})
                     @Html.ValidationMessageFor(model => model.surveyActive, "", new { @class = "text-danger" })
                 </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.surveyDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.surveyDescription, new { rows = 3, @class="form-control" })
+                @Html.ValidationMessageFor(model => model.surveyDescription, "", new { @class = "text-danger" })
             </div>
         </div>
 

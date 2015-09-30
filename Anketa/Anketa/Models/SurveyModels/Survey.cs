@@ -24,8 +24,8 @@ namespace Anketa.Models
         public DateTime? editDate { get; set; }
         [DisplayName("Survey active")]
         public bool surveyActive { get; set; }
-        [DisplayName("Survey region")]
-        public String surveyRegion { get; set; }
+        [DisplayName("Survey description")]
+        public String surveyDescription { get; set; }
 
         public virtual ICollection<Question> Question { get; set; }
     }

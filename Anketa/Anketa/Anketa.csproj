@@ -449,7 +449,6 @@
     <Content Include="Views\Shared\_DynamicDisplay.cshtml" />
     <Content Include="Views\Shared\_DynamicIndexMobileItem.cshtml" />
     <Content Include="Views\Home\survey.cshtml" />
-    <Content Include="Views\Home\CreateSurvey.cshtml" />
     <Content Include="Views\Surveys\Create.cshtml" />
     <Content Include="Views\Surveys\Delete.cshtml" />
     <Content Include="Views\Surveys\Details.cshtml" />
