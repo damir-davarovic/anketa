@@ -20,7 +20,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
 }
 
 
@@ -32,4 +32,22 @@ textarea {
 footer{
     position: fixed;
     bottom: 0px;
+}
+
+@media (min-width: 1200px){
+    .container {
+        max-width: 970px!important;
+    }
+}
+
+
+
+/*Create new survey style*/
+
+.enter-survey-questions > .panel-body > .input-group{
+    margin-bottom: 15px;
+}
+
+.enter-survey-questions > .panel-body > .input-group:last-child{
+    margin-bottom: 0px;
 }

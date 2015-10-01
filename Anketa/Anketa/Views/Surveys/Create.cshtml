@@ -41,17 +41,50 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+        <hr />
+
+        <div class="panel panel-default enter-survey-questions">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left">Enter Survey Question</h3>
+                <button type="button" class="btn btn-danger pull-right btn-xs">Delete Question</button>
+            </div>
+            <div class="panel-body">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Question Text</span>
+                    <input type="text" class="form-control" placeholder="Write question text here..." aria-describedby="basic-addon1">
+                    <div class="input-group-btn dropdown">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chose Question Type <span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="#">Text</a></li>
+                            <li><a href="#">Multiple answers</a></li>
+                            <li><a href="#">Single Answer</a></li>
+                            <li><a href="#">Scale</a></li>
+                        </ul>
+                    </div><!-- /btn-group -->
+                </div>
+                <div class="input-group answer">
+                    <span class="input-group-addon" id="basic-addon1">Answer text</span>
+                    <input type="text" class="form-control" placeholder="Write answer text here..." aria-describedby="basic-addon1">
+                    <span class="input-group-btn">
+                        <button class="btn btn-danger delete-answer" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-success duplicate-input-group btn-xs" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Answer</button>
             </div>
         </div>
+
+        <div class="btn-group" role="group" aria-label="...">
+            @* gumb koji treba dodati novo pitanje sa renderpartial *@
+            <button type="button" class="btn btn-success">Add Another Question</button>
+            @* submit forme *@
+            <input type="submit" value="Done" class="btn btn-primary" />
+        </div>
+        <button type="button" class="btn btn-danger pull-right">Discard Survey</button>
+
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
