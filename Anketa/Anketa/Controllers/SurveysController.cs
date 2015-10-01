@@ -83,9 +83,11 @@ namespace Anketa.Controllers
             {
                 return HttpNotFound();
             }
+            var tuple = new Tuple<Survey, IEnumerable<Question>>(survey, questions);
             // so far we have fetched the survey and it's questions
             // we have to translate them to a view
             return View(survey);
+            //return View(tuple);
         }
 
         // POST: Surveys/Edit/5
