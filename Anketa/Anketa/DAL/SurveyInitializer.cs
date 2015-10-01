@@ -60,8 +60,8 @@ namespace Anketa.DAL
 
             var usersToSeed = new List<User>
             {
-                new User{UserName = "Unidentified User", PasswordHash = new PasswordHasher().HashPassword("Password123!"), UserProfileInfo = new UserProfileInfo { Id = 1, userName = "Unidentified User" }}
-                //new User{UserName = "Cubelaster", PasswordHash = new PasswordHasher().HashPassword("Password1234!"), Email = "david.cubela@gmail.com", UserProfileInfo = new UserProfileInfo { Id = 2, userName = "Cubelaster" }},
+                new User{UserName = "Unidentified User", PasswordHash = new PasswordHasher().HashPassword("Password123!"), UserProfileInfo = new UserProfileInfo { Id = 1, userName = "Unidentified User" }},
+                new User{UserName = "Dummy", PasswordHash = new PasswordHasher().HashPassword("Password1234!"), Email = "dummy@gmail.com", UserProfileInfo = new UserProfileInfo { Id = 2, userName = "Dummy" }},
             };
 
             usersToSeed.ForEach(s => context.Users.Add(s));

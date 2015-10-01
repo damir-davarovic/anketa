@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anketa.DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Web;
 
 namespace Anketa.Models
 {
-    public class Survey
+    public class Survey : IValidatableObject
     {
         [Index(IsUnique = true)]
         public int surveyID { get; set; }
@@ -28,5 +29,14 @@ namespace Anketa.Models
         public String surveyDescription { get; set; }
 
         public virtual ICollection<Question> Question { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            SurveyContext surveyContext = new SurveyContext();
+            if (surveyContext.Surveys.Any(x => x.surveyName == surveyName))
+            {
+                yield return new ValidationResult("Survey name is required to be unique.");
+            }
+        }
     }
 }

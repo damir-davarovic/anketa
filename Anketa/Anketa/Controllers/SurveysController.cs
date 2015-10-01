@@ -62,7 +62,7 @@ namespace Anketa.Controllers
                 survey.ownerID = GlobalVariables.getUserProfileInfoId();
                 db.Surveys.Add(survey);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit/"+survey.surveyID);
             }
 
             return View(survey);
