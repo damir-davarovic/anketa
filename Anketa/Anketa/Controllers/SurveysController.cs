@@ -11,6 +11,7 @@ using Anketa.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Anketa.App_Start;
+using Anketa.DAL.QuestionDAL;
 
 //Ovaj cijeli controller se generiro sam.
 
@@ -76,10 +77,14 @@ namespace Anketa.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Survey survey = db.Surveys.Find(id);
+            QuestionRepository qRepo = new QuestionRepository();
+            IEnumerable<Question> questions = qRepo.fetchQuestionsBySurveyId(survey.surveyID);
             if (survey == null)
             {
                 return HttpNotFound();
             }
+            // so far we have fetched the survey and it's questions
+            // we have to translate them to a view
             return View(survey);
         }
 

@@ -8,7 +8,7 @@ namespace Anketa.Models
 {
     public enum TipPitanja
     {
-        single, multiple
+        Description, Multiple, Single, Scale
     }
 
     public class Question

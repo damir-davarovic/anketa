@@ -34,9 +34,9 @@ namespace Anketa.DAL
 
             var questions = new List<Question>
             {
-                new Question{questionID=1,SurveyID=1,questionText="Prvo Pitanje",TipPitanja=TipPitanja.single},
-                new Question{questionID=2,SurveyID=2,questionText="Drugo Pitanje",TipPitanja=TipPitanja.single},
-                new Question{questionID=3,SurveyID=3,questionText="Treće Pitanje",TipPitanja=TipPitanja.multiple}
+                new Question{questionID=1,SurveyID=1,questionText="Prvo Pitanje",TipPitanja=TipPitanja.Single},
+                new Question{questionID=2,SurveyID=2,questionText="Drugo Pitanje",TipPitanja=TipPitanja.Single},
+                new Question{questionID=3,SurveyID=3,questionText="Treće Pitanje",TipPitanja=TipPitanja.Multiple}
             };
 
             questions.ForEach(s => context.Questions.Add(s));

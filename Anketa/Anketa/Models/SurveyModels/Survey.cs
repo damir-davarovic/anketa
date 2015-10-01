@@ -30,6 +30,7 @@ namespace Anketa.Models
 
         public virtual ICollection<Question> Question { get; set; }
 
+        //https://msdn.microsoft.com/en-us/data/gg193959.aspx
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             SurveyContext surveyContext = new SurveyContext();

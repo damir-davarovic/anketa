@@ -171,9 +171,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SurveysController.cs" />
-    <Compile Include="DAL\SurveyContext.cs" />
-    <Compile Include="DAL\SurveyInitializer.cs" />
-    <Compile Include="DAL\SurveyRepository.cs" />
+    <Compile Include="DAL\DBContext\SurveyContext.cs" />
+    <Compile Include="DAL\DBContext\SurveyInitializer.cs" />
+    <Compile Include="DAL\QuestionDAL\QuestionRepository.cs" />
+    <Compile Include="DAL\SurveyDAL\SurveyRepository.cs" />
     <Compile Include="DynamicMVC\DynamicControllerManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
