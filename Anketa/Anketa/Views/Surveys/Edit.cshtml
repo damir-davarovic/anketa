@@ -1,5 +1,9 @@
-﻿@model Anketa.Models.Survey
-@*@model Tuple<Anketa.Models.Survey, IEnumerable<Anketa.Models.Question>>*@
+﻿@model Anketa.Models.SurveyModels.SurveyEditModel
+@using Microsoft.AspNet.Identity;
+@using Anketa.Models;
+@using Microsoft.AspNet.Identity.EntityFramework;
+@using Anketa.App_Start;
+@using System.Web.Mvc;
 @{
     ViewBag.Title = "Edit";
 }
@@ -7,50 +11,45 @@
    http://stackoverflow.com/questions/5550627/two-models-in-one-view-in-asp-mvc-3/13813476#13813476
    http://stackoverflow.com/questions/4764011/multiple-models-in-a-view/13823027#13823027
    http://stackoverflow.com/questions/7745938/better-naming-in-tuple-classes-than-item1-item2
+   http://stackoverflow.com/questions/8186012/how-can-i-get-the-property-name-in-my-mvc3-custom-editor-template
+   http://stackoverflow.com/questions/4764011/multiple-models-in-a-view/13823027#13823027
+   http://stackoverflow.com/questions/7745938/better-naming-in-tuple-classes-than-item1-item2
 *@
-<h2>Edit survey</h2>
+
+@Html.Partial("~/Views/Surveys/Partials/_EditPartial.cshtml", Model.surveyModel )
 
 
-@using (Html.BeginForm())
+@*@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.surveyID)
-        @*@Html.HiddenFor(tuple => tuple.Item1.surveyID)*@
+        @Html.HiddenFor(model => model.surveyModel.surveyID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ownerID, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.surveyModel.surveyName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ownerID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ownerID, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.surveyModel.surveyName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.surveyModel.surveyName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.surveyName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.surveyModel.creationDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.surveyName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.surveyName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.surveyModel.creationDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.surveyModel.creationDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.creationDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.creationDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.creationDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.surveyActive, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.surveyModel.surveyActive, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.surveyActive)
-                    @Html.ValidationMessageFor(model => model.surveyActive, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.surveyModel.surveyActive)
+                    @Html.ValidationMessageFor(model => model.surveyModel.surveyActive, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -61,15 +60,6 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
+
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-<hr />
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+}*@

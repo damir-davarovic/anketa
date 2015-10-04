@@ -187,6 +187,7 @@
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\SurveyModels\Survey.cs" />
     <Compile Include="Models\SurveyModels\SurveyCreateModel.cs" />
+    <Compile Include="Models\SurveyModels\SurveyEditModel.cs" />
     <Compile Include="Models\SurveyModels\SurveyIndexModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -458,6 +459,7 @@
     <Content Include="Views\Surveys\Solve.cshtml">
       <BrowseToURL>~/Surveys/Solve</BrowseToURL>
     </Content>
+    <Content Include="Views\Surveys\Partials\_EditPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

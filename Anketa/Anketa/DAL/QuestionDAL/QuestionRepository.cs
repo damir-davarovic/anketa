@@ -7,10 +7,10 @@ namespace Anketa.DAL.QuestionDAL
 {
     public class QuestionRepository
     {
-        public SurveyContext surveyContext = new SurveyContext();
-        public IEnumerable<Anketa.Models.Question> fetchQuestionsBySurveyId(int surveyId)
+        public SurveyContext sDB = new SurveyContext();
+        public IEnumerable<Anketa.Models.Question> fetchQuestionsBySurveyId(int? surveyId)
         {
-            return surveyContext.Questions.Where(x => x.SurveyID == surveyId);
+            return sDB.Questions.Where(x => x.SurveyID == surveyId);
         }
     }
 }
