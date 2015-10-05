@@ -18,6 +18,10 @@
 
 @Html.Partial("~/Views/Surveys/Partials/_EditPartial.cshtml", Model.surveyModel )
 
+        @foreach (var questionItem in Model.questionsModel) {
+            @Html.Partial("~/Views/Questions/Partials/_QuestionListPartial.cshtml", questionItem )
+        }
+
 
 @*@using (Html.BeginForm())
 {

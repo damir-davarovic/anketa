@@ -460,10 +460,10 @@
       <BrowseToURL>~/Surveys/Solve</BrowseToURL>
     </Content>
     <Content Include="Views\Surveys\Partials\_EditPartial.cshtml" />
+    <Content Include="Views\Questions\Partials\_QuestionListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Questions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
