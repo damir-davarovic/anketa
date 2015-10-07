@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Anketa.App_Start;
 using Anketa.DAL.QuestionDAL;
 using Anketa.Models.SurveyModels;
+using System.ComponentModel.DataAnnotations;
 
 //Ovaj cijeli controller se generiro sam.
 
@@ -21,6 +22,7 @@ namespace Anketa.Controllers
     public class SurveysController : Controller
     {
         private SurveyContext db = new SurveyContext();
+        private SecurityUtils securityUtil = new SecurityUtils();
 
         // GET: Surveys
         public ActionResult Index()
@@ -97,15 +99,42 @@ namespace Anketa.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "surveyID,ownerID,surveyName,creationDate,surveyActive")] Survey survey)
+        public ActionResult Edit([Bind] Survey survey)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //db.Entry(survey).State = EntityState.Modified;
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
+            //}
+            if (!securityUtil.TryToValidate(survey))
             {
-                db.Entry(survey).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(new SurveyEditModel(survey.surveyID));
             }
-            return View(survey);
+            db.Surveys.Attach(survey);
+            var entry = db.Entry<Survey>(survey);
+            entry.Property(x => x.surveyName).IsModified = true;
+            entry.Property(x => x.surveyDescription).IsModified = true;
+            entry.Property(x => x.surveyActive).IsModified = true;
+            entry.Property(x => x.editDate).CurrentValue = DateTime.Now;
+            db.SaveChanges();
+            //var surveyName = entry.OriginalValues["surveyName"].ToString();
+            //var surveyNameNew = entry.CurrentValues["surveyName"].ToString();
+            //var suName = entry.Property(x => x.surveyName).CurrentValue;
+            //var suNameO = entry.Property(x => x.surveyName).OriginalValue;
+            //if(entry.OriginalValues["surveyName"] != entry.CurrentValues["surveyName"])
+            //{
+            //    entry.Property(x => x.surveyName).IsModified = true;
+            //}
+            //if (entry.OriginalValues["surveyDescription"] != entry.CurrentValues["surveyDescription"])
+            //{
+            
+            //}
+            //if (entry.OriginalValues["surveyActive"] != entry.CurrentValues["surveyActive"])
+            //{
+            
+            //}
+            return View(new SurveyEditModel(survey.surveyID));
         }
 
 

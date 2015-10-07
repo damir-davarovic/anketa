@@ -16,10 +16,15 @@
    http://stackoverflow.com/questions/7745938/better-naming-in-tuple-classes-than-item1-item2
 *@
 
-@Html.Partial("~/Views/Surveys/Partials/_EditPartial.cshtml", Model.surveyModel )
-
-        @foreach (var questionItem in Model.questionsModel) {
-            @Html.Partial("~/Views/Questions/Partials/_QuestionListPartial.cshtml", questionItem )
+            @Html.Partial("~/Views/Surveys/Partials/_EditPartial.cshtml", Model.surveyModel )
+@*            @Html.Partial("~/Views/Questions/Partials/_QuestionListPartial.cshtml", Model.questionsModel , 
+                    new ViewDataDictionary{TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "Question" }})    )*@
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+                foreach (var questionItem in Model.questionsModel) {
+                    @Html.Partial("~/Views/Questions/Partials/_QuestionListPartial.cshtml", questionItem )
+                }
         }
 
 
@@ -57,6 +62,7 @@
                 </div>
             </div>
         </div>
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

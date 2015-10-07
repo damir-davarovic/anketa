@@ -34,7 +34,7 @@ namespace Anketa.Models
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             SurveyContext surveyContext = new SurveyContext();
-            if (surveyContext.Surveys.Any(x => x.surveyName == surveyName))
+            if (surveyContext.Surveys.Any(x => x.surveyName == surveyName && x.surveyID != surveyID))
             {
                 yield return new ValidationResult("Survey name is required to be unique.");
             }
