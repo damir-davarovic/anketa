@@ -96,6 +96,12 @@ namespace Anketa.Controllers
                 ViewBag.surveyModelEditMessageType = 1;
                 ViewBag.surveyModelEditMessage = "Survey <i>" + surveyModel.surveyModel.surveyName + "</i> succesfully created!";
             }
+            else if(TempData.Keys.Contains("Delete"))
+            {
+                ViewBag.surveyModelEditMessageType = 1;
+                ViewBag.surveyModelEditMessage = TempData["Delete"];
+            }
+            
             return View(surveyModel);
         }
 

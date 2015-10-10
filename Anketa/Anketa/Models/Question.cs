@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -16,8 +17,11 @@ namespace Anketa.Models
         [Index(IsUnique = true)]
         public int questionID { get; set; }
         public int SurveyID { get; set; }
+        [DisplayName("Question text")]
         public string questionText { get; set; }
+        [DisplayName("Question type")]
         public TipPitanja? TipPitanja { get; set; }
+        [DisplayName("Question active")]
         public bool aktivnoPitanje { get; set; }
 
         public virtual ICollection<Answer> Answer { get; set; }

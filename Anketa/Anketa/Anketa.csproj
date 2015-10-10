@@ -171,6 +171,7 @@
     <Compile Include="Controllers\DynamicController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\SurveysController.cs" />
     <Compile Include="DAL\DBContext\SurveyContext.cs" />
     <Compile Include="DAL\DBContext\SurveyInitializer.cs" />
