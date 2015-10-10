@@ -91,6 +91,11 @@ namespace Anketa.Controllers
             // so far we have fetched the survey and it's questions
             // we have to translate them to a view
             //return View(survey);
+            if (HttpContext.Request.UrlReferrer.ToString().Contains("Create"))
+            {
+                ViewBag.surveyModelEditMessageType = 1;
+                ViewBag.surveyModelEditMessage = "Survey <i>" + surveyModel.surveyModel.surveyName + "</i> succesfully created!";
+            }
             return View(surveyModel);
         }
 
@@ -107,8 +112,12 @@ namespace Anketa.Controllers
             //db.SaveChanges();
             //return RedirectToAction("Index");
             //}
+            SurveyEditModel surveyEditModel = new SurveyEditModel();
+            surveyEditModel.surveyModel = survey;
             if (!securityUtil.TryToValidate(survey))
             {
+                ViewBag.surveyModelEditMessageType = 0;
+                ViewBag.surveyModelEditMessage = "Validation error on <i>" + surveyEditModel.surveyModel.surveyName + "</i>!";
                 return View(new SurveyEditModel(survey.surveyID));
             }
             db.Surveys.Attach(survey);
@@ -118,6 +127,10 @@ namespace Anketa.Controllers
             entry.Property(x => x.surveyActive).IsModified = true;
             entry.Property(x => x.editDate).CurrentValue = DateTime.Now;
             db.SaveChanges();
+            surveyEditModel = new SurveyEditModel(survey.surveyID);
+            ViewBag.surveyModelEditMessageType = 1;
+            ViewBag.surveyModelEditMessage = "Survey <i>" + surveyEditModel.surveyModel.surveyName + "</i> succesfully changed!";
+            return View(surveyEditModel);
             //var surveyName = entry.OriginalValues["surveyName"].ToString();
             //var surveyNameNew = entry.CurrentValues["surveyName"].ToString();
             //var suName = entry.Property(x => x.surveyName).CurrentValue;
@@ -134,8 +147,32 @@ namespace Anketa.Controllers
             //{
             
             //}
-            return View(new SurveyEditModel(survey.surveyID));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TestAjax([Bind] Survey survey)
+        {
+            // trebam skužit kak Ajax updatea polja na viewu. Ovo niš ne updatea.
+            SurveyEditModel surveyEditModel = new SurveyEditModel();
+            //surveyEditModel.surveyModel = survey;
+            //if (!securityUtil.TryToValidate(survey))
+            //{
+            //    surveyEditModel.surveyModel.surveyModelEditMessage = "Validation error on "+surveyEditModel.surveyModel.surveyName+"!";
+            //    return View(new SurveyEditModel(survey.surveyID));
+            //}
+            //db.Surveys.Attach(survey);
+            //var entry = db.Entry<Survey>(survey);
+            //entry.Property(x => x.surveyName).IsModified = true;
+            //entry.Property(x => x.surveyDescription).IsModified = true;
+            //entry.Property(x => x.surveyActive).IsModified = true;
+            //entry.Property(x => x.editDate).CurrentValue = DateTime.Now;
+            //db.SaveChanges();
+            surveyEditModel = new SurveyEditModel(survey.surveyID);
+            //surveyEditModel.surveyModel.surveyModelEditMessage = "Survey " + surveyEditModel.surveyModel.surveyName + " succesfully changed!";
+            return View(surveyEditModel);
+        }
+
 
 
         // GET: Surveys/Solve/5

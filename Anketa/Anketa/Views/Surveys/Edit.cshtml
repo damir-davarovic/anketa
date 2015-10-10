@@ -19,6 +19,8 @@
             @Html.Partial("~/Views/Surveys/Partials/_EditPartial.cshtml", Model.surveyModel )
 @*            @Html.Partial("~/Views/Questions/Partials/_QuestionListPartial.cshtml", Model.questionsModel , 
                     new ViewDataDictionary{TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "Question" }})    )*@
+
+
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -26,7 +28,6 @@
                     @Html.Partial("~/Views/Questions/Partials/_QuestionListPartial.cshtml", questionItem )
                 }
         }
-
 
 @*@using (Html.BeginForm())
 {
