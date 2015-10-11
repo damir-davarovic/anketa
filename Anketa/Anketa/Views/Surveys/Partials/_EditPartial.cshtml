@@ -1,0 +1,95 @@
+﻿@model Anketa.Models.Survey
+@{
+    ViewBag.Title = "Edit";
+}
+@* http://stackoverflow.com/questions/4764011/multiple-models-in-a-view
+   http://stackoverflow.com/questions/5550627/two-models-in-one-view-in-asp-mvc-3/13813476#13813476
+   http://stackoverflow.com/questions/4764011/multiple-models-in-a-view/13823027#13823027
+   http://stackoverflow.com/questions/7745938/better-naming-in-tuple-classes-than-item1-item2
+   http://stackoverflow.com/questions/8186012/how-can-i-get-the-property-name-in-my-mvc3-custom-editor-template
+   http://stackoverflow.com/questions/4764011/multiple-models-in-a-view/13823027#13823027
+   http://stackoverflow.com/questions/7745938/better-naming-in-tuple-classes-than-item1-item2
+*@
+<h2>Edit survey</h2>
+
+@* Ajax update ne radi ovdje, ali to je za Content. Vjerojatno ga se može wireat *@
+@*@using (Ajax.BeginForm("TestAjax", "Surveys", FormMethod.Post, null))*@
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @if(!String.IsNullOrEmpty(ViewBag.surveyModelEditMessage))
+        {
+            if(ViewBag.surveyModelEditMessageType == 0)
+            {
+                @Html.Raw("<div class='alert alert-danger'>")
+            }
+            else
+            {
+                @Html.Raw("<div class='alert alert-success'>")
+            }
+                    @Html.Raw(ViewBag.surveyModelEditMessage)                
+               @Html.Raw("</div>")
+        }
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.surveyID)
+        @Html.HiddenFor(model => model.ownerID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.surveyName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.surveyName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.surveyName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.creationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.creationDate, new { htmlAttributes = new { @class = "form-control disabled" } })
+                @Html.ValidationMessageFor(model => model.creationDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.editDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.editDate, new { htmlAttributes = new { @class = "form-control disabled" } })
+                @Html.ValidationMessageFor(model => model.editDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.surveyActive, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.surveyActive)
+                    @Html.ValidationMessageFor(model => model.surveyActive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.surveyDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.TextAreaFor(model => model.surveyDescription, new { rows = 3, @class="form-control" })
+                    @Html.ValidationMessageFor(model => model.surveyDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Back to List", "Index", null , new{ @class = "btn btn-success"} )
+                <input type="submit" value="Save" class="btn btn-warning" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
