@@ -1,0 +1,16 @@
+﻿<div>
+@if(ViewBag.AjaxMessageType == 0)
+{
+    @Html.Raw("<div class='alert alert-danger'>")
+}
+else if(ViewBag.AjaxMessageType == 1)
+{
+    @Html.Raw("<div class='alert alert-success'>")
+}
+else
+{
+    @Html.Raw("<div class='alert alert-warning'>")
+}
+    @Html.Raw(ViewBag.AjaxMessage)                
+@Html.Raw("</div>")
+</div>

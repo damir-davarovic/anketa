@@ -34,5 +34,14 @@ namespace Anketa.Controllers
             return RedirectToAction("Edit/"+question.SurveyID, "Surveys");
         }
 
+        public PartialViewResult _AjaxDeleteQuestion(Question question)
+        {
+            //db.Questions.Remove(db.Questions.Find(question.questionID));
+            //db.SaveChanges();
+            ViewBag.AjaxMessageType = 0;
+            ViewBag.AjaxMessage = "Question <i>" + question.questionID + "</i> succesfully removed!";
+            return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+        }
+
     }
 }
