@@ -13,7 +13,13 @@
 <h2>Edit survey</h2>
 
 @* Ajax update ne radi ovdje, ali to je za Content. Vjerojatno ga se može wireat *@
-@using (Html.BeginForm())
+@*@using (Html.BeginForm())*@
+@using (Ajax.BeginForm("_AjaxEdit", "Surveys", new AjaxOptions
+                {                   
+                    UpdateTargetId = "_AjaxInfoMessage",
+                    InsertionMode = InsertionMode.InsertAfter
+                } 
+                ))
 {
     @Html.AntiForgeryToken()
     
@@ -83,7 +89,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 @Html.ActionLink("Back to List", "Index", null , new{ @class = "btn btn-success"} )
-                <input type="submit" value="Save" class="btn btn-warning" />
+                <input type="submit" value="Save" class="btn btn-warning backToTop resetAjaxMessage" />
             </div>
         </div>
     </div>

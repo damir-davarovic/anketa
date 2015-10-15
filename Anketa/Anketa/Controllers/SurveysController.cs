@@ -110,6 +110,7 @@ namespace Anketa.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Obsolete("U viewu se referencira Ajax metoda _AjaxEdit koja obavlja istu stvar, ali preko Ajaxa.", true)]
         public ActionResult Edit([Bind] Survey survey)
         {
             //if (ModelState.IsValid)
@@ -155,28 +156,32 @@ namespace Anketa.Controllers
             //}
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult TestAjax([Bind] Survey survey)
+        public PartialViewResult _AjaxEdit([Bind] Survey survey)
         {
-            // trebam skužit kak Ajax updatea polja na viewu. Ovo niš ne updatea.
-            SurveyEditModel surveyEditModel = new SurveyEditModel();
-            //surveyEditModel.surveyModel = survey;
-            //if (!securityUtil.TryToValidate(survey))
-            //{
-            //    surveyEditModel.surveyModel.surveyModelEditMessage = "Validation error on "+surveyEditModel.surveyModel.surveyName+"!";
-            //    return View(new SurveyEditModel(survey.surveyID));
-            //}
-            //db.Surveys.Attach(survey);
-            //var entry = db.Entry<Survey>(survey);
-            //entry.Property(x => x.surveyName).IsModified = true;
-            //entry.Property(x => x.surveyDescription).IsModified = true;
-            //entry.Property(x => x.surveyActive).IsModified = true;
-            //entry.Property(x => x.editDate).CurrentValue = DateTime.Now;
-            //db.SaveChanges();
-            surveyEditModel = new SurveyEditModel(survey.surveyID);
-            //surveyEditModel.surveyModel.surveyModelEditMessage = "Survey " + surveyEditModel.surveyModel.surveyName + " succesfully changed!";
-            return View(surveyEditModel);
+            if (!securityUtil.TryToValidate(survey))
+            {
+                ViewBag.AjaxMessageType = 0;
+                ViewBag.AjaxMessage = "Validation error on <i>" + survey.surveyName + "</i>!";
+                return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+            }
+            db.Surveys.Attach(survey);
+            var entry = db.Entry<Survey>(survey);
+            entry.Property(x => x.surveyName).IsModified = true;
+            entry.Property(x => x.surveyDescription).IsModified = true;
+            entry.Property(x => x.surveyActive).IsModified = true;
+            entry.Property(x => x.editDate).CurrentValue = DateTime.Now;
+            try{
+                db.SaveChanges();
+                ViewBag.AjaxMessageType = 1;
+                ViewBag.AjaxMessage = "Survey <i>" + survey.surveyName + "</i> succesfully changed!";
+                return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+            }
+            catch (Exception e){
+                ViewBag.AjaxMessageType = 1;
+                ViewBag.AjaxMessage = "Database action failed!/n" + e.StackTrace;
+                return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+            }
+            
         }
 
 
