@@ -12,6 +12,11 @@ namespace Anketa
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            routes.MapRoute("deleteQuestions", "Questions/_AjaxDeleteQuestion", new { controller = "Questions", action = "_AjaxDeleteQuestion" });
+        }
+
         protected void Application_Start()
         {
             //// Initializes and seeds the database.
@@ -27,6 +32,7 @@ namespace Anketa
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //RegisterRoutes(RouteTable.Routes);
 
             if (typeof(MvcApplication).Assembly.ManifestModule.Name.ToUpper() == "DYNAMICMVC.DLL")
             {

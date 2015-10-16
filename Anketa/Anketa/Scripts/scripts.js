@@ -8,6 +8,45 @@
     $(".resetAjaxMessage").click(function () {
         $(".ajaxAlertMessageDiv").remove();
     });
+
+    $(".deleteQuestion").click(function (event) {
+        event.preventDefault();
+        var actionLink = $(this).closest("form").prop('action');
+        var questionDiv = $(this).closest(".questionsDiv");
+        var questionID = questionDiv.find("#questionID").val();
+        $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: actionLink,
+                    data: questionID,
+                    dataType: "json",
+                    success: function (data) {
+                        questionDiv.remove();
+                    },
+                    error: alert("error")
+                });
+    });
+    //$(".deleteQuestion").on('click', function () {
+    //    $(this).parent(".questionsDiv").remove();
+    //});
+
+    //$('.deleteQuestion').click(function () {
+    //    var url = "Questions/_AjaxDeleteQuestion";
+    //    var questionDiv = $(this).closest(".questionsDiv");
+    //    var questionID = questionDiv.find("#questionID").val();
+    //    $.ajax({
+    //        type: "POST",
+    //        contentType: "application/json; charset=utf-8",
+    //        url: '<%= Url.Action("_AjaxDeleteQuestion", "Questions", ) %> ',
+    //        data: questionID,
+    //        dataType: "json",
+    //        success: function (data) {
+    //            alert("success");
+    //            questionDiv.remove();
+    //        },
+    //        error: alert("error")
+    //    });
+    //});
  
     // backToTop button Start
 

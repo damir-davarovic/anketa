@@ -17,23 +17,12 @@
 *@
             <div id="_AjaxInfoMessage"></div>
             @Html.Partial("~/Views/Surveys/Partials/_EditPartial.cshtml", Model.surveyModel )
-@*            @Html.Partial("~/Views/Questions/Partials/_QuestionListPartial.cshtml", Model.questionsModel , 
-                    new ViewDataDictionary{TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "Question" }})    )*@
 
-
-        @*@using (Html.BeginForm())*@
-
-        @using (Ajax.BeginForm("_AjaxDeleteQuestion", "Questions", new AjaxOptions
-                {                   
-                    UpdateTargetId = "_AjaxInfoMessage"
-                } 
-                ))
-        {
-            @Html.AntiForgeryToken()
-                foreach (var questionItem in Model.questionsModel) {
+                @foreach (var questionItem in Model.questionsModel) {
+                    <div class="questionsDiv">
                     @Html.Partial("~/Views/Questions/Partials/_QuestionListPartial.cshtml", questionItem )
+                    </div>
                 }
-        }
 
 @*@using (Html.BeginForm())
 {

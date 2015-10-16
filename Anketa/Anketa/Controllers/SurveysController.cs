@@ -177,7 +177,7 @@ namespace Anketa.Controllers
                 return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
             }
             catch (Exception e){
-                ViewBag.AjaxMessageType = 1;
+                ViewBag.AjaxMessageType = 0;
                 ViewBag.AjaxMessage = "Database action failed!/n" + e.StackTrace;
                 return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
             }

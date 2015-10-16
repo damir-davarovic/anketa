@@ -36,12 +36,28 @@ namespace Anketa.Controllers
 
         public PartialViewResult _AjaxDeleteQuestion(Question question)
         {
-            //db.Questions.Remove(db.Questions.Find(question.questionID));
-            //db.SaveChanges();
-            ViewBag.AjaxMessageType = 0;
-            ViewBag.AjaxMessage = "Question <i>" + question.questionID + "</i> succesfully removed!";
-            return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+            try
+            {
+                db.Questions.Remove(db.Questions.Find(question.questionID));
+                db.SaveChanges();
+                ViewBag.AjaxMessageType = 1;
+                ViewBag.AjaxMessage = "Question <i>" + question.questionID + "</i> succesfully removed!";
+                return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+            }
+            catch (Exception e)
+            {
+                ViewBag.AjaxMessageType = 0;
+                ViewBag.AjaxMessage = "Database action failed! " + e.StackTrace;
+                return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+            }
         }
+
+        //[HttpPost]
+        //public JsonResult _AjaxDeleteQuestion(int questionId)
+        //{
+        //    var data = "";
+        //    return Json(data, JsonRequestBehavior.AllowGet);
+        //}
 
     }
 }
