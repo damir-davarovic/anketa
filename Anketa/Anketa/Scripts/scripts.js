@@ -10,21 +10,28 @@
     });
 
     $(".deleteQuestion").click(function (event) {
-        event.preventDefault();
+        $("#_AjaxReturnMessage").remove();
         var actionLink = $(this).closest("form").prop('action');
         var questionDiv = $(this).closest(".questionsDiv");
         var questionID = questionDiv.find("#questionID").val();
+        var question = new Object();
+        question.questionID = questionID;
         $.ajax({
                     type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    url: actionLink,
-                    data: questionID,
+                    contentType: "application/json",
+                    url: "/Questions/_AjaxDeleteQuestion",
+                    data: JSON.stringify(question),
                     dataType: "json",
                     success: function (data) {
                         questionDiv.remove();
+                        $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success" id="_AjaxReturnMessage">' + data + "</div>")
                     },
-                    error: alert("error")
-                });
+                    error: function (xhr, err, data) {
+                        alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                        alert("responseText: " + xhr.responseText);
+                        $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger" id="_AjaxReturnMessage">' + data + "</div>")
+                    }
+        });
     });
     //$(".deleteQuestion").on('click', function () {
     //    $(this).parent(".questionsDiv").remove();

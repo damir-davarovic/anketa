@@ -33,31 +33,43 @@ namespace Anketa.Controllers
             //return Redirect(HttpContext.Request.UrlReferrer.ToString());
             return RedirectToAction("Edit/"+question.SurveyID, "Surveys");
         }
+        //[HttpPost]
+        //public PartialViewResult _AjaxDeleteQuestion(Question question)
+        //{
+        //    try
+        //    {
+        //        db.Questions.Remove(db.Questions.Find(question.questionID));
+        //        db.SaveChanges();
+        //        ViewBag.AjaxMessageType = 1;
+        //        ViewBag.AjaxMessage = "Question <i>" + question.questionID + "</i> succesfully removed!";
+        //        return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ViewBag.AjaxMessageType = 0;
+        //        ViewBag.AjaxMessage = "Database action failed! " + e.StackTrace;
+        //        return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+        //    }
+        //}
 
-        public PartialViewResult _AjaxDeleteQuestion(Question question)
+        [HttpPost]
+        public JsonResult _AjaxDeleteQuestion(Question question)
         {
+            var data = "";
             try
             {
                 db.Questions.Remove(db.Questions.Find(question.questionID));
                 db.SaveChanges();
-                ViewBag.AjaxMessageType = 1;
-                ViewBag.AjaxMessage = "Question <i>" + question.questionID + "</i> succesfully removed!";
-                return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+                data = "Question <i>" + question.questionID + "</i> succesfully removed!";
+                return Json(data);
             }
             catch (Exception e)
             {
-                ViewBag.AjaxMessageType = 0;
-                ViewBag.AjaxMessage = "Database action failed! " + e.StackTrace;
-                return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+                data = "Database action failed! " + e.StackTrace;
+                return Json(data);
             }
+            
         }
-
-        //[HttpPost]
-        //public JsonResult _AjaxDeleteQuestion(int questionId)
-        //{
-        //    var data = "";
-        //    return Json(data, JsonRequestBehavior.AllowGet);
-        //}
 
     }
 }
