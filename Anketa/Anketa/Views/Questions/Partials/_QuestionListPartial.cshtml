@@ -1,4 +1,5 @@
 ﻿@model Anketa.Models.Question
+<div class="questionsDiv">
 @using (Ajax.BeginForm("_AjaxDeleteQuestion", "Questions", new AjaxOptions
         {                   
             UpdateTargetId = "_AjaxInfoMessage"
@@ -6,7 +7,6 @@
         ))
 {
         @Html.AntiForgeryToken()
-
         <div class="row questionsDivIn">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -15,7 +15,7 @@
                     <h3 class="panel-title pull-left">Enter Survey Question</h3>
                     @*@Html.ActionLink("Delete question", "Delete", new { controller = "Questions" , Id = Model.questionID }, new{ @class = "btn btn-danger pull-right btn-xs"})*@
                     @*<button type="button" class="btn btn-danger pull-right btn-xs">Delete Question</button>*@
-                    <button type="button" class="btn btn-danger pull-right btn-xs deleteQuestion backToTop">Delete Question</button>
+                    <button type="button" class="btn btn-danger pull-right btn-xs deleteQuestion resetAjaxMessage backToTop">Delete Question</button>
 @*                    @Ajax.ActionLink("Delete with Ajax", "_AjaxDeleteQuestion", "Questions", 
                         new AjaxOptions {                   
                             UpdateTargetId = "_AjaxInfoMessage",
@@ -57,3 +57,4 @@
     </div> 
 </div>
 }
+</div>

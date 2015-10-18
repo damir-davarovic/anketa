@@ -1,5 +1,6 @@
 ﻿using Anketa.DAL;
 using Anketa.Models;
+using Anketa.Models.AjaxModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace Anketa.Controllers
             return RedirectToAction("Edit/"+question.SurveyID, "Surveys");
         }
         //[HttpPost]
+        //[Obsolete("U viewu se referencira JsonResult metoda _AjaxDeleteQuestion koja obavlja istu stvar, ali preko Ajaxa.", true)]
         //public PartialViewResult _AjaxDeleteQuestion(Question question)
         //{
         //    try
@@ -55,20 +57,31 @@ namespace Anketa.Controllers
         [HttpPost]
         public JsonResult _AjaxDeleteQuestion(Question question)
         {
-            var data = "";
+            var _AjaxResponseModel = new _AjaxResponseModel();
             try
             {
                 db.Questions.Remove(db.Questions.Find(question.questionID));
                 db.SaveChanges();
-                data = "Question <i>" + question.questionID + "</i> succesfully removed!";
-                return Json(data);
+                _AjaxResponseModel.message = "Question <i>" + question.questionID + "</i> succesfully removed!";
+                _AjaxResponseModel.type = 1;
+                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                data = "Database action failed! " + e.StackTrace;
-                return Json(data);
+                _AjaxResponseModel.message = "Database action failed! " + e.StackTrace;
+                _AjaxResponseModel.type = 0;
+                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             }
             
+        }
+
+        public PartialViewResult _AjaxAddQuestion()
+        {
+            Question question = new Question();
+            question.questionText = "Edit the question!";
+            ViewBag.AjaxMessageType = 1;
+            ViewBag.AjaxMessage = "New question added";
+            return PartialView("~/Views/Questions/Partials/_QuestionListPartial.cshtml", question);
         }
 
     }

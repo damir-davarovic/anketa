@@ -91,17 +91,19 @@ namespace Anketa.Controllers
             // so far we have fetched the survey and it's questions
             // we have to translate them to a view
             //return View(survey);
-            if (HttpContext.Request.UrlReferrer.ToString().Contains("Create"))
+            if (HttpContext.Request.UrlReferrer != null)
             {
-                ViewBag.surveyModelEditMessageType = 1;
-                ViewBag.surveyModelEditMessage = "Survey <i>" + surveyModel.surveyModel.surveyName + "</i> succesfully created!";
-            }
-            else if(TempData.Keys.Contains("Delete"))
-            {
-                ViewBag.surveyModelEditMessageType = 1;
-                ViewBag.surveyModelEditMessage = TempData["Delete"];
-            }
-            
+                if (HttpContext.Request.UrlReferrer.ToString().Contains("Create"))
+                {
+                    ViewBag.surveyModelEditMessageType = 1;
+                    ViewBag.surveyModelEditMessage = "Survey <i>" + surveyModel.surveyModel.surveyName + "</i> succesfully created!";
+                }
+                else if (TempData.Keys.Contains("Delete"))
+                {
+                    ViewBag.surveyModelEditMessageType = 1;
+                    ViewBag.surveyModelEditMessage = TempData["Delete"];
+                }
+            }            
             return View(surveyModel);
         }
 

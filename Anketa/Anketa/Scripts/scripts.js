@@ -1,4 +1,8 @@
-﻿$(document).ready(function () {
+﻿function resetEditSurveyState() {
+
+}
+
+$(document).ready(function () {
     $('#all-surveys').DataTable();
     $('#my-surveys').DataTable();
     $(".disabled").prop("disabled", true);
@@ -9,8 +13,43 @@
         $(".ajaxAlertMessageDiv").remove();
     });
 
+    //questionJS = {
+    //    deleteQuestion: function (event) {
+    //        $("#_AjaxReturnMessage").remove();
+    //        $(".ajaxAlertMessageDiv").remove();
+    //        var actionLink = $(this).closest("form").prop('action');
+    //        var questionDiv = $(this).closest(".questionsDiv");
+    //        var questionID = questionDiv.find("#questionID").val();
+    //        var question = new Object();
+    //        question.questionID = questionID;
+    //        $.ajax({
+    //            type: "POST",
+    //            contentType: "application/json",
+    //            url: "/Questions/_AjaxDeleteQuestion",
+    //            data: JSON.stringify(question),
+    //            dataType: "json",
+    //            success: function (data) {
+    //                questionDiv.remove();
+    //                data = JSON.stringify(data);
+    //                if (data.type != 1) {
+    //                    $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger" id="_AjaxReturnMessage">' + data.message + "</div>")
+    //                }
+    //                else
+    //                {
+    //                    $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success" id="_AjaxReturnMessage">' + data.message + "</div>")
+    //                }
+    //            },
+    //            error: function (xhr, err, data) {
+    //                alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+    //                alert("responseText: " + xhr.responseText);
+    //                $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger" id="_AjaxReturnMessage">' + data.message + "</div>")
+    //            }
+    //        });
+    //    }
+    //}
+    //$(".deleteQuestion").click(questionJS.deleteQuestion(event));
+
     $(".deleteQuestion").click(function (event) {
-        $("#_AjaxReturnMessage").remove();
         var actionLink = $(this).closest("form").prop('action');
         var questionDiv = $(this).closest(".questionsDiv");
         var questionID = questionDiv.find("#questionID").val();
@@ -24,37 +63,20 @@
                     dataType: "json",
                     success: function (data) {
                         questionDiv.remove();
-                        $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success" id="_AjaxReturnMessage">' + data + "</div>")
+                        if (data.type != 1) {
+                            $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+                        }
+                        else {
+                            $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success ajaxAlertMessageDiv">' + data.message + "</div>")
+                        }
                     },
                     error: function (xhr, err, data) {
                         alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
                         alert("responseText: " + xhr.responseText);
-                        $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger" id="_AjaxReturnMessage">' + data + "</div>")
+                        $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
                     }
         });
-    });
-    //$(".deleteQuestion").on('click', function () {
-    //    $(this).parent(".questionsDiv").remove();
-    //});
-
-    //$('.deleteQuestion').click(function () {
-    //    var url = "Questions/_AjaxDeleteQuestion";
-    //    var questionDiv = $(this).closest(".questionsDiv");
-    //    var questionID = questionDiv.find("#questionID").val();
-    //    $.ajax({
-    //        type: "POST",
-    //        contentType: "application/json; charset=utf-8",
-    //        url: '<%= Url.Action("_AjaxDeleteQuestion", "Questions", ) %> ',
-    //        data: questionID,
-    //        dataType: "json",
-    //        success: function (data) {
-    //            alert("success");
-    //            questionDiv.remove();
-    //        },
-    //        error: alert("error")
-    //    });
-    //});
- 
+    }); 
     // backToTop button Start
 
     //plugin
@@ -94,10 +116,6 @@
     });
 
     // backToTop button End
-
-    $(".deleteQuestion").click(function () {
-        $(this).parent(".questionsDiv").remove();
-    });
 
     $(".enter-survey-questions .dropdown-menu li a").click(function () {
         $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');

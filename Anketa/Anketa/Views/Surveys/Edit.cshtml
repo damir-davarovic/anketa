@@ -19,53 +19,7 @@
             @Html.Partial("~/Views/Surveys/Partials/_EditPartial.cshtml", Model.surveyModel )
 
                 @foreach (var questionItem in Model.questionsModel) {
-                    <div class="questionsDiv">
                     @Html.Partial("~/Views/Questions/Partials/_QuestionListPartial.cshtml", questionItem )
-                    </div>
                 }
-
-@*@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.surveyModel.surveyID)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.surveyModel.surveyName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.surveyModel.surveyName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.surveyModel.surveyName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.surveyModel.creationDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.surveyModel.creationDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.surveyModel.creationDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.surveyModel.surveyActive, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.surveyModel.surveyActive)
-                    @Html.ValidationMessageFor(model => model.surveyModel.surveyActive, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                @Html.ActionLink("Edit questions", "Edit", new { controller = "Questions" }, new{ @class = "btn btn-success"} )
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-
-    </div>
-}*@
+            <div id="questionPlaceholder"></div>    
+            @Ajax.ActionLink("Add question", "_AjaxAddQuestion","Questions", null,  new AjaxOptions{UpdateTargetId = "questionPlaceholder", InsertionMode = InsertionMode.InsertAfter}, new{ @class = "btn btn-success"})
