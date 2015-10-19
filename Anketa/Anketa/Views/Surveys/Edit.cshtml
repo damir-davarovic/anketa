@@ -22,4 +22,4 @@
                     @Html.Partial("~/Views/Questions/Partials/_QuestionListPartial.cshtml", questionItem )
                 }
             <div id="questionPlaceholder"></div>    
-            @Ajax.ActionLink("Add question", "_AjaxAddQuestion","Questions", null,  new AjaxOptions{UpdateTargetId = "questionPlaceholder", InsertionMode = InsertionMode.InsertAfter}, new{ @class = "btn btn-success"})
+            @Ajax.ActionLink("Add question", "_AjaxAddQuestion","Questions", null,  new AjaxOptions{UpdateTargetId = "questionPlaceholder", InsertionMode = InsertionMode.InsertAfter, OnSuccess = "reinitializeDeleteQuestion()"}, new{ @class = "btn btn-success"})

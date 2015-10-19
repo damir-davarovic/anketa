@@ -1,85 +1,61 @@
-﻿function resetEditSurveyState() {
-
+﻿// region - function definitions
+function resetAjaxMessage() {
+    $(".ajaxAlertMessageDiv").remove();
+};
+function reinitializeDeleteQuestion() {
+    $(".deleteQuestion").on("click", function (event) {
+        backToTop();
+        var questionDiv = $(this).closest(".questionsDiv");
+        deleteQuestion(questionDiv);
+    });
 }
+function backToTop() {
+    $('html, body').animate({ scrollTop: '0px' }, 800).promise().then(function () { });
+}
+function deleteQuestion(questionDiv) {
+    //var actionLink = $(this).closest("form").prop('action');
+    resetAjaxMessage();
+    var questionID = questionDiv.find("#questionID").val();
+    if (questionID <= 0) { questionDiv.remove(); }
+    else {
+        var question = new Object();
+        question.questionID = questionID;
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/Questions/_AjaxDeleteQuestion",
+            data: JSON.stringify(question),
+            dataType: "json",
+            success: function (data) {
+                questionDiv.remove();
+                if (data.type != 1) {
+                    $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+                }
+                else {
+                    $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success ajaxAlertMessageDiv">' + data.message + "</div>")
+                }
+            },
+            error: function (xhr, err, data) {
+                alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                alert("responseText: " + xhr.responseText);
+                $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+            }
+        });
+    }
+};
+// endregion - function definitions
 
+
+// region Document.ready
 $(document).ready(function () {
     $('#all-surveys').DataTable();
     $('#my-surveys').DataTable();
     $(".disabled").prop("disabled", true);
     $(".backToTop").click(function (e) {
-        $('html, body').animate({ scrollTop: '0px' }, 800).promise().then(function () { });
+        backToTop();
     });
-    $(".resetAjaxMessage").click(function () {
-        $(".ajaxAlertMessageDiv").remove();
-    });
-
-    //questionJS = {
-    //    deleteQuestion: function (event) {
-    //        $("#_AjaxReturnMessage").remove();
-    //        $(".ajaxAlertMessageDiv").remove();
-    //        var actionLink = $(this).closest("form").prop('action');
-    //        var questionDiv = $(this).closest(".questionsDiv");
-    //        var questionID = questionDiv.find("#questionID").val();
-    //        var question = new Object();
-    //        question.questionID = questionID;
-    //        $.ajax({
-    //            type: "POST",
-    //            contentType: "application/json",
-    //            url: "/Questions/_AjaxDeleteQuestion",
-    //            data: JSON.stringify(question),
-    //            dataType: "json",
-    //            success: function (data) {
-    //                questionDiv.remove();
-    //                data = JSON.stringify(data);
-    //                if (data.type != 1) {
-    //                    $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger" id="_AjaxReturnMessage">' + data.message + "</div>")
-    //                }
-    //                else
-    //                {
-    //                    $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success" id="_AjaxReturnMessage">' + data.message + "</div>")
-    //                }
-    //            },
-    //            error: function (xhr, err, data) {
-    //                alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
-    //                alert("responseText: " + xhr.responseText);
-    //                $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger" id="_AjaxReturnMessage">' + data.message + "</div>")
-    //            }
-    //        });
-    //    }
-    //}
-    //$(".deleteQuestion").click(questionJS.deleteQuestion(event));
-
-    $(".deleteQuestion").click(function (event) {
-        var actionLink = $(this).closest("form").prop('action');
-        var questionDiv = $(this).closest(".questionsDiv");
-        var questionID = questionDiv.find("#questionID").val();
-        var question = new Object();
-        question.questionID = questionID;
-        $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    url: "/Questions/_AjaxDeleteQuestion",
-                    data: JSON.stringify(question),
-                    dataType: "json",
-                    success: function (data) {
-                        questionDiv.remove();
-                        if (data.type != 1) {
-                            $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
-                        }
-                        else {
-                            $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success ajaxAlertMessageDiv">' + data.message + "</div>")
-                        }
-                    },
-                    error: function (xhr, err, data) {
-                        alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
-                        alert("responseText: " + xhr.responseText);
-                        $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
-                    }
-        });
-    }); 
     // backToTop button Start
-
-    //plugin
+        //plugin
     jQuery.fn.topLink = function (settings) {
         settings = jQuery.extend({
             min: 1,
@@ -99,9 +75,7 @@ $(document).ready(function () {
             });
         });
     };
-
-    //usage w/ smoothscroll
-    $(document).ready(function () {
+        //usage w/ smoothscroll
         //set the link
         $('#backToTop').topLink({
             min: 100,
@@ -113,9 +87,13 @@ $(document).ready(function () {
             //    $.scrollTo(0, 300);
             $('html, body').animate({ scrollTop: '0px' }, 800).promise().then(function () { });
         });
-    });
-
     // backToTop button End
+
+    // delete question function
+        $(".deleteQuestion").click(function (event) {
+            var questionDiv = $(this).closest(".questionsDiv");
+            deleteQuestion(questionDiv);
+    }); 
 
     $(".enter-survey-questions .dropdown-menu li a").click(function () {
         $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
@@ -140,3 +118,5 @@ $(document).ready(function () {
         }
     });
 });
+
+// endregion Document.ready

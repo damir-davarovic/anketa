@@ -23,14 +23,14 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-menu">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="collapse navbar-collapse" id="main-menu">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
@@ -54,6 +54,8 @@
     </div>
     <div class="container body-content">
         @RenderBody()
+		@*@Html.RenderScripts()  useless in the end*@
+		@*https://bitbucket.org/forloop/forloop-htmlhelpers/wiki/Home*@
     </div>
 <nav class="navbar navbar-inverse navbar-fixed-bottom">
             <div class="container-fluid">
