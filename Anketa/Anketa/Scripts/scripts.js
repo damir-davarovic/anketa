@@ -2,11 +2,22 @@
 function resetAjaxMessage() {
     $(".ajaxAlertMessageDiv").remove();
 };
+function reinitializeQuestion() {
+    reinitializeDeleteQuestion();
+    reinitializeSaveQuestion();
+}
 function reinitializeDeleteQuestion() {
     $(".deleteQuestion").on("click", function (event) {
         backToTop();
         var questionDiv = $(this).closest(".questionsDiv");
         deleteQuestion(questionDiv);
+    });
+}
+function reinitializeSaveQuestion() {
+    $(".saveQuestion").on("click", function (event) {
+        backToTop();
+        var questionDiv = $(this).closest(".questionsDiv");
+        saveQuestion(questionDiv);
     });
 }
 function backToTop() {
@@ -43,6 +54,35 @@ function deleteQuestion(questionDiv) {
         });
     }
 };
+function saveQuestion(questionDiv) {
+    resetAjaxMessage();
+    var surveyID = $("#surveyID").val();
+    var question = {};
+    questionDiv.find('form').serializeArray().map(function (x) { question[x.name] = x.value; });
+    question["surveyID"] = surveyID;
+    question["aktivnoPitanje"] = questionDiv.find('#aktivnoPitanje').prop('checked');
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/Questions/_AjaxSaveQuestion",
+        data: JSON.stringify(question),
+        dataType: "json",
+        success: function (data) {
+            if (data.type != 1) {
+                $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+            }
+            else {
+                $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success ajaxAlertMessageDiv">' + data.message + "</div>")
+            }
+        },
+        error: function (xhr, err, data) {
+            alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+            alert("responseText: " + xhr.responseText);
+            $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+        }
+    });
+};
+
 // endregion - function definitions
 
 
@@ -54,7 +94,7 @@ $(document).ready(function () {
     $(".backToTop").click(function (e) {
         backToTop();
     });
-    // backToTop button Start
+    // #backToTop button Start
         //plugin
     jQuery.fn.topLink = function (settings) {
         settings = jQuery.extend({
@@ -87,13 +127,19 @@ $(document).ready(function () {
             //    $.scrollTo(0, 300);
             $('html, body').animate({ scrollTop: '0px' }, 800).promise().then(function () { });
         });
-    // backToTop button End
+    // #backToTop button End
 
-    // delete question function
+    // #delete question function
         $(".deleteQuestion").click(function (event) {
             var questionDiv = $(this).closest(".questionsDiv");
             deleteQuestion(questionDiv);
-    }); 
+        });
+        
+    // #save question function
+        $(".saveQuestion").click(function (event) {
+            var questionDiv = $(this).closest(".questionsDiv");
+            saveQuestion(questionDiv);
+        });
 
     $(".enter-survey-questions .dropdown-menu li a").click(function () {
         $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');

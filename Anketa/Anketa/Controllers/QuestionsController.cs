@@ -71,8 +71,7 @@ namespace Anketa.Controllers
                 _AjaxResponseModel.message = "Database action failed! " + e.StackTrace;
                 _AjaxResponseModel.type = 0;
                 return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
-            }
-            
+            }            
         }
 
         public PartialViewResult _AjaxAddQuestion()
@@ -83,6 +82,24 @@ namespace Anketa.Controllers
             ViewBag.AjaxMessage = "New question added";
             return PartialView("~/Views/Questions/Partials/_QuestionListPartial.cshtml", question);
         }
-
+        [HttpPost]
+        public JsonResult _AjaxSaveQuestion(Question question)
+        {
+            var _AjaxResponseModel = new _AjaxResponseModel();
+            try
+            {
+                db.Questions.Add(question);
+                db.SaveChanges();
+                _AjaxResponseModel.message = "Question <i>" + question.questionID + "</i> succesfully added!";
+                _AjaxResponseModel.type = 1;
+                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                _AjaxResponseModel.message = "Database action failed! " + e.StackTrace;
+                _AjaxResponseModel.type = 0;
+                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
