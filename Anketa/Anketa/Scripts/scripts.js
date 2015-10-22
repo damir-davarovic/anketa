@@ -73,6 +73,10 @@ function saveQuestion(questionDiv) {
             }
             else {
                 $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success ajaxAlertMessageDiv">' + data.message + "</div>")
+                if (data.questionId != 0) {
+                    questionDiv.find('#questionID').val(data.questionId);
+                }
+                
             }
         },
         error: function (xhr, err, data) {

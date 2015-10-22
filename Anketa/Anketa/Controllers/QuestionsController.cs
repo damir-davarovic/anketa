@@ -83,22 +83,48 @@ namespace Anketa.Controllers
             return PartialView("~/Views/Questions/Partials/_QuestionListPartial.cshtml", question);
         }
         [HttpPost]
-        public JsonResult _AjaxSaveQuestion(Question question)
+        public ActionResult _AjaxSaveQuestion(Question question)
         {
             var _AjaxResponseModel = new _AjaxResponseModel();
-            try
+            if (question.questionID >= 1) // if the question already exists
             {
-                db.Questions.Add(question);
-                db.SaveChanges();
-                _AjaxResponseModel.message = "Question <i>" + question.questionID + "</i> succesfully added!";
-                _AjaxResponseModel.type = 1;
-                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+                db.Questions.Attach(question);
+                var entry = db.Entry<Question>(question);
+                entry.Property(x => x.questionText).IsModified = true;
+                entry.Property(x => x.aktivnoPitanje).IsModified = true;
+                entry.Property(x => x.TipPitanja).IsModified = true;
+                try
+                {
+                    db.SaveChanges();
+                    _AjaxResponseModel.type = 1;
+                    _AjaxResponseModel.message = "Question succesfully changed!";
+                    return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    _AjaxResponseModel.message = "Database action failed! " + e.StackTrace;
+                    _AjaxResponseModel.type = 0;
+                    return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+                }
             }
-            catch (Exception e)
+            else // if the question is not inserted yet
             {
-                _AjaxResponseModel.message = "Database action failed! " + e.StackTrace;
-                _AjaxResponseModel.type = 0;
-                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+                try
+                {
+                    db.Questions.Add(question);
+                    db.SaveChanges();
+                    _AjaxResponseModel.questionId = question.questionID;
+                    _AjaxResponseModel.surveyId = question.SurveyID;
+                    _AjaxResponseModel.message = "Question <i>" + question.questionID + "</i> succesfully added!";
+                    _AjaxResponseModel.type = 1;
+                    return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    _AjaxResponseModel.message = "Database action failed! " + e.StackTrace;
+                    _AjaxResponseModel.type = 0;
+                    return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+                }
             }
         }
     }
