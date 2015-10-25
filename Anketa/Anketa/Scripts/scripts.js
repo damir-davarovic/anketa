@@ -23,6 +23,10 @@ function reinitializeSaveQuestion() {
 function backToTop() {
     $('html, body').animate({ scrollTop: '0px' }, 800).promise().then(function () { });
 }
+$(function () {
+    $(".sortable").sortable();
+    $(".sortable").disableSelection();
+});
 function deleteQuestion(questionDiv) {
     //var actionLink = $(this).closest("form").prop('action');
     resetAjaxMessage();

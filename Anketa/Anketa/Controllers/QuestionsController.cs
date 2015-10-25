@@ -80,6 +80,7 @@ namespace Anketa.Controllers
             question.questionText = "Edit the question!";
             ViewBag.AjaxMessageType = 1;
             ViewBag.AjaxMessage = "New question added";
+            ViewBag.li = "listIt";
             return PartialView("~/Views/Questions/Partials/_QuestionListPartial.cshtml", question);
         }
         [HttpPost]

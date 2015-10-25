@@ -51,3 +51,5 @@ footer{
 .enter-survey-questions > .panel-body > .input-group:last-child{
     margin-bottom: 0px;
 }
+
+.sortable { list-style-type: none;}
