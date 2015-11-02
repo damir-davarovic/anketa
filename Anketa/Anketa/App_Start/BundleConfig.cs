@@ -30,7 +30,7 @@ namespace Anketa
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/bundle/css").Include(
-                    "~/Content/bootstrap.css",
+                    "~/Content/bootstrap.superhero.min.css",
                     "~/Content/DynamicStyle.css",
                     "~/Content/Site.css",
                     "~/Content/Validation.css",
