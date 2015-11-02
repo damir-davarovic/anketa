@@ -1,4 +1,7 @@
 ﻿@model Anketa.Models.Question
+@if(1==1){
+	@Html.Raw("<li>")
+}
 <div class="questionsDiv">
 @using (Ajax.BeginForm("_AjaxDeleteQuestion", "Questions", new AjaxOptions
         {                   
@@ -54,7 +57,13 @@
                     </div>
             </div>
         </div>
+		<div class="panel-footer clearfix">
+			<button type="button" class="btn btn-warning pull-right btn-xs resetAjaxMessage backToTop saveQuestion">Save Question</button>
+		</div>
     </div> 
 </div>
 }
 </div>
+@if(ViewBag.li != null){
+	@Html.Raw("</li>")
+}

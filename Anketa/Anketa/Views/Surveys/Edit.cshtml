@@ -17,9 +17,12 @@
 *@
             <div id="_AjaxInfoMessage"></div>
             @Html.Partial("~/Views/Surveys/Partials/_EditPartial.cshtml", Model.surveyModel )
-
+				<ul class="sortable" id="questionPlaceholder">
                 @foreach (var questionItem in Model.questionsModel) {
+					<li>
                     @Html.Partial("~/Views/Questions/Partials/_QuestionListPartial.cshtml", questionItem )
+					</li>
                 }
-            <div id="questionPlaceholder"></div>    
-            @Ajax.ActionLink("Add question", "_AjaxAddQuestion","Questions", null,  new AjaxOptions{UpdateTargetId = "questionPlaceholder", InsertionMode = InsertionMode.InsertAfter, OnSuccess = "reinitializeDeleteQuestion()"}, new{ @class = "btn btn-success"})
+				@*<div id="questionPlaceholder"></div>*@  
+				</ul>  
+            @Ajax.ActionLink("Add question", "_AjaxAddQuestion","Questions", null,  new AjaxOptions{UpdateTargetId = "questionPlaceholder", InsertionMode = InsertionMode.InsertAfter, OnSuccess = "reinitializeQuestion()"}, new{ @class = "btn btn-success"})
