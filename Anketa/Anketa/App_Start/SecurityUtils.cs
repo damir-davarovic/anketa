@@ -8,13 +8,14 @@ namespace Anketa.App_Start
 {
     public class SecurityUtils
     {
-        public bool TryToValidate(object objectForValidation)
+        public List<ValidationResult> TryToValidate(object objectForValidation)
         {
             var context = new ValidationContext(objectForValidation);
             var results = new List<ValidationResult>();
-            return Validator.TryValidateObject(
+            Validator.TryValidateObject(
                 objectForValidation, context, results
             );
+            return results;
         }
     }
 }

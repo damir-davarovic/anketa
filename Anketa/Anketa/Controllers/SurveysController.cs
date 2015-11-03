@@ -123,7 +123,7 @@ namespace Anketa.Controllers
             //}
             SurveyEditModel surveyEditModel = new SurveyEditModel();
             surveyEditModel.surveyModel = survey;
-            if (!securityUtil.TryToValidate(survey))
+            if (securityUtil.TryToValidate(survey).Count() > 0)
             {
                 ViewBag.surveyModelEditMessageType = 0;
                 ViewBag.surveyModelEditMessage = "Validation error on <i>" + surveyEditModel.surveyModel.surveyName + "</i>!";
@@ -160,10 +160,11 @@ namespace Anketa.Controllers
 
         public PartialViewResult _AjaxEdit([Bind] Survey survey)
         {
-            if (!securityUtil.TryToValidate(survey))
+            List<ValidationResult> validationResult = securityUtil.TryToValidate(survey);
+            if (validationResult.Count() > 0)
             {
                 ViewBag.AjaxMessageType = 0;
-                ViewBag.AjaxMessage = "Validation error on <i>" + survey.surveyName + "</i>!";
+                ViewBag.AjaxMessage = validationResult[0].ErrorMessage;
                 return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
             }
             db.Surveys.Attach(survey);
@@ -173,7 +174,7 @@ namespace Anketa.Controllers
             entry.Property(x => x.surveyActive).IsModified = true;
             entry.Property(x => x.editDate).CurrentValue = DateTime.Now;
             try{
-                db.SaveChanges();
+                var result = db.SaveChanges();
                 ViewBag.AjaxMessageType = 1;
                 ViewBag.AjaxMessage = "Survey <i>" + survey.surveyName + "</i> succesfully changed!";
                 return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
