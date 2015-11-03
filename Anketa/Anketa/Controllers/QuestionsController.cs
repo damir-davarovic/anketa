@@ -1,8 +1,10 @@
-﻿using Anketa.DAL;
+﻿using Anketa.App_Start;
+using Anketa.DAL;
 using Anketa.Models;
 using Anketa.Models.AjaxModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,6 +14,7 @@ namespace Anketa.Controllers
     public class QuestionsController : Controller
     {
         private SurveyContext db = new SurveyContext();
+        private SecurityUtils securityUtil = new SecurityUtils();
 
         // POST: Surveys/Delete/5
         public ActionResult Delete(int id)
@@ -62,7 +65,7 @@ namespace Anketa.Controllers
             {
                 db.Questions.Remove(db.Questions.Find(question.questionID));
                 db.SaveChanges();
-                _AjaxResponseModel.message = "Question <i>" + question.questionID + "</i> succesfully removed!";
+                _AjaxResponseModel.message = "Question succesfully removed!";
                 _AjaxResponseModel.type = 1;
                 return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             }
@@ -87,6 +90,13 @@ namespace Anketa.Controllers
         public ActionResult _AjaxSaveQuestion(Question question)
         {
             var _AjaxResponseModel = new _AjaxResponseModel();
+            List<ValidationResult> validationResult = securityUtil.TryToValidate(question);
+            if (validationResult.Count() > 0)
+            {
+                _AjaxResponseModel.message = validationResult[0].ErrorMessage;
+                _AjaxResponseModel.type = 0;
+                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+            }
             if (question.questionID >= 1) // if the question already exists
             {
                 db.Questions.Attach(question);
@@ -116,7 +126,7 @@ namespace Anketa.Controllers
                     db.SaveChanges();
                     _AjaxResponseModel.questionId = question.questionID;
                     _AjaxResponseModel.surveyId = question.SurveyID;
-                    _AjaxResponseModel.message = "Question <i>" + question.questionID + "</i> succesfully added!";
+                    _AjaxResponseModel.message = "Question succesfully added!";
                     _AjaxResponseModel.type = 1;
                     return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
                 }

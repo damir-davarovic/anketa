@@ -14,7 +14,7 @@ namespace Anketa.Models
         Description, Multiple, Single, Scale
     }
 
-    public class Question
+    public class Question : IValidatableObject
     {
         [Index(IsUnique = true)]
         public int questionID { get; set; }

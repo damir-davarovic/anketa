@@ -3,6 +3,8 @@ function resetAjaxMessage() {
     $(".ajaxAlertMessageDiv").remove();
 };
 function reinitializeQuestion() {
+    $(".saveQuestion").off('click');
+    $(".deleteQuestion").off('click');
     reinitializeDeleteQuestion();
     reinitializeSaveQuestion();
 }
