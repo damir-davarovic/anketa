@@ -91,6 +91,32 @@ function saveQuestion(questionDiv) {
     });
 };
 
+function editSurvey(surveysDiv) {
+    resetAjaxMessage();
+    var survey = {};
+    surveysDiv.find('form').serializeArray().map(function (x) { survey[x.name] = x.value; });
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/Surveys/_AjaxEdit",
+        data: JSON.stringify(survey),
+        dataType: "json",
+        success: function (data) {
+            if (data.type != 1) {
+                $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>");
+            }
+            else {
+                $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success ajaxAlertMessageDiv">' + data.message + "</div>");
+            }
+        },
+        error: function (xhr, err, data) {
+            alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+            alert("responseText: " + xhr.responseText);
+            $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+        }
+    });
+}
+
 // endregion - function definitions
 
 
@@ -147,6 +173,11 @@ $(document).ready(function () {
         $(".saveQuestion").click(function (event) {
             var questionDiv = $(this).closest(".questionsDiv");
             saveQuestion(questionDiv);
+        });
+
+        $(".editSurvey").click(function (event) {
+            var surveysDiv = $(this).closest(".surveysDiv");
+            editSurvey(surveysDiv);
         });
 
     $(".enter-survey-questions .dropdown-menu li a").click(function () {

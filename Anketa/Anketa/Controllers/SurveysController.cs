@@ -14,6 +14,7 @@ using Anketa.App_Start;
 using Anketa.DAL.QuestionDAL;
 using Anketa.Models.SurveyModels;
 using System.ComponentModel.DataAnnotations;
+using Anketa.Models.AjaxModels;
 
 //Ovaj cijeli controller se generiro sam.
 
@@ -158,14 +159,15 @@ namespace Anketa.Controllers
             //}
         }
 
-        public PartialViewResult _AjaxEdit([Bind] Survey survey)
+        public JsonResult _AjaxEdit([Bind] Survey survey)
         {
+            var _AjaxResponseModel = new _AjaxResponseModel();
             List<ValidationResult> validationResult = securityUtil.TryToValidate(survey);
             if (validationResult.Count() > 0)
             {
-                ViewBag.AjaxMessageType = 0;
-                ViewBag.AjaxMessage = validationResult[0].ErrorMessage;
-                return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+                _AjaxResponseModel.message = validationResult[0].ErrorMessage;
+                _AjaxResponseModel.type = 0;
+                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             }
             db.Surveys.Attach(survey);
             var entry = db.Entry<Survey>(survey);
@@ -174,17 +176,16 @@ namespace Anketa.Controllers
             entry.Property(x => x.surveyActive).IsModified = true;
             entry.Property(x => x.editDate).CurrentValue = DateTime.Now;
             try{
-                var result = db.SaveChanges();
-                ViewBag.AjaxMessageType = 1;
-                ViewBag.AjaxMessage = "Survey <i>" + survey.surveyName + "</i> succesfully changed!";
-                return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
+                db.SaveChanges();
+                _AjaxResponseModel.message = "Survey <i>" + survey.surveyName + "</i> succesfully changed!";
+                _AjaxResponseModel.type = 1;
+                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e){
-                ViewBag.AjaxMessageType = 0;
-                ViewBag.AjaxMessage = "Database action failed!/n" + e.StackTrace;
-                return PartialView("~/Views/Shared/GlobalPartials/_AjaxInfoMessage.cshtml");
-            }
-            
+                _AjaxResponseModel.message = "Database action failed!/n" + e.StackTrace;
+                _AjaxResponseModel.type = 0;
+                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+            }            
         }
 
 
