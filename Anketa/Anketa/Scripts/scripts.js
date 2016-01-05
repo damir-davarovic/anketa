@@ -1,4 +1,5 @@
-﻿// region - function definitions
+﻿// Here Be Dragons // Like Real Much
+// region - function definitions
 function resetAjaxMessage() {
     $(".ajaxAlertMessageDiv").remove();
 };
@@ -22,6 +23,17 @@ function reinitializeSaveQuestion() {
         saveQuestion(questionDiv);
     });
 }
+function initializeTooltip() {
+    $('.tooltipControl').each(function () {
+        var deleteButton = $(this).find('.deleteQuestion');
+        if(deleteButton.hasClass('disabled')){
+            $(this).tooltip({ title: "You can't delete questions that were answered to. Make them inactive instead.", trigger: 'hover', 'delay': { show: 500, hide: 300 } });
+        }else{
+            $(this).tooltip('destroy');
+        }
+    });
+}
+
 function backToTop() {
     $('html, body').animate({ scrollTop: '0px' }, 800).promise().then(function () { });
 }
@@ -82,7 +94,8 @@ function saveQuestion(questionDiv) {
                 if (data.questionId != 0) {
                     questionDiv.find('#questionID').val(data.questionId);
                 }
-                
+                questionDiv.find('.deleteQuestion').addClass('disabled');
+                initializeTooltip();
             }
         },
         error: function (xhr, err, data) {
@@ -127,6 +140,8 @@ $(document).ready(function () {
     $('#all-surveys').DataTable();
     $('#my-surveys').DataTable();
     $(".disabled").prop("disabled", true);
+    //$('[data-toggle="tooltip"]').tooltip();
+    initializeTooltip();
     $(".backToTop").click(function (e) {
         backToTop();
     });

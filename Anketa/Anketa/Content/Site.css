@@ -55,4 +55,12 @@ footer{
     margin-bottom: 0px;
 }
 
+
+/* Added functional styles *Cubelaster* */
 .sortable { list-style-type: none;}
+
+.tooltipControl {
+    /* Potrebno za prikaz Tooltipa na pravom mjestu. Here Be Dragons */
+    display: inline-block;
+}
+/* Added functional styles *Cubelaster*  -END */
