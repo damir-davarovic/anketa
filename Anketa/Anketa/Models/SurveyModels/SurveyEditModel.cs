@@ -15,7 +15,7 @@ namespace Anketa.Models.SurveyModels
             surveyModel = null;
             questionsModel = null;
         }
-        public SurveyEditModel(int? surveyId)
+        public SurveyEditModel(int surveyId)
         {
             surveyModel = new SurveyRepository().fetchSurveyById(surveyId);
             questionsModel = new QuestionRepository().fetchQuestionsBySurveyId(surveyId);

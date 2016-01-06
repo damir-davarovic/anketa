@@ -2,6 +2,7 @@
 // region - function definitions
 function resetAjaxMessage() {
     $(".ajaxAlertMessageDiv").remove();
+    $(".alert").remove();
 };
 function reinitializeQuestion() {
     $(".saveQuestion").off('click');

@@ -19,12 +19,13 @@ namespace Anketa.Models
         [Index(IsUnique = true)]
         public int questionID { get; set; }
         public int SurveyID { get; set; }
-        [DisplayName("Question text")]
+        [DisplayName("Question text"), Required]
         public string questionText { get; set; }
-        [DisplayName("Question type")]
-        public TipPitanja? TipPitanja { get; set; }
+        [DisplayName("Question type"), Required ]
+        public TipPitanja TipPitanja { get; set; }
         [DisplayName("Question active")]
         public bool aktivnoPitanje { get; set; }
+        public bool hasAnswer { get; set; }
 
         public virtual ICollection<Answer> Answer { get; set; }
 

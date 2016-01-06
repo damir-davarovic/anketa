@@ -10,6 +10,7 @@ using Answer = Anketa.Models.Answer;
 using User = Anketa.Models.User;
 using Anketa.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Anketa.Models.AnswerModels;
 
 namespace Anketa.DAL
 {
@@ -30,6 +31,8 @@ namespace Anketa.DAL
         public DbSet<Survey> Surveys { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<AnswerChoiceSingle> AnswerChoiceSingle { get; set; }
+        public DbSet<AnswerChoiceMultiple> AnswerChoiceMultiple { get; set; }
         //public DbSet<UserProfileInfo> UserProfileInfo { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

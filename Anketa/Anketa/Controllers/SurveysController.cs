@@ -80,7 +80,7 @@ namespace Anketa.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SurveyEditModel surveyModel = new SurveyEditModel(id);
+            SurveyEditModel surveyModel = new SurveyEditModel((int)id);
             //Survey survey = db.Surveys.Find(id);
             //QuestionRepository qRepo = new QuestionRepository();
             //IEnumerable<Question> questions = qRepo.fetchQuestionsBySurveyId(survey.surveyID);
