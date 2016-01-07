@@ -24,6 +24,19 @@ function reinitializeSaveQuestion() {
         saveQuestion(questionDiv);
     });
 }
+
+function findOrderForQuestion(questionDiv) {
+    var orderCount = 0;
+    $('.questionsDiv').each(function () {
+        orderCount++;
+        if ($(this).find('input[name = "__RequestVerificationToken"]').val() == questionDiv.find('input[name = "__RequestVerificationToken"]').val()) {
+            return false;
+        }
+    })
+    return orderCount;
+    ;
+}
+
 function initializeTooltip() {
     $('.tooltipControl').each(function () {
         var deleteButton = $(this).find('.deleteQuestion');
@@ -80,6 +93,7 @@ function saveQuestion(questionDiv) {
     questionDiv.find('form').serializeArray().map(function (x) { question[x.name] = x.value; });
     question["surveyID"] = surveyID;
     question["aktivnoPitanje"] = questionDiv.find('#aktivnoPitanje').prop('checked');
+    question["questionOrder"] = findOrderForQuestion(questionDiv);
     $.ajax({
         type: "POST",
         contentType: "application/json",

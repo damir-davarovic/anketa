@@ -16,26 +16,13 @@
              <div class="panel panel-default enter-survey-questions">
                 <div class="panel-heading clearfix">
                     <h3 class="panel-title pull-left">Enter Survey Question</h3>
-                    @*@Html.ActionLink("Delete question", "Delete", new { controller = "Questions" , Id = Model.questionID }, new{ @class = "btn btn-danger pull-right btn-xs"})*@
-                    @*<button type="button" class="btn btn-danger pull-right btn-xs">Delete Question</button>*@
 					<div class="tooltipControl pull-right">
-					@if(Model.questionID == 0){ @* Primjer if-a sa pozivanjem vrijednosti direktno *@
-						<button type="button" class="btn btn-danger pull-right btn-xs deleteQuestion resetAjaxMessage backToTop" >Delete Question</button>
-					}else{
-						<button type="button" class="btn btn-danger pull-right btn-xs disabled deleteQuestion resetAjaxMessage backToTop">Delete Question</button>						
-					}
+					@*    @if(Model.questionID == 0){ Primjer if-a sa pozivanjem vrijednosti direktno, Primjer dodavanja klase preko if-a   *@
+						<button type="button" class="btn btn-danger pull-right btn-xs deleteQuestion resetAjaxMessage backToTop @(@Model.questionID == 0 ? "" : "disabled")">Delete Question</button>
 					&nbsp
 					</div>
-@*                    @Ajax.ActionLink("Delete with Ajax", "_AjaxDeleteQuestion", "Questions", 
-                        new AjaxOptions {                   
-                            UpdateTargetId = "_AjaxInfoMessage",
-                            InsertionMode = InsertionMode.InsertAfter
-                        },
-                        new{ @class = "deleteQuestion"})
-                    )*@
                 </div>
             <div class="panel-body">
-
                 @Html.HiddenFor(model => model.questionID)
 
                 <div class="form-group">
@@ -50,7 +37,7 @@
                 @Html.LabelFor(model => model.TipPitanja, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @*@Html.EditorFor(model => model.TipPitanja, new { htmlAttributes = new { @class = "form-control" } })*@
-						@Html.EnumDropDownListFor(model => model.TipPitanja, htmlAttributes: new { @class = "form-control" })
+						@Html.EnumDropDownListFor(model => model.TipPitanja,  htmlAttributes: new { @class = "form-control" })
 						@* Primjer dropdowna *@
                         @Html.ValidationMessageFor(model => model.TipPitanja, "", new { @class = "text-danger" })
                     </div>

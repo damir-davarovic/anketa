@@ -26,6 +26,7 @@ namespace Anketa.Models
         [DisplayName("Question active")]
         public bool aktivnoPitanje { get; set; }
         public bool hasAnswer { get; set; }
+        public int questionOrder { get; set; }
 
         public virtual ICollection<Answer> Answer { get; set; }
 

@@ -8,6 +8,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EntityFramework.Extensions;
+
 
 namespace Anketa.Controllers
 {
@@ -99,11 +101,14 @@ namespace Anketa.Controllers
             }
             if (question.questionID >= 1) // if the question already exists
             {
+                db.Questions.Where(q => q.questionOrder >= question.questionOrder).Update(q => new Question { questionOrder = q.questionOrder+1
+                                                                                                });
                 db.Questions.Attach(question);
                 var entry = db.Entry<Question>(question);
-                entry.Property(x => x.questionText).IsModified = true;
+                entry.Property(x => x.questionText).IsModified = false;
                 entry.Property(x => x.aktivnoPitanje).IsModified = true;
-                entry.Property(x => x.TipPitanja).IsModified = true;
+                entry.Property(x => x.TipPitanja).IsModified = false;
+                entry.Property(x => x.questionOrder).IsModified = true;
                 try
                 {
                     db.SaveChanges();
