@@ -64,3 +64,55 @@ footer{
     display: inline-block;
 }
 /* Added functional styles *Cubelaster*  -END */
+
+/* All survey table styling */
+
+#all table.dataTable thead th, 
+#all table.dataTable thead td,
+#all table.dataTable.no-footer,
+#my table.dataTable thead th, 
+#my table.dataTable thead td,
+#my table.dataTable.no-footer {
+    border-bottom: 1px solid #df691a;
+}
+
+.dataTables_length select,
+.dataTables_filter input{
+    padding: 3px;
+    color: #333;
+    border: 1px solid #2b3e50;
+}
+
+
+div.dataTables_length,
+div.dataTables_filter,
+div.dataTables_info {
+    padding: 10px 18px;
+    color: #fff!important;
+    font-size: 12px;
+}
+
+div.dataTables_paginate {
+    padding: 10px 18px;
+}
+
+a.paginate_button{
+    font-size: 12px;
+}
+
+#all-surveys_wrapper,
+#my-surveys_wrapper {
+   background-color: #4e5d6c;
+}
+
+#all-surveys thead tr,
+#my-surveysthead tr{
+   background-color: #4e5d6c;
+}
+
+#all-surveys tbody tr,
+#my-surveys tbody tr,
+#all-surveys tbody tr td,
+#my-surveys tbody tr td{
+   background-color: #2b3e50;
+}
