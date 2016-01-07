@@ -99,10 +99,10 @@ namespace Anketa.Controllers
                 _AjaxResponseModel.type = 0;
                 return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             }
+            db.Questions.Where(q => q.questionOrder >= question.questionOrder).Update(q => new Question { questionOrder = q.questionOrder + 1 });
+            /* Primjer Update */
             if (question.questionID >= 1) // if the question already exists
             {
-                db.Questions.Where(q => q.questionOrder >= question.questionOrder).Update(q => new Question { questionOrder = q.questionOrder+1
-                                                                                                });
                 db.Questions.Attach(question);
                 var entry = db.Entry<Question>(question);
                 entry.Property(x => x.questionText).IsModified = false;
