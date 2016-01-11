@@ -12,13 +12,14 @@
         @Html.AntiForgeryToken()
         <div class="row questionsDivIn">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-             <div class="panel panel-default enter-survey-questions">
+			<div class="form-horizontal enter-survey-questions">
+             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <h3 class="panel-title pull-left">Enter Survey Question</h3>
 					<div class="tooltipControl pull-right">
 					@*    @if(Model.questionID == 0){ Primjer if-a sa pozivanjem vrijednosti direktno, Primjer dodavanja klase preko if-a   *@
-						<button type="button" class="btn btn-danger pull-right btn-xs deleteQuestion resetAjaxMessage backToTop @(@Model.questionID == 0 ? "" : "disabled")">Delete Question</button>
+						<button type="button" class="btn btn-danger pull-right btn-xs deleteQuestion resetAjaxMessage backToTop)">Delete Question</button> 
+					
 					&nbsp
 					</div>
                 </div>
@@ -57,6 +58,7 @@
 			<button type="button" class="btn btn-warning pull-right btn-xs resetAjaxMessage backToTop saveQuestion">Save Question</button>
 		</div>
     </div> 
+</div>
 </div>
 }
 </div>

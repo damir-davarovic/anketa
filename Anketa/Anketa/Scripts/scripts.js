@@ -40,11 +40,11 @@ function findOrderForQuestion(questionDiv) {
 function initializeTooltip() {
     $('.tooltipControl').each(function () {
         var deleteButton = $(this).find('.deleteQuestion');
-        if(deleteButton.hasClass('disabled')){
-            $(this).tooltip({ title: "You can't delete questions that were answered to. Make them inactive instead.", trigger: 'hover', 'delay': { show: 500, hide: 300 } });
-        }else{
-            $(this).tooltip('destroy');
-        }
+        //if(deleteButton.hasClass('disabled')){
+            $(this).tooltip({ title: "Deleting a question will delete all data linked to it.", trigger: 'hover', 'delay': { show: 500, hide: 300 } });
+        //}else{
+        //    $(this).tooltip('destroy');
+        //}
     });
 }
 
@@ -109,7 +109,7 @@ function saveQuestion(questionDiv) {
                 if (data.questionId != 0) {
                     questionDiv.find('#questionID').val(data.questionId);
                 }
-                questionDiv.find('.deleteQuestion').addClass('disabled');
+                //questionDiv.find('.deleteQuestion').addClass('disabled');
                 initializeTooltip();
             }
         },
