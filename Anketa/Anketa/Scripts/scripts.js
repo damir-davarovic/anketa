@@ -1,5 +1,8 @@
 ﻿// Here Be Dragons // Like Real Much
 // region - function definitions
+function setDefaultStatesOfElements() {
+    $(".disabled").prop("disabled", true);
+}
 function resetAjaxMessage() {
     $(".ajaxAlertMessageDiv").remove();
     $(".alert").remove();
@@ -9,6 +12,7 @@ function reinitializeQuestion() {
     $(".deleteQuestion").off('click');
     reinitializeDeleteQuestion();
     reinitializeSaveQuestion();
+    initializeTooltip();
 }
 function reinitializeDeleteQuestion() {
     $(".deleteQuestion").on("click", function (event) {
@@ -38,14 +42,16 @@ function findOrderForQuestion(questionDiv) {
 }
 
 function initializeTooltip() {
-    $('.tooltipControl').each(function () {
-        var deleteButton = $(this).find('.deleteQuestion');
+    $('.tooltipControl').tooltip('destroy');
+    $('.tooltipControl').tooltip({ title: "Deleting a question will delete all data linked to it.", trigger: 'hover', 'delay': { show: 500, hide: 300 } });
+    //$('.tooltipControl').each(function () {
+        //var deleteButton = $(this).find('.deleteQuestion');
         //if(deleteButton.hasClass('disabled')){
-            $(this).tooltip({ title: "Deleting a question will delete all data linked to it.", trigger: 'hover', 'delay': { show: 500, hide: 300 } });
+            //$(this).tooltip({ title: "Deleting a question will delete all data linked to it.", trigger: 'hover', 'delay': { show: 500, hide: 300 } });
         //}else{
         //    $(this).tooltip('destroy');
         //}
-    });
+    //});
 }
 
 function backToTop() {
@@ -110,6 +116,8 @@ function saveQuestion(questionDiv) {
                     questionDiv.find('#questionID').val(data.questionId);
                 }
                 //questionDiv.find('.deleteQuestion').addClass('disabled');
+                questionDiv.find('#TipPitanja').addClass('disabled');
+                $(".disabled").prop("disabled", true);
                 initializeTooltip();
             }
         },
@@ -154,8 +162,7 @@ function editSurvey(surveysDiv) {
 $(document).ready(function () {
     $('#all-surveys').DataTable();
     $('#my-surveys').DataTable();
-    $(".disabled").prop("disabled", true);
-    //$('[data-toggle="tooltip"]').tooltip();
+    setDefaultStatesOfElements();
     initializeTooltip();
     $(".backToTop").click(function (e) {
         backToTop();

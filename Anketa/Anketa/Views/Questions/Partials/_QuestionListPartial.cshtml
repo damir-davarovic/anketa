@@ -19,7 +19,7 @@
 					<div class="tooltipControl pull-right">
 					@*    @if(Model.questionID == 0){ Primjer if-a sa pozivanjem vrijednosti direktno, Primjer dodavanja klase preko if-a   *@
 						<button type="button" class="btn btn-danger pull-right btn-xs deleteQuestion resetAjaxMessage backToTop)">Delete Question</button> 
-					
+					@*   @(@Model.questionID == 0 ? "" : "disabled"  *@
 					&nbsp
 					</div>
                 </div>
@@ -38,8 +38,8 @@
                 @Html.LabelFor(model => model.TipPitanja, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @*@Html.EditorFor(model => model.TipPitanja, new { htmlAttributes = new { @class = "form-control" } })*@
-						@Html.EnumDropDownListFor(model => model.TipPitanja,  htmlAttributes: new { @class = "form-control" })
-						@* Primjer dropdowna *@
+						@Html.EnumDropDownListFor(model => model.TipPitanja,  htmlAttributes: new { @class = (@Model.questionID == 0 ? "" : "disabled")  + " form-control questionType"  })
+						@* Primjer dropdowna i disableanja elementa preko razora *@
                         @Html.ValidationMessageFor(model => model.TipPitanja, "", new { @class = "text-danger" })
                     </div>
             </div>
