@@ -53,7 +53,6 @@
             @Html.LabelFor(model => model.creationDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.creationDate, new { htmlAttributes = new { @class = "form-control disabled" } })
-                @Html.ValidationMessageFor(model => model.creationDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -61,7 +60,6 @@
             @Html.LabelFor(model => model.editDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.editDate, new { htmlAttributes = new { @class = "form-control disabled" } })
-                @Html.ValidationMessageFor(model => model.editDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -70,7 +68,6 @@
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.surveyActive)
-                    @Html.ValidationMessageFor(model => model.surveyActive, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -79,7 +76,6 @@
             @Html.LabelFor(model => model.surveyDescription, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                     @Html.TextAreaFor(model => model.surveyDescription, new { rows = 3, @class="form-control" })
-                    @Html.ValidationMessageFor(model => model.surveyDescription, "", new { @class = "text-danger" })
             </div>
         </div>
 

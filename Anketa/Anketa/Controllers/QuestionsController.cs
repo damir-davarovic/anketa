@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EntityFramework.Extensions;
+using Anketa.DAL.QuestionDAL;
 
 
 namespace Anketa.Controllers
@@ -17,6 +18,7 @@ namespace Anketa.Controllers
     {
         private SurveyContext db = new SurveyContext();
         private SecurityUtils securityUtil = new SecurityUtils();
+        private QuestionRepository qRepo = new QuestionRepository();
 
         // POST: Surveys/Delete/5
         public ActionResult Delete(int id)
@@ -82,7 +84,6 @@ namespace Anketa.Controllers
         public PartialViewResult _AjaxAddQuestion()
         {
             Question question = new Question();
-            question.questionText = "Edit the question!";
             ViewBag.AjaxMessageType = 1;
             ViewBag.AjaxMessage = "New question added";
             ViewBag.li = "listIt";
@@ -99,29 +100,12 @@ namespace Anketa.Controllers
                 _AjaxResponseModel.type = 0;
                 return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             }
-            db.Questions.Where(q => q.questionOrder >= question.questionOrder).Update(q => new Question { questionOrder = q.questionOrder + 1 });
+            qRepo.updateOrder(question);
             /* Primjer Update */
             if (question.questionID >= 1) // if the question already exists
             {
-                db.Questions.Attach(question);
-                var entry = db.Entry<Question>(question);
-                entry.Property(x => x.questionText).IsModified = false;
-                entry.Property(x => x.aktivnoPitanje).IsModified = true;
-                entry.Property(x => x.TipPitanja).IsModified = false;
-                entry.Property(x => x.questionOrder).IsModified = true;
-                try
-                {
-                    db.SaveChanges();
-                    _AjaxResponseModel.type = 1;
-                    _AjaxResponseModel.message = "Question succesfully changed!";
-                    return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception e)
-                {
-                    _AjaxResponseModel.message = "Database action failed! " + e.StackTrace;
-                    _AjaxResponseModel.type = 0;
-                    return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
-                }
+                _AjaxResponseModel = qRepo.updateQuestion(question);
+                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             }
             else // if the question is not inserted yet
             {

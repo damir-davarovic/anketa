@@ -159,9 +159,31 @@ namespace Anketa.Controllers
             //}
         }
 
-        public JsonResult _AjaxEdit([Bind] Survey survey)
+        public ActionResult _AjaxEdit([Bind] Survey survey)
         {
             var _AjaxResponseModel = new _AjaxResponseModel();
+            if (!ModelState.IsValid)
+                // ovdje bih htio uguzit, odnosno zamijenit server sa client-side validacijom
+                // ja sam sad ovdje iskoristio ugrađenu validaciju i vratio customizirani rezultat
+                // ALI!! to se može odradit i bez naše intervencije, samo nikako ne vidim kako
+                // pogledaj primjer kad se želiš loginat - to ti je 
+                // public async Task<ActionResult> Login(LoginViewModel model, string returnUrl) iz AccountController
+                // View je Login.cshtml
+                //https://www.google.hr/webhp?sourceid=chrome-instant&ion=1&espv=2&es_th=1&ie=UTF-8#q=c%23+mvc+5+client+side+validation+partial+view
+                //https://xhalent.wordpress.com/2011/01/24/applying-unobtrusive-validation-to-dynamic-content/
+                //http://www.asp.net/mvc/overview/getting-started/introduction/adding-validation
+                // ove js-ove sam već dodo i pokrenu se, ali iz nekog razloga mi form.valid() svaki puta vraća true... Ne mogu skužit trebam li za klijentsku validaciju
+                // poseban jquery sam napisat ili mogu nekako koristit ovaj ugrađeni MVC-ov... 
+
+            {
+                var errorDictionary = ModelState.Where(y => y.Value.Errors.Count > 0).ToDictionary(y => y.Key, y => y.Value.Errors.Select(e => e.ErrorMessage).ToArray());
+                foreach(KeyValuePair<string, string[]> validationEntry in errorDictionary)
+                {
+                    _AjaxResponseModel.message = _AjaxResponseModel.message + validationEntry.Value.First().ToString() + "\n";
+                }
+                _AjaxResponseModel.type = 2;
+                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+            }
             List<ValidationResult> validationResult = securityUtil.TryToValidate(survey);
             if (validationResult.Count() > 0)
             {

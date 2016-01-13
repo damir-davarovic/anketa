@@ -19,7 +19,7 @@ namespace Anketa.Models
         [Index(IsUnique = true)]
         public int questionID { get; set; }
         public int SurveyID { get; set; }
-        [DisplayName("Question text"), Required]
+        [DisplayName("Question text"), Required(ErrorMessage = "Question text is required!")]
         public string questionText { get; set; }
         [DisplayName("Question type"), Required ]
         public TipPitanja TipPitanja { get; set; }
@@ -35,7 +35,7 @@ namespace Anketa.Models
             SurveyContext surveyContext = new SurveyContext();
             if (questionText == null || questionText.Trim() == "")
             {
-                yield return new ValidationResult("Question text is not allowed to be empty!");
+                yield return new ValidationResult("Question text is required!");
             }
         }
     }

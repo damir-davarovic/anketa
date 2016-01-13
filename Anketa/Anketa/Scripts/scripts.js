@@ -140,10 +140,13 @@ function editSurvey(surveysDiv) {
         data: JSON.stringify(survey),
         dataType: "json",
         success: function (data) {
-            if (data.type != 1) {
+            if (data.type == 2) {
+                surveysDiv.prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>");
+            }
+            if (data.type == 0) {
                 $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>");
             }
-            else {
+            if (data.type == 1) {
                 $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success ajaxAlertMessageDiv">' + data.message + "</div>");
             }
         },
@@ -155,6 +158,18 @@ function editSurvey(surveysDiv) {
     });
 }
 
+function setQuestionTemplateDescription(){
+}
+
+function setQuestionTemplateScale(){
+}
+
+function setQuestionTemplateSingle(){
+}
+
+function setQuestionTemplateMultiple(){
+}
+
 // endregion - function definitions
 
 
@@ -164,6 +179,7 @@ $(document).ready(function () {
     $('#my-surveys').DataTable();
     setDefaultStatesOfElements();
     initializeTooltip();
+
     $(".backToTop").click(function (e) {
         backToTop();
     });
@@ -241,6 +257,42 @@ $(document).ready(function () {
             $(this).parents(".answer").remove();
         }
     });
+
+    (function ($) {
+        $.validator.unobtrusive.parseDynamicContent = function (selector) {
+            //use the normal unobstrusive.parse method
+            $.validator.unobtrusive.parse(selector);
+
+            //get the relevant form
+            var form = $(selector).first().closest('form');
+
+            //get the collections of unobstrusive validators, and jquery validators
+            //and compare the two
+            var unobtrusiveValidation = form.data('unobtrusiveValidation');
+            var validator = form.validate();
+
+            $.each(unobtrusiveValidation.options.rules, function (elname, elrules) {
+                if (validator.settings.rules[elname] == undefined) {
+                    var args = {};
+                    $.extend(args, elrules);
+                    args.messages = unobtrusiveValidation.options.messages[elname];
+                    //edit:use quoted strings for the name selector
+                    $("[name='" + elname + "']").rules("add", args);
+                } else {
+                    $.each(elrules, function (rulename, data) {
+                        if (validator.settings.rules[elname][rulename] == undefined) {
+                            var args = {};
+                            args[rulename] = data;
+                            args.messages = unobtrusiveValidation.options.messages[elname][rulename];
+                            //edit:use quoted strings for the name selector
+                            $("[name='" + elname + "']").rules("add", args);
+                        }
+                    });
+                }
+            });
+        }
+    })($);
+
 });
 
 // endregion Document.ready
