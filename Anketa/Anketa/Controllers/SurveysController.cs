@@ -177,7 +177,7 @@ namespace Anketa.Controllers
 
             {
                 var errorDictionary = ModelState.Where(y => y.Value.Errors.Count > 0).ToDictionary(y => y.Key, y => y.Value.Errors.Select(e => e.ErrorMessage).ToArray());
-                foreach(KeyValuePair<string, string[]> validationEntry in errorDictionary)
+                foreach (KeyValuePair<string, string[]> validationEntry in errorDictionary)
                 {
                     _AjaxResponseModel.message = _AjaxResponseModel.message + validationEntry.Value.First().ToString() + "\n";
                 }
