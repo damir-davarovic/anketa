@@ -83,8 +83,7 @@ namespace Anketa.Controllers
 
         public PartialViewResult _AjaxAddQuestion()
         {
-            Question question = new Question();
-            //question.answer = new Answer();
+            Question question = qRepo.fetchTemplateQuestion();
             ViewBag.AjaxMessageType = 1;
             ViewBag.AjaxMessage = "New question added";
             ViewBag.li = "listIt";

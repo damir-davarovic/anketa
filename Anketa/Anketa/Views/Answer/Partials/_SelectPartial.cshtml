@@ -2,5 +2,7 @@
 @{
     ViewBag.FalseBool = false;
 }
-	<input id=@Html.Raw(Model.choiceId) type="checkbox" class="disabled"/>
-	<label for=@Html.Raw(Model.choiceId)>@Html.Raw(Model.choiceText)</label>
+	<input id=@Html.Raw(Model.choiceId) type="checkbox" class="disabled" value=@Html.Raw(Model.choiceId)/>
+	<label for=@Html.Raw(Model.choiceId)>
+		 @Html.EditorFor(model => model.choiceText, new { htmlAttributes = new { @class = "form-control" , placeholder = "Choice will look like this" } })  
+	</label>
