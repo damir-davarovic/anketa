@@ -84,10 +84,11 @@ namespace Anketa.Controllers
         public PartialViewResult _AjaxAddQuestion()
         {
             Question question = new Question();
+            //question.answer = new Answer();
             ViewBag.AjaxMessageType = 1;
             ViewBag.AjaxMessage = "New question added";
             ViewBag.li = "listIt";
-            return PartialView("~/Views/Questions/Partials/_QuestionListPartial.cshtml", question);
+            return PartialView("~/Views/Questions/Partials/_QuestionListPartial.cshtml", question );
         }
         [HttpPost]
         public ActionResult _AjaxSaveQuestion(Question question)

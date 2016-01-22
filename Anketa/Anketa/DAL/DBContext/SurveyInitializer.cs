@@ -44,12 +44,12 @@ namespace Anketa.DAL
 
             var answers = new List<Answer>
             {
-                new Answer{answerID=1,QuestionID=1,answerText="Prvi Odgovor",correct=true},
-                new Answer{answerID=2,QuestionID=1,answerText="Drugi Odgovor",correct=false},
-                new Answer{answerID=3,QuestionID=2,answerText="Treći Odgovor",correct=true},
-                new Answer{answerID=4,QuestionID=2,answerText="Četvrti Odgovor",correct=false},
-                new Answer{answerID=5,QuestionID=3,answerText="Peti Odgovor",correct=true},
-                new Answer{answerID=6,QuestionID=3,answerText="Šesti Odgovor",correct=false},
+                new Answer{answerID=1,questionID=1,answerText="Prvi Odgovor",correct=true},
+                new Answer{answerID=2,questionID=1,answerText="Drugi Odgovor",correct=false},
+                new Answer{answerID=3,questionID=2,answerText="Treći Odgovor",correct=true},
+                new Answer{answerID=4,questionID=2,answerText="Četvrti Odgovor",correct=false},
+                new Answer{answerID=5,questionID=3,answerText="Peti Odgovor",correct=true},
+                new Answer{answerID=6,questionID=3,answerText="Šesti Odgovor",correct=false},
             };
 
             answers.ForEach(s => context.Answers.Add(s));

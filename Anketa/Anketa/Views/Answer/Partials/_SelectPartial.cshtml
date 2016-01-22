@@ -1,0 +1,6 @@
+﻿@model Anketa.Models.AnswerModels.AnswerChoiceMultiple
+@{
+    ViewBag.FalseBool = false;
+}
+	<input id=@Html.Raw(Model.choiceId) type="checkbox" class="disabled"/>
+	<label for=@Html.Raw(Model.choiceId)>@Html.Raw(Model.choiceText)</label>

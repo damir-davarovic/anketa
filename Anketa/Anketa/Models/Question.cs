@@ -28,7 +28,7 @@ namespace Anketa.Models
         public bool hasAnswer { get; set; }
         public int questionOrder { get; set; }
 
-        public virtual ICollection<Answer> Answer { get; set; }
+       public virtual ICollection<Answer> answer { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

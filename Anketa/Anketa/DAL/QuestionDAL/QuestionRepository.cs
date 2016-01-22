@@ -14,7 +14,7 @@ namespace Anketa.DAL.QuestionDAL
         public SurveyContext sDB = new SurveyContext();
         public IEnumerable<Anketa.Models.Question> fetchQuestionsBySurveyId(int surveyId)
         {
-            return sDB.Questions.Where(x => x.SurveyID == surveyId).OrderBy(s => s.questionOrder) ;
+            return sDB.Questions.Where(x => x.SurveyID == surveyId).OrderBy(s => s.questionOrder);
         }
         public void updateOrder(Question question)
         {

@@ -406,6 +406,9 @@
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="snippetHelper.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -477,6 +480,9 @@
     <Content Include="Views\Surveys\Partials\_EditPartial.cshtml" />
     <Content Include="Views\Questions\Partials\_QuestionListPartial.cshtml" />
     <Content Include="Views\Shared\GlobalPartials\_AjaxInfoMessage.cshtml" />
+    <Content Include="Views\Answer\Partials\_AnswerPartial.cshtml" />
+    <Content Include="Views\Answer\Partials\_SelectPartial.cshtml" />
+    <Content Include="Views\Answer\Partials\_SinglePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

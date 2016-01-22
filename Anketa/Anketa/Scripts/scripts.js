@@ -98,7 +98,9 @@ function saveQuestion(questionDiv) {
     resetAjaxMessage();
     var surveyID = $("#surveyID").val();
     var question = {};
-    questionDiv.find('form').serializeArray().map(function (x) { question[x.name] = x.value; });
+    questionDiv.find('form').serializeArray().map(function (x) {
+        question[x.name] = x.value;
+    });
     question["surveyID"] = surveyID;
     question["aktivnoPitanje"] = questionDiv.find('#aktivnoPitanje').prop('checked');
     question["questionOrder"] = findOrderForQuestion(questionDiv);
@@ -110,7 +112,7 @@ function saveQuestion(questionDiv) {
         dataType: "json",
         success: function (data) {
             if (data.type != 1) {
-                $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+                questionDiv.prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
             }
             else {
                 $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success ajaxAlertMessageDiv">' + data.message + "</div>")
@@ -134,7 +136,12 @@ function saveQuestion(questionDiv) {
 function editSurvey(surveysDiv) {
     resetAjaxMessage();
     var survey = {};
-    surveysDiv.find('form').serializeArray().map(function (x) { survey[x.name] = x.value; });
+    surveysDiv.find('form').serializeArray().map(function (x) {
+            survey[x.name] = x.value;
+    });
+    survey['surveyActive'] = surveysDiv.find('#surveyActive').prop('checked');
+    // iz nekog fing razloga je počeo stvarat input type="hidden" ispod samog checkboxa... Naravno da je konstantna vrijednost toga false...
+    // ne znam samo kako/zašto je prije radio
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -265,41 +272,5 @@ $(document).ready(function () {
             $(this).parents(".answer").remove();
         }
     });
-
-    //(function ($) {
-    //    $.validator.unobtrusive.parseDynamicContent = function (selector) {
-    //        //use the normal unobstrusive.parse method
-    //        $.validator.unobtrusive.parse(selector);
-
-    //        //get the relevant form
-    //        var form = $(selector).first().closest('form');
-
-    //        //get the collections of unobstrusive validators, and jquery validators
-    //        //and compare the two
-    //        var unobtrusiveValidation = form.data('unobtrusiveValidation');
-    //        var validator = form.validate();
-
-    //        $.each(unobtrusiveValidation.options.rules, function (elname, elrules) {
-    //            if (validator.settings.rules[elname] == undefined) {
-    //                var args = {};
-    //                $.extend(args, elrules);
-    //                args.messages = unobtrusiveValidation.options.messages[elname];
-    //                //edit:use quoted strings for the name selector
-    //                $("[name='" + elname + "']").rules("add", args);
-    //            } else {
-    //                $.each(elrules, function (rulename, data) {
-    //                    if (validator.settings.rules[elname][rulename] == undefined) {
-    //                        var args = {};
-    //                        args[rulename] = data;
-    //                        args.messages = unobtrusiveValidation.options.messages[elname][rulename];
-    //                        //edit:use quoted strings for the name selector
-    //                        $("[name='" + elname + "']").rules("add", args);
-    //                    }
-    //                });
-    //            }
-    //        });
-    //    }
-    //})($);
-
 });
 // endregion Document.ready

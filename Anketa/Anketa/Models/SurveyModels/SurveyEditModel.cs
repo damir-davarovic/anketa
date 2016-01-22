@@ -18,7 +18,11 @@ namespace Anketa.Models.SurveyModels
         public SurveyEditModel(int surveyId)
         {
             surveyModel = new SurveyRepository().fetchSurveyById(surveyId);
-            questionsModel = new QuestionRepository().fetchQuestionsBySurveyId(surveyId);
+            questionsModel = new QuestionRepository().fetchQuestionsBySurveyId(surveyId); // totalno nepotrebno zbog lazy loadinga...
+            //foreach (Question questionItem in questionsModel)
+            //{
+            //    questionItem.answer = questionItem.answer == null ? new Answer() : questionItem.answer;
+            //}
         }
         #endregion constructors
         public Survey surveyModel { get; set; }

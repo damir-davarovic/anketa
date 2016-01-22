@@ -1,0 +1,6 @@
+﻿@model Anketa.Models.AnswerModels.AnswerChoiceSingle
+@{
+    ViewBag.FalseBool = false;
+}
+	<input id=@Html.Raw(Model.choiceId) type="radio" class="disabled"/>
+	<label for=@Html.Raw(Model.choiceId)>@Html.Raw(Model.choiceText)</label>

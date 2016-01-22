@@ -1,7 +1,5 @@
 ﻿@model Anketa.Models.Question
-@if(1==1){
 	@Html.Raw("<li>")
-}
 <div class="questionsDiv">
 @using (Ajax.BeginForm("_AjaxDeleteQuestion", "Questions", new AjaxOptions
         {                   
@@ -29,44 +27,40 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.questionText, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
+						@* Primjer placeholdera *@
                         @Html.EditorFor(model => model.questionText, new { htmlAttributes = new { @class = "form-control" , placeholder = "Enter the question here!" } })
                         @Html.ValidationMessageFor(model => model.questionText, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.TipPitanja, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @*@Html.EditorFor(model => model.TipPitanja, new { htmlAttributes = new { @class = "form-control" } })*@
-						@Html.EnumDropDownListFor(model => model.TipPitanja,  htmlAttributes: new { @class = (@Model.questionID == 0 ? "" : "disabled")  + " form-control questionType"  })
-						@* Primjer dropdowna i disableanja elementa preko razora *@
-                        @Html.ValidationMessageFor(model => model.TipPitanja, "", new { @class = "text-danger" })
-                    </div>
-            </div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.TipPitanja, htmlAttributes: new { @class = "control-label col-md-2" })
+						<div class="col-md-10">
+							@*@Html.EditorFor(model => model.TipPitanja, new { htmlAttributes = new { @class = "form-control" } })*@
+							@Html.EnumDropDownListFor(model => model.TipPitanja,  htmlAttributes: new { @class = (@Model.questionID == 0 ? "" : "disabled")  + " form-control questionType"  })
+							@* Primjer dropdowna i disableanja elementa preko razora *@
+							@Html.ValidationMessageFor(model => model.TipPitanja, "", new { @class = "text-danger" })
+						</div> 
+				</div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.aktivnoPitanje, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <div class="checkbox">
-                            @Html.EditorFor(model => model.aktivnoPitanje)
-                            @Html.ValidationMessageFor(model => model.aktivnoPitanje, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-            </div>
-
-			@if(Model.Answer != null){
-            <div class="form-group answerList">
-				@foreach (var answerItem in Model.Answer) {
-					<li>
-                    @Html.Raw("a")
-					</li>
-                }
-				@if(Model.Answer.Count == 0){
-					@Html.Raw("a")	
-				}                   
-            </div>
-		}
-        </div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.aktivnoPitanje, htmlAttributes: new { @class = "control-label col-md-2" })
+						<div class="col-md-10">
+							<div class="col-md-10">
+									@Html.EditorFor(model => model.aktivnoPitanje)
+							</div>
+						</div>
+				</div>
+				@if(Model.answer != null){
+					foreach(var answerItem in Model.answer){
+						<div class="answersDiv">
+							@Html.Partial("~/Views/Answer/Partials/_AnswerPartial.cshtml", answerItem )
+						</div>
+					}
+				}			
+					
+			
+			</div>
 		<div class="panel-footer clearfix">
 			<button type="button" class="btn btn-warning pull-right btn-xs resetAjaxMessage backToTop saveQuestion">Save Question</button>
 		</div>
@@ -75,6 +69,4 @@
 </div>
 }
 </div>
-@if(ViewBag.li != null){
 	@Html.Raw("</li>")
-}
