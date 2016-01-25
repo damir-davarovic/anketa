@@ -116,12 +116,22 @@ function saveQuestion(questionDiv) {
     var surveyID = $("#surveyID").val();
     var question = {};
     var answer = {};
-    questionDiv.find('form').serializeArray().map(function (x) {
+    var answerList = new Array();
+    var answerChoiceSingle = {};
+    var answerChoiceMultiple = {};
+    questionDiv.find('div.actualQuestion :input').serializeArray().map(function (x) {
         question[x.name] = x.value;
     });
+    questionDiv.find('div.answersDiv :input').filter('.answerPart').serializeArray().map(function (x) {
+        answer[x.name] = x.value;
+    });
+
     question["surveyID"] = surveyID;
     question["aktivnoPitanje"] = questionDiv.find('#aktivnoPitanje').prop('checked');
     question["questionOrder"] = findOrderForQuestion(questionDiv);
+    answerList.push(answer);
+    question["answer"] = answerList;
+
     $.ajax({
         type: "POST",
         contentType: "application/json",

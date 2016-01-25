@@ -4,7 +4,7 @@
 	<div class="form-group descriptionAnswer">
 		@Html.LabelFor(model => model.answerText, htmlAttributes: new { @class = "control-label col-md-2" })
 			<div class="col-md-10">
-				@Html.EditorFor(model => model.answerText, new { htmlAttributes = new { @class = "form-control disabled" , placeholder = "Answer will look like this" } })
+				@Html.EditorFor(model => model.answerText, new { htmlAttributes = new { @class = "form-control disabled answerPart" , placeholder = "Answer will look like this" } })
 			</div>
 	</div>
 
@@ -12,11 +12,11 @@
 		@Html.LabelFor(model => model.minAnswerValue, "Scale values:", htmlAttributes: new { @class = "control-label col-md-2" })
 			<div class="col-md-5">
 				<label for="minAnswerValue"> From: </label>
-				@Html.EditorFor(model => model.minAnswerValue, new { htmlAttributes = new { @class = "form-control" , min = "0" } })
+				@Html.EditorFor(model => model.minAnswerValue, new { htmlAttributes = new { @class = "form-control answerPart" , min = "0" } })
 			</div>
 			<div class="col-md-5">
 				<label for="maxAnswerValue"> To: </label>
-				@Html.EditorFor(model => model.maxAnswerValue, new { htmlAttributes = new { @class = "form-control" , min = "0"  } })
+				@Html.EditorFor(model => model.maxAnswerValue, new { htmlAttributes = new { @class = "form-control answerPart" , min = "0"  } })
 			</div>
 	</div>
 
