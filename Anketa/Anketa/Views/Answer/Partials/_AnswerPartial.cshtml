@@ -1,4 +1,6 @@
 ﻿@model Anketa.Models.Answer
+	 @Html.HiddenFor(model => model.answerID)
+
 	<div class="form-group descriptionAnswer">
 		@Html.LabelFor(model => model.answerText, htmlAttributes: new { @class = "control-label col-md-2" })
 			<div class="col-md-10">
@@ -24,7 +26,7 @@
 			<div class="col-md-10">
 				<ul class="sortable" id="selectList">
                 @foreach (var selectItem in Model.selectAnswers) {
-					<li> 
+					<li class="choiceItem"> 
 						@Html.Partial("~/Views/Answer/Partials/_SelectPartial.cshtml", selectItem )
 					</li>
                 }
@@ -39,7 +41,7 @@
 			<div class="col-md-10">
 				<ul class="sortable" id="selectList">
                 @foreach (var radioItem in Model.radioAnswers) {
-					<li> 
+					<li class="choiceItem"> 
 						@Html.Partial("~/Views/Answer/Partials/_SinglePartial.cshtml", radioItem )
 					</li>
                 }

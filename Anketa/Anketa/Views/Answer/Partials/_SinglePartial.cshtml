@@ -2,6 +2,7 @@
 @{
     ViewBag.FalseBool = false;
 }
+	@Html.HiddenFor(model => model.choiceId)
 	<input id=@Html.Raw(Model.choiceId) type="radio" class="disabled" value=@Html.Raw(Model.choiceId)/>
 	<label for=@Html.Raw(Model.choiceId)>
 		 @Html.EditorFor(model => model.choiceText, new { htmlAttributes = new { @class = "form-control" , placeholder = "Choice will look like this" } })  

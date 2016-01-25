@@ -12,6 +12,7 @@ function reinitializeQuestion() {
     $(".deleteQuestion").off('click');
     reinitializeDeleteQuestion();
     reinitializeSaveQuestion();
+    reinitializeQuestionTypeChange();
     initializeTooltip();
 }
 function reinitializeDeleteQuestion() {
@@ -27,6 +28,22 @@ function reinitializeSaveQuestion() {
         var questionDiv = $(this).closest(".questionsDiv");
         saveQuestion(questionDiv);
     });
+}
+
+function reinitializeQuestionTypeChange() {
+    $('.questionType').on('change', function (event) {
+        var selectedOption = $(this).val();
+        var questionDiv = $(this).closest('.questionsDiv');
+        if (parseInt(selectedOption) == 0) {
+            setQuestionTemplateDescription(questionDiv);
+        } else if (parseInt(selectedOption) == 1) {
+            setQuestionTemplateMultiple(questionDiv);
+        } else if (parseInt(selectedOption) == 2) {
+            setQuestionTemplateSingle(questionDiv);
+        } else {
+            setQuestionTemplateScale(questionDiv);
+        }
+    })
 }
 
 function findOrderForQuestion(questionDiv) {
@@ -98,6 +115,7 @@ function saveQuestion(questionDiv) {
     resetAjaxMessage();
     var surveyID = $("#surveyID").val();
     var question = {};
+    var answer = {};
     questionDiv.find('form').serializeArray().map(function (x) {
         question[x.name] = x.value;
     });
@@ -167,16 +185,16 @@ function editSurvey(surveysDiv) {
     });
 }
 
-function setQuestionTemplateDescription(){
+function setQuestionTemplateDescription(questionDiv) {
 }
 
-function setQuestionTemplateScale(){
+function setQuestionTemplateScale(questionDiv) {
 }
 
-function setQuestionTemplateSingle(){
+function setQuestionTemplateSingle(questionDiv) {
 }
 
-function setQuestionTemplateMultiple(){
+function setQuestionTemplateMultiple(questionDiv) {
 }
 
 // endregion - function definitions
@@ -194,6 +212,9 @@ $(document).ready(function () {
     $('#my-surveys').DataTable();
     setDefaultStatesOfElements();
     initializeTooltip();
+
+    $('#TipPitanja').click(function (e) {
+    });
 
     $(".backToTop").click(function (e) {
         backToTop();
