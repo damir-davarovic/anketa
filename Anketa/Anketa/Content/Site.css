@@ -116,3 +116,23 @@ a.paginate_button{
 #my-surveys tbody tr td{
    background-color: #2b3e50;
 }
+
+
+.paginate_button{
+    border: 1px solid #cacaca;
+    background-color: #fff;
+}
+
+.paginate_button:hover{
+    background: #DF691A !important;
+    border: 1px solid white !important;
+}
+
+#my .paginate_button.current {
+    background-color:#5CB85C;
+}
+
+#all .paginate_button.current {
+    background:#5CB85C;
+    color:#fff !important;
+}
