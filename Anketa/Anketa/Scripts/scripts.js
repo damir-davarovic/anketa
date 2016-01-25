@@ -186,15 +186,31 @@ function editSurvey(surveysDiv) {
 }
 
 function setQuestionTemplateDescription(questionDiv) {
+    questionDiv.find('.descriptionAnswer').prop('hidden', false);
+    questionDiv.find('.scaleAnswers').prop('hidden', true);
+    questionDiv.find('.singleAnswers').prop('hidden', true);
+    questionDiv.find('.multipleAnswers').prop('hidden', true);
 }
 
 function setQuestionTemplateScale(questionDiv) {
+    questionDiv.find('.descriptionAnswer').prop('hidden', true);
+    questionDiv.find('.scaleAnswers').prop('hidden', false);
+    questionDiv.find('.singleAnswers').prop('hidden', true);
+    questionDiv.find('.multipleAnswers').prop('hidden', true);
 }
 
 function setQuestionTemplateSingle(questionDiv) {
+    questionDiv.find('.descriptionAnswer').prop('hidden', true);
+    questionDiv.find('.scaleAnswers').prop('hidden', true);
+    questionDiv.find('.singleAnswers').prop('hidden', false);
+    questionDiv.find('.multipleAnswers').prop('hidden', true);
 }
 
 function setQuestionTemplateMultiple(questionDiv) {
+    questionDiv.find('.descriptionAnswer').prop('hidden', true);
+    questionDiv.find('.scaleAnswers').prop('hidden', true);
+    questionDiv.find('.singleAnswers').prop('hidden', true);
+    questionDiv.find('.multipleAnswers').prop('hidden', false);
 }
 
 // endregion - function definitions
