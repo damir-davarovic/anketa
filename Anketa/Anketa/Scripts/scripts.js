@@ -14,6 +14,7 @@ function reinitializeQuestion() {
     reinitializeSaveQuestion();
     reinitializeQuestionTypeChange();
     initializeTooltip();
+    setDefaultStatesOfElements();
 }
 function reinitializeDeleteQuestion() {
     $(".deleteQuestion").on("click", function (event) {
