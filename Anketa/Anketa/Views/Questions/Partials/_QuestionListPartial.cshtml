@@ -57,6 +57,9 @@
 				@if(Model.answer != null){
 					foreach(var answerItem in Model.answer){
 						<div class="answersDiv">
+						@{
+						   ViewBag.qType = Model.TipPitanja;
+						}
 							@Html.Partial("~/Views/Answer/Partials/_AnswerPartial.cshtml", answerItem )
 						</div>
 					}

@@ -13,6 +13,8 @@ namespace Anketa.Models
         [Index(IsUnique = true)]
         public int answerID { get; set; }
         public int questionID { get; set; }
+        [DefaultValue(0)]
+        public int questionType { get; set; }
         [DisplayName("Answer text")]
         public string answerText { get; set; }
         [DisplayName("Minimum value")]
