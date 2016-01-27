@@ -23,7 +23,7 @@ namespace Anketa.Models
         [DisplayName("Question text"), Required(ErrorMessage = "Question text is required!")]
         public string questionText { get; set; }
         [DisplayName("Question type"), Required ]
-        public TipPitanja TipPitanja { get; set; }
+        public TipPitanja questionType { get; set; }
         [DisplayName("Question active")]
         public bool aktivnoPitanje { get; set; }
         public bool hasAnswer { get; set; }
@@ -37,34 +37,48 @@ namespace Anketa.Models
             if (questionText == null || questionText.Trim() == "")
             {
                 yield return new ValidationResult("Question text is required!");
-            }else if(answer != null){
-                Answer qAnswer = answer.First();
-                bool answerChoicesInValid = false;
-                if (qAnswer.selectAnswers != null)
+            }
+            if(answer  != null)
+            {
+                if (questionType.Equals(TipPitanja.Single) || questionType.Equals(TipPitanja.Multiple))
                 {
-                    foreach (AnswerChoiceMultiple answerChoice in qAnswer.selectAnswers)
+                    Answer qAnswer = answer.First();
+                    bool answerChoicesInValid = false;
+                    if (qAnswer.selectAnswers != null)
                     {
-                        if (answerChoice.choiceText.Trim().Length < 1)
+                        foreach (AnswerChoiceMultiple answerChoice in qAnswer.selectAnswers)
                         {
-                            answerChoicesInValid = true;
+                            if (answerChoice.choiceText.Trim().Length < 1)
+                            {
+                                answerChoicesInValid = true;
+                            }
                         }
                     }
-                }
-                if (qAnswer.radioAnswers != null)
-                {
-                    foreach (AnswerChoiceSingle answerChoice in qAnswer.radioAnswers)
+                    if (qAnswer.radioAnswers != null)
                     {
-                        if (answerChoice.choiceText.Trim().Length < 1)
+                        foreach (AnswerChoiceSingle answerChoice in qAnswer.radioAnswers)
                         {
-                            answerChoicesInValid = true;
+                            if (answerChoice.choiceText.Trim().Length < 1)
+                            {
+                                answerChoicesInValid = true;
+                            }
                         }
                     }
+                    if (answerChoicesInValid)
+                    {
+                        yield return new ValidationResult("Choice text is required");
+                    }
                 }
-                if (answerChoicesInValid)
+                if (questionType.Equals(TipPitanja.Scale))
                 {
-                    yield return new ValidationResult("Choice text is required");
+                    Answer qAnswer = answer.First();
+                    if (qAnswer.minAnswerValue >= qAnswer.maxAnswerValue)
+                    {
+                        yield return new ValidationResult("Maximum scale value should be bigger than minimum value!");
+                    }
                 }
             }
+            
         }
     }
 }

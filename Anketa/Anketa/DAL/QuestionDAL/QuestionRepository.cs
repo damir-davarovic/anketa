@@ -49,7 +49,7 @@ namespace Anketa.DAL.QuestionDAL
             var entry = sDB.Entry<Question>(question);
             entry.Property(x => x.questionText).IsModified = true;
             entry.Property(x => x.aktivnoPitanje).IsModified = true;
-            entry.Property(x => x.TipPitanja).IsModified = false;
+            entry.Property(x => x.questionType).IsModified = false;
             entry.Property(x => x.questionOrder).IsModified = true;
             try
             {
