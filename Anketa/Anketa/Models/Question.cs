@@ -1,4 +1,5 @@
 ﻿using Anketa.DAL;
+using Anketa.Models.AnswerModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,6 +37,33 @@ namespace Anketa.Models
             if (questionText == null || questionText.Trim() == "")
             {
                 yield return new ValidationResult("Question text is required!");
+            }else if(answer != null){
+                Answer qAnswer = answer.First();
+                bool answerChoicesInValid = false;
+                if (qAnswer.selectAnswers != null)
+                {
+                    foreach (AnswerChoiceMultiple answerChoice in qAnswer.selectAnswers)
+                    {
+                        if (answerChoice.choiceText.Trim().Length < 1)
+                        {
+                            answerChoicesInValid = true;
+                        }
+                    }
+                }
+                if (qAnswer.radioAnswers != null)
+                {
+                    foreach (AnswerChoiceSingle answerChoice in qAnswer.radioAnswers)
+                    {
+                        if (answerChoice.choiceText.Trim().Length < 1)
+                        {
+                            answerChoicesInValid = true;
+                        }
+                    }
+                }
+                if (answerChoicesInValid)
+                {
+                    yield return new ValidationResult("Choice text is required");
+                }
             }
         }
     }

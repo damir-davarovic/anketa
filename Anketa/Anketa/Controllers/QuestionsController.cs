@@ -93,13 +93,23 @@ namespace Anketa.Controllers
         public ActionResult _AjaxSaveQuestion(Question question)
         {
             var _AjaxResponseModel = new _AjaxResponseModel();
-            List<ValidationResult> validationResult = securityUtil.TryToValidate(question);
-            if (validationResult.Count() > 0)
+            if (!ModelState.IsValid) // kada se pošalje sve s fronte onda će radit
             {
-                _AjaxResponseModel.message = validationResult[0].ErrorMessage;
+                var errors = ModelState.Keys.SelectMany(e => ModelState[e].Errors).Select(m => m.ErrorMessage).ToArray();
+                foreach (string errorMessage in errors)
+                {
+                    _AjaxResponseModel.message = _AjaxResponseModel.message + errorMessage + "\n";
+                }                
                 _AjaxResponseModel.type = 0;
                 return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             }
+            //List<ValidationResult> validationResult = securityUtil.TryToValidate(question);
+            //if (validationResult.Count() > 0)
+            //{
+            //    _AjaxResponseModel.message = validationResult[0].ErrorMessage;
+            //    _AjaxResponseModel.type = 0;
+            //    return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+            //}
             qRepo.updateOrder(question);
             /* Primjer Update */
             if (question.questionID >= 1) // if the question already exists

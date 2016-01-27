@@ -25,7 +25,6 @@ function reinitializeDeleteQuestion() {
 }
 function reinitializeSaveQuestion() {
     $(".saveQuestion").on("click", function (event) {
-        backToTop();
         var questionDiv = $(this).closest(".questionsDiv");
         saveQuestion(questionDiv);
     });
@@ -152,6 +151,7 @@ function saveQuestion(questionDiv) {
                 questionDiv.find('#TipPitanja').addClass('disabled');
                 $(".disabled").prop("disabled", true);
                 initializeTooltip();
+                backToTop();
             }
         },
         error: function (xhr, err, data) {
