@@ -125,12 +125,18 @@ function saveQuestion(questionDiv) {
     questionDiv.find('div.answersDiv :input').filter('.answerPart').serializeArray().map(function (x) {
         answer[x.name] = x.value;
     });
+    answer["answerID"] = questionDiv.find('#answerID').val();
+    answer["questionType"] = questionDiv.find('#questionType').val();
+    answer["questionID"] = question["questionID"];
 
     question["surveyID"] = surveyID;
     question["aktivnoPitanje"] = questionDiv.find('#aktivnoPitanje').prop('checked');
     question["questionOrder"] = findOrderForQuestion(questionDiv);
-    answerList.push(answer);
-    question["answer"] = answerList;
+    question["questionType"] = questionDiv.find('#questionType').val();
+    if (question["questionType"] != 0) {
+        answerList.push(answer);
+        question["answer"] = answerList;
+    }
 
     $.ajax({
         type: "POST",
@@ -140,15 +146,18 @@ function saveQuestion(questionDiv) {
         dataType: "json",
         success: function (data) {
             if (data.type != 1) {
-                questionDiv.prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+                questionDiv.prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>");
             }
             else {
                 $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success ajaxAlertMessageDiv">' + data.message + "</div>")
                 if (data.questionId != 0) {
                     questionDiv.find('#questionID').val(data.questionId);
                 }
+                if (data.answerId != 0) {
+                    questionDiv.find('#answerID').val(data.answerId);
+                }
                 //questionDiv.find('.deleteQuestion').addClass('disabled');
-                questionDiv.find('#TipPitanja').addClass('disabled');
+                questionDiv.find('#questionType').addClass('disabled');
                 $(".disabled").prop("disabled", true);
                 initializeTooltip();
                 backToTop();
@@ -239,9 +248,6 @@ $(document).ready(function () {
     $('#my-surveys').DataTable();
     setDefaultStatesOfElements();
     initializeTooltip();
-
-    $('#TipPitanja').click(function (e) {
-    });
 
     $(".backToTop").click(function (e) {
         backToTop();

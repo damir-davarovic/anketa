@@ -24,6 +24,7 @@ namespace Anketa.Controllers
     {
         private SurveyContext db = new SurveyContext();
         private SecurityUtils securityUtil = new SecurityUtils();
+        private QuestionRepository qRepo = new QuestionRepository();
 
         // GET: Surveys
         public ActionResult Index()

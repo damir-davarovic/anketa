@@ -8,6 +8,8 @@ using EntityFramework.Extensions;
 using Anketa.Models.AjaxModels;
 using System.Collections;
 using Anketa.Models.AnswerModels;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity;
 
 namespace Anketa.DAL.QuestionDAL
 {
@@ -45,15 +47,44 @@ namespace Anketa.DAL.QuestionDAL
         public _AjaxResponseModel updateQuestion(Question question)
         {
             var _AjaxResponseModel = new _AjaxResponseModel();
-            sDB.Questions.Attach(question);
-            var entry = sDB.Entry<Question>(question);
-            entry.Property(x => x.questionText).IsModified = true;
-            entry.Property(x => x.aktivnoPitanje).IsModified = true;
-            entry.Property(x => x.questionType).IsModified = false;
-            entry.Property(x => x.questionOrder).IsModified = true;
             try
             {
-                sDB.SaveChanges();
+                sDB.Questions.Attach(question);
+                //var entry = sDB.Entry<Question>(question);
+                //entry.Property(x => x.questionText).IsModified = true;
+                //entry.Property(x => x.aktivnoPitanje).IsModified = true;
+                //entry.Property(x => x.questionType).IsModified = false;
+                //entry.Property(x => x.questionOrder).IsModified = true;
+                if (question.answer != null)
+                {
+                    var dbQuestion = sDB.Questions.Include(q => q.answer).Single(q => q.questionID == question.questionID);
+
+                    var qEntry = sDB.Entry(dbQuestion);
+                    qEntry.Property(x => x.questionText).IsModified = true;
+                    qEntry.Property(x => x.aktivnoPitanje).IsModified = true;
+                    qEntry.Property(x => x.questionType).IsModified = false;
+                    qEntry.Property(x => x.questionOrder).IsModified = true;
+
+                    var aEntry = sDB.Entry(dbQuestion.answer.First());
+                    aEntry.Property(x => x.answerText).IsModified = true;
+                    aEntry.Property(x => x.maxAnswerValue).IsModified = true;
+                    aEntry.Property(x => x.minAnswerValue).IsModified = true;
+
+                    sDB.SaveChanges();
+                }
+                else
+                {
+                    var dbQuestion = sDB.Questions.Single(q => q.questionID == question.questionID);
+
+                    var qEntry = sDB.Entry(dbQuestion);
+                    qEntry.Property(x => x.questionText).IsModified = true;
+                    qEntry.Property(x => x.aktivnoPitanje).IsModified = true;
+                    qEntry.Property(x => x.questionType).IsModified = false;
+                    qEntry.Property(x => x.questionOrder).IsModified = true;
+
+                    sDB.SaveChanges();
+                }
+
                 _AjaxResponseModel.type = 1;
                 _AjaxResponseModel.message = "Question succesfully changed!";
                 return _AjaxResponseModel;

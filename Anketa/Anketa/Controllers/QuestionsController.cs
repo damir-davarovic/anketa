@@ -123,8 +123,13 @@ namespace Anketa.Controllers
                 {
                     db.Questions.Add(question);
                     db.SaveChanges();
+
                     _AjaxResponseModel.questionId = question.questionID;
                     _AjaxResponseModel.surveyId = question.SurveyID;
+                    if (question.questionType != TipPitanja.Description)
+                    {
+                        _AjaxResponseModel.answerId = question.answer.First().answerID;
+                    }
                     _AjaxResponseModel.message = "Question succesfully added!";
                     _AjaxResponseModel.type = 1;
                     return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);

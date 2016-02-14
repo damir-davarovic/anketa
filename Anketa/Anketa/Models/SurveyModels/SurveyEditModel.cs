@@ -9,6 +9,8 @@ namespace Anketa.Models.SurveyModels
 {
     public class SurveyEditModel
     {
+        private QuestionRepository qRepo = new QuestionRepository();
+
         #region constructors
         public SurveyEditModel()
         {
@@ -19,10 +21,14 @@ namespace Anketa.Models.SurveyModels
         {
             surveyModel = new SurveyRepository().fetchSurveyById(surveyId);
             questionsModel = new QuestionRepository().fetchQuestionsBySurveyId(surveyId); // totalno nepotrebno zbog lazy loadinga...
-            //foreach (Question questionItem in questionsModel)
-            //{
-            //    questionItem.answer = questionItem.answer == null ? new Answer() : questionItem.answer;
-            //}
+            Question templateQuestion = qRepo.fetchTemplateQuestion();
+            foreach (Question questionItem in questionsModel)
+            {
+                if (questionItem.answer == null || questionItem.answer.Count == 0)
+                {
+                    questionItem.answer = templateQuestion.answer;
+                }
+            }
         }
         #endregion constructors
         public Survey surveyModel { get; set; }
