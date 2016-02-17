@@ -47,53 +47,34 @@ namespace Anketa.DAL.QuestionDAL
         public _AjaxResponseModel updateQuestion(Question question)
         {
             var _AjaxResponseModel = new _AjaxResponseModel();
+            // https://msdn.microsoft.com/hr-hr/data/jj592676
+            // mali tutorial o Attachu
             try
             {
                 sDB.Questions.Attach(question);
-                var qEntry = sDB.Entry<Question>(question);
-                qEntry.Property(x => x.questionText).IsModified = true;
-                qEntry.Property(x => x.aktivnoPitanje).IsModified = true;
-                qEntry.Property(x => x.questionType).IsModified = false;
-                qEntry.Property(x => x.questionOrder).IsModified = true;
-
+                var qEntry = sDB.Entry<Question>(question) ;
+                qEntry.State = EntityState.Modified;
                 if (question.answer != null)
                 {
                     var aEntry = sDB.Entry<Answer>(question.answer.First());
-                    aEntry.Property(a => a.answerID).IsModified = false;
-                    aEntry.Property(a => a.questionID).IsModified = false;
-                    aEntry.Property(a => a.answerText).IsModified = true;
-                    aEntry.Property(a => a.minAnswerValue).IsModified = true;
-                    aEntry.Property(a => a.maxAnswerValue).IsModified = true;
+                    aEntry.State = EntityState.Modified;
+                    if (question.questionType == TipPitanja.Single)
+                    {
+                        foreach (AnswerChoiceSingle sChoice in question.answer.First().radioAnswers)
+                        {
+                            var rEntry = sDB.Entry<AnswerChoiceSingle>(sChoice);
+                            rEntry.State = EntityState.Modified;
+                        }
+                    }
+                    if (question.questionType == TipPitanja.Multiple)
+                    {
+                        foreach (AnswerChoiceMultiple mChoice in question.answer.First().selectAnswers)
+                        {
+                            var mEntry = sDB.Entry<AnswerChoiceMultiple>(mChoice);
+                            mEntry.State = EntityState.Modified;
+                        }
+                    }
                 }
-                //if (question.answer != null)
-                //{
-                //    var dbQuestion = sDB.Questions.Include(q => q.answer).Single(q => q.questionID == question.questionID);
-
-                //    var qEntry = sDB.Entry(dbQuestion);
-                //    qEntry.Property(x => x.questionText).IsModified = true;
-                //    qEntry.Property(x => x.aktivnoPitanje).IsModified = true;
-                //    qEntry.Property(x => x.questionType).IsModified = false;
-                //    qEntry.Property(x => x.questionOrder).IsModified = true;
-
-                //    var aEntry = sDB.Entry(dbQuestion.answer.First());
-                //    aEntry.Property(x => x.answerText).IsModified = true;
-                //    aEntry.Property(x => x.maxAnswerValue).IsModified = true;
-                //    aEntry.Property(x => x.minAnswerValue).IsModified = true;
-
-                //    sDB.SaveChanges();
-                //}
-                //else
-                //{
-                //    var dbQuestion = sDB.Questions.Single(q => q.questionID == question.questionID);
-
-                //    var qEntry = sDB.Entry(dbQuestion);
-                //    qEntry.Property(x => x.questionText).IsModified = true;
-                //    qEntry.Property(x => x.aktivnoPitanje).IsModified = true;
-                //    qEntry.Property(x => x.questionType).IsModified = false;
-                //    qEntry.Property(x => x.questionOrder).IsModified = true;
-
-                //    sDB.SaveChanges();
-                //}
                 sDB.SaveChanges();
 
                 _AjaxResponseModel.type = 1;
