@@ -14,13 +14,21 @@ function reinitializeQuestion() {
     reinitializeSaveQuestion();
     reinitializeQuestionTypeChange();
     initializeTooltip();
+    reinitializeChoiceItemSingle();
     setDefaultStatesOfElements();
 }
 function reinitializeDeleteQuestion() {
     $(".deleteQuestion").on("click", function (event) {
-        backToTop();
+        //backToTop();
         var questionDiv = $(this).closest(".questionsDiv");
         deleteQuestion(questionDiv);
+    });
+}
+function reinitializeDeleteChoiceItemSingle() {
+    $(".removeChoice").on("click", function (event) {
+        //backToTop();
+        var choiceDiv = $(this).closest(".answersDiv");
+        deleteChoiceItem(choiceDiv);
     });
 }
 function reinitializeSaveQuestion() {
@@ -45,6 +53,12 @@ function reinitializeQuestionTypeChange() {
         }
     })
 }
+function reinitializeChoiceItemSingle() {
+    $(".removeChoice").off('click');
+    reinitializeDeleteChoiceItemSingle();
+    setDefaultStatesOfElements();
+}
+
 
 function findOrderForQuestion(questionDiv) {
     var orderCount = 0;
@@ -148,7 +162,6 @@ function saveQuestion(questionDiv) {
     var question = {};
     var answer = {};
     var answerList = new Array();
-    var answerChoiceItem = {};
     var answerChoiceList = new Array();
     var orderCountChoice = 0;
     questionDiv.find('div.actualQuestion :input').serializeArray().map(function (x) {
@@ -177,7 +190,8 @@ function saveQuestion(questionDiv) {
 
             answerChoices.each(function () {
                 orderCountChoice++;
-                answerChoiceItem["choiceId"] = $(this).find('.choiceId').val();
+                var answerChoiceItem = {};
+                answerChoiceItem["choiceId"] = $(this).find('#choiceId').val();
                 answerChoiceItem["choiceText"] = $(this).find('.choiceText').val();
                 answerChoiceItem["orderNo"] = orderCountChoice;
                 answerChoiceItem["answerID"] = answer["answerID"];
@@ -364,6 +378,25 @@ $(document).ready(function () {
         $(".editSurvey").click(function (event) {
             var surveysDiv = $(this).closest(".surveysDiv");
             editSurvey(surveysDiv);
+        });
+
+        $(".addSingle").click(function (event) {
+            var target = $(this).val();
+            var choiceList = $(this).closest('.answersDiv').find('ul#' + target);
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/Answers/_AjaxAddChoiceItemSingle",
+                dataType: "json",
+                success: function (data) {
+                    choiceList.append(data);
+                },
+                error: function (xhr, err, data) {
+                    alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                    alert("responseText: " + xhr.responseText);
+                    $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+                }
+            });
         });
 
     $(".enter-survey-questions .dropdown-menu li a").click(function () {

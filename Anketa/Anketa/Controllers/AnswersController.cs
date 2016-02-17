@@ -28,5 +28,11 @@ namespace Anketa.Controllers
                 return Json(ajaxResponse, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public PartialViewResult _AjaxAddChoiceItemSingle()
+        {
+            AnswerChoiceSingle templateChoiceItem = aService.fetchTemplateChoiceItemSingle();
+            return PartialView("~/Views/Answer/Partials/_SinglePartial.cshtml", templateChoiceItem);
+        }
     }
 }

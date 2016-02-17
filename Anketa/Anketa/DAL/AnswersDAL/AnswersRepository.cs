@@ -26,5 +26,10 @@ namespace Anketa.DAL.AnswersDAL
                 throw new SurveyRuntimeException("Deletion of choice item failed! Reason: " + tException.Message);
             }
         }
+
+        public AnswerChoiceSingle fetchTemplateChoiceItemSingle()
+        {
+            return new AnswerChoiceSingle(){choiceId = 0};
+        }
     }
 }

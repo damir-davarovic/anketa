@@ -47,31 +47,58 @@ namespace Anketa.DAL.QuestionDAL
         public _AjaxResponseModel updateQuestion(Question question)
         {
             var _AjaxResponseModel = new _AjaxResponseModel();
+            List<AnswerChoiceSingle> tempListSingle = new List<AnswerChoiceSingle>();
+            List<AnswerChoiceMultiple> tempListMultiple = new List<AnswerChoiceMultiple>();
             // https://msdn.microsoft.com/hr-hr/data/jj592676
             // mali tutorial o Attachu
             try
             {
+                Answer qAnswer = question.answer.First();
+
+                tempListSingle = (List<AnswerChoiceSingle>)qAnswer.radioAnswers;
+                qAnswer.radioAnswers = null;
+
+                tempListMultiple = (List<AnswerChoiceMultiple>)qAnswer.selectAnswers;
+                qAnswer.selectAnswers = null;
+
                 sDB.Questions.Attach(question);
-                var qEntry = sDB.Entry<Question>(question) ;
+                var qEntry = sDB.Entry<Question>(question);
                 qEntry.State = EntityState.Modified;
+
                 if (question.answer != null)
                 {
-                    var aEntry = sDB.Entry<Answer>(question.answer.First());
+                    var aEntry = sDB.Entry<Answer>(qAnswer);
                     aEntry.State = EntityState.Modified;
                     if (question.questionType == TipPitanja.Single)
                     {
-                        foreach (AnswerChoiceSingle sChoice in question.answer.First().radioAnswers)
+                        foreach (AnswerChoiceSingle sChoice in tempListSingle)
                         {
+                            sChoice.answerID = qAnswer.answerID;
                             var rEntry = sDB.Entry<AnswerChoiceSingle>(sChoice);
-                            rEntry.State = EntityState.Modified;
+                            if (sChoice.choiceId == 0)
+                            {
+                                rEntry.State = EntityState.Added;
+                            }
+                            else
+                            {
+                                rEntry.State = EntityState.Modified;
+                            }
                         }
                     }
                     if (question.questionType == TipPitanja.Multiple)
                     {
-                        foreach (AnswerChoiceMultiple mChoice in question.answer.First().selectAnswers)
+                        foreach (AnswerChoiceMultiple mChoice in tempListMultiple)
                         {
+                            mChoice.answerID = qAnswer.answerID;
                             var mEntry = sDB.Entry<AnswerChoiceMultiple>(mChoice);
-                            mEntry.State = EntityState.Modified;
+                            if (mChoice.choiceId == 0)
+                            {
+                                mEntry.State = EntityState.Added;
+                            }
+                            else
+                            {
+                                mEntry.State = EntityState.Modified;
+                            }
                         }
                     }
                 }

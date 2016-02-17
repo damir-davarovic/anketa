@@ -28,5 +28,10 @@ namespace Anketa.DAL.AnswersDAL
             }
             return ajaxReponse;
         }
+
+        public AnswerChoiceSingle fetchTemplateChoiceItemSingle()
+        {
+            return aRepo.fetchTemplateChoiceItemSingle();
+        }
     }
 }
