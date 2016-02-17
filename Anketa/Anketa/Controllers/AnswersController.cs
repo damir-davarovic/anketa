@@ -33,6 +33,7 @@ namespace Anketa.Controllers
         {
             AnswerChoiceSingle templateChoiceItem = aService.fetchTemplateChoiceItemSingle();
             return PartialView("~/Views/Answer/Partials/_SinglePartial.cshtml", templateChoiceItem);
+            //return Json( new { Url = Url.Action("Evil", templateChoiceItem) });
         }
     }
 }

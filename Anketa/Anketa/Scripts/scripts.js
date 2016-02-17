@@ -380,24 +380,26 @@ $(document).ready(function () {
             editSurvey(surveysDiv);
         });
 
-        $(".addSingle").click(function (event) {
-            var target = $(this).val();
-            var choiceList = $(this).closest('.answersDiv').find('ul#' + target);
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "/Answers/_AjaxAddChoiceItemSingle",
-                dataType: "json",
-                success: function (data) {
-                    choiceList.append(data);
-                },
-                error: function (xhr, err, data) {
-                    alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
-                    alert("responseText: " + xhr.responseText);
-                    $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
-                }
-            });
-        });
+        //$(".addSingle").click(function (event) {
+        //    var target = $(this).val();
+        //    var choiceList = $(this).closest('.answersDiv').find('ul#' + target);
+        //    $.ajax({
+        //        type: "POST",
+        //        contentType: "application/json",
+        //        url: "/Answers/_AjaxAddChoiceItemSingle",
+        //        dataType: "json",
+        //        success: function (data) {
+        //            $.post(data.Url, function(partial) { 
+        //                choiceList.append(partial);
+        //            });
+        //        },
+        //        error: function (xhr, err, data) {
+        //            alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+        //            alert("responseText: " + xhr.responseText);
+        //            $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+        //        }
+        //    });
+        //});
 
     $(".enter-survey-questions .dropdown-menu li a").click(function () {
         $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');

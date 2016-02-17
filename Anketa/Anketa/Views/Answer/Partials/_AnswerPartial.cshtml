@@ -46,9 +46,11 @@
                 }
 				</ul>
 
-				@Ajax.ActionLink( "Add choice", "_AjaxAddChoiceItemSingle","Answers", null,  new AjaxOptions{UpdateTargetId = "selectList_"+@Model.questionID, 
+				@Ajax.ActionLink( "Add choice", "_AjaxAddChoiceItemSingle","Answers", null,  new AjaxOptions{UpdateTargetId = "radioList_"+@Model.questionID, 
 					InsertionMode = InsertionMode.InsertAfter, OnSuccess = "reinitializeQuestion()"}, new{ @class = "btn btn-success btn-xs addSingle"})
-				<button class="btn btn-success duplicate-input-group btn-xs addSingle" type="button" value="radioList_@Model.questionID"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add choice</button>
+				<button class="btn btn-success duplicate-input-group btn-xs addSingle" type="button" value="radioList_@Model.questionID">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add choice
+				</button>
 			</div>
 	</div>
 	}
