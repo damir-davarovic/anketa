@@ -40,11 +40,8 @@
 		@Html.LabelFor(model => model.radioAnswers, htmlAttributes: new { @class = "control-label col-md-2" })
 			<div class="col-md-10">
 				<ul class="sortable" id="selectList">
-                @foreach (var radioItem in Model.radioAnswers) {
-					<li class="choiceItem"> 
+                @foreach (var radioItem in Model.radioAnswers) { 
 						@Html.Partial("~/Views/Answer/Partials/_SinglePartial.cshtml", radioItem )
-						<button class="btn btn-danger glyphicon glyphicon-minus" type="button"></button>
-					</li>
                 }
 				</ul>
 				<button class="btn btn-success btn-xs" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Answer</button>

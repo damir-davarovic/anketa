@@ -111,6 +111,37 @@ function deleteQuestion(questionDiv) {
     }
 };
 
+function deleteChoiceItem(choiceDiv) {
+    resetAjaxMessage();
+    var choiceId = choiceDiv.find(".choiceId").val();
+    if (choiceId <= 0) { choiceDiv.remove(); }
+    else {
+        var choiceItem = new Object();
+        choiceItem.choiceId = choiceId;
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/Answers/_AjaxDeleteSingleChoice",
+            data: JSON.stringify(choiceItem),
+            dataType: "json",
+            success: function (data) {
+                choiceDiv.remove();
+                if (data.type != 1) {
+                    $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+                }
+                else {
+                    $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success ajaxAlertMessageDiv">' + data.message + "</div>")
+                }
+            },
+            error: function (xhr, err, data) {
+                alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                alert("responseText: " + xhr.responseText);
+                $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+            }
+        });
+    }
+};
+
 function saveQuestion(questionDiv) {
     resetAjaxMessage();
     var surveyID = $("#surveyID").val();
@@ -316,6 +347,12 @@ $(document).ready(function () {
         $(".deleteQuestion").click(function (event) {
             var questionDiv = $(this).closest(".questionsDiv");
             deleteQuestion(questionDiv);
+        });
+
+    // #delete choiceItem function
+        $(".removeChoice").click(function (event) {
+            var choiceDiv = $(this).closest(".singleChoiceItem");
+            deleteChoiceItem(choiceDiv);
         });
         
     // #save question function
