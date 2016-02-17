@@ -2,6 +2,7 @@
 @{
     ViewBag.FalseBool = false;
 }
+@Html.AntiForgeryToken()
 	@Html.HiddenFor(model => model.choiceId)
 	<input id=@Html.Raw(Model.choiceId) type="checkbox" class="disabled" value=@Html.Raw(Model.choiceId)/>
 	<label for=@Html.Raw(Model.choiceId)>

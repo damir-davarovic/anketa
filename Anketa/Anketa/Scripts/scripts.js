@@ -117,8 +117,9 @@ function saveQuestion(questionDiv) {
     var question = {};
     var answer = {};
     var answerList = new Array();
-    var answerChoiceSingle = {};
-    var answerChoiceMultiple = {};
+    var answerChoiceItem = {};
+    var answerChoiceList = new Array();
+    var orderCountChoice = 0;
     questionDiv.find('div.actualQuestion :input').serializeArray().map(function (x) {
         question[x.name] = x.value;
     });
@@ -133,7 +134,31 @@ function saveQuestion(questionDiv) {
     question["aktivnoPitanje"] = questionDiv.find('#aktivnoPitanje').prop('checked');
     question["questionOrder"] = findOrderForQuestion(questionDiv);
     question["questionType"] = questionDiv.find('#questionType').val();
-    if (question["questionType"] != 0) {
+
+    var answerChoices;
+    if (question["questionType"] != "0") {
+        if (question["questionType"] != "3") {
+            if (question["questionType"] == "1") {
+                answerChoices = questionDiv.find('.multipleAnswers').find('.choiceItem');
+            } else if (question["questionType"] == "2") {
+                answerChoices = questionDiv.find('.singleAnswers').find('.choiceItem');
+            }
+
+            answerChoices.each(function () {
+                orderCountChoice++;
+                answerChoiceItem["choiceId"] = $(this).find('.choiceId').val();
+                answerChoiceItem["choiceText"] = $(this).find('.choiceText').val();
+                answerChoiceItem["orderNo"] = orderCountChoice;
+                answerChoiceItem["answerID"] = answer["answerID"];
+                answerChoiceList.push(answerChoiceItem);
+            });
+
+            if (question["questionType"] == "1") {
+                answer["selectAnswers"] = answerChoiceList;
+            } else {
+                answer["radioAnswers"] = answerChoiceList;
+            }
+        }
         answerList.push(answer);
         question["answer"] = answerList;
     }

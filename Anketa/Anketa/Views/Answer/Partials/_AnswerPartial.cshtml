@@ -43,9 +43,11 @@
                 @foreach (var radioItem in Model.radioAnswers) {
 					<li class="choiceItem"> 
 						@Html.Partial("~/Views/Answer/Partials/_SinglePartial.cshtml", radioItem )
+						<button class="btn btn-danger glyphicon glyphicon-minus" type="button"></button>
 					</li>
                 }
 				</ul>
+				<button class="btn btn-success btn-xs" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Answer</button>
 			</div>
 	</div>
 	}
