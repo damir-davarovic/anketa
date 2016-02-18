@@ -5,7 +5,7 @@
 @Html.Raw("<li class='choiceItem'>")
 <div class="singleChoiceItem">
 	@Html.HiddenFor(model => model.choiceId)
-	<input id=@Html.Raw(Model.choiceId) type="radio" class=" choiceId disabled" value=@Html.Raw(Model.choiceId) />
+	@*<input id=@Html.Raw(Model.choiceId) type="radio" class=" choiceId disabled" value=@Html.Raw(Model.choiceId) />*@
 	<label for=@Html.Raw(Model.choiceId)>
 		 @Html.EditorFor(model => model.choiceText, new { htmlAttributes = new { @class = "form-control choiceText" , placeholder = "Choice will look like this" } })  
 	</label>

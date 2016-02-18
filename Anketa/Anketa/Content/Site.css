@@ -100,11 +100,6 @@ a.paginate_button{
     font-size: 12px;
 }
 
-#all-surveys_wrapper,
-#my-surveys_wrapper {
-   background-color: #4e5d6c;
-}
-
 #all-surveys thead tr,
 #my-surveysthead tr{
    background-color: #4e5d6c;
@@ -135,4 +130,16 @@ a.paginate_button{
 #all .paginate_button.current {
     background:#5CB85C;
     color:#fff !important;
+}
+
+#questionPlaceholder{
+    padding-left:0px;
+}
+
+.removeChoice{
+    margin-bottom: 5px;
+}
+
+.singleAnswers div ul{
+    padding-left:0px;
 }
