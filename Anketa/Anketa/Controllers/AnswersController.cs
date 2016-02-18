@@ -1,10 +1,14 @@
-﻿using Anketa.DAL.AnswersDAL;
+﻿using Anketa.App_Start;
+using Anketa.DAL.AnswersDAL;
 using Anketa.Models.AjaxModels;
 using Anketa.Models.AnswerModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace Anketa.Controllers
 {
@@ -29,11 +33,31 @@ namespace Anketa.Controllers
             }
         }
 
-        public PartialViewResult _AjaxAddChoiceItemSingle()
+        public JsonResult _AjaxAddChoiceItemSingle()
+        {
+            AnswerChoiceSingle templateChoiceItem = aService.fetchTemplateChoiceItemSingle();
+            try
+            {
+                string renderedHtml = UtilitiesClass.RenderViewToString(this.ControllerContext, "~/Views/Answer/Partials/_SinglePartial.cshtml", templateChoiceItem);
+                ajaxResponse.message = renderedHtml;
+                return Json(ajaxResponse, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ajaxResponse.message = "Something went wrong! " + e.StackTrace;
+                ajaxResponse.type = 0;
+                return Json(ajaxResponse, JsonRequestBehavior.AllowGet);
+            }            
+        }
+
+        public PartialViewResult _AjaxAddChoiceItemSingleOld()
         {
             AnswerChoiceSingle templateChoiceItem = aService.fetchTemplateChoiceItemSingle();
             return PartialView("~/Views/Answer/Partials/_SinglePartial.cshtml", templateChoiceItem);
-            //return Json( new { Url = Url.Action("Evil", templateChoiceItem) });
         }
+        
+        
     }
+
+
 }
