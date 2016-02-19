@@ -1,46 +1,95 @@
 ﻿@model IEnumerable<Anketa.Models.Question>
-@using Microsoft.AspNet.Identity;
-@using Anketa.Models;
-@using Microsoft.AspNet.Identity.EntityFramework;
 
 @{
-    ViewBag.Title = "View";
+    ViewBag.Title = "Solve";
 }
 
-<h2>View</h2>
+<h2>Solve</h2>
+<h3>Answer the questions below.</h3>
 
-<table>
-    <thead>
+<div class="questions-holder">
+    @foreach (var item in Model)
+    {
+        <p>
+            @Html.DisplayFor(modelItem => item.questionText)
+        </p>
+        <div class="question-instructions">
+            @switch (item.questionType)
+            {
+            case Anketa.Models.TipPitanja.Description:
+            <p>Enter your answer:</p>
+            break;
+            case Anketa.Models.TipPitanja.Multiple:
+            <p>Select one or more answers:</p>
+            break;
+            case Anketa.Models.TipPitanja.Single:
+            <p>Select one answer:</p>
+            break;
+            case Anketa.Models.TipPitanja.Scale:
+            <p>Drag the slider to desired value:</p>
+            break;
+            default:
+            break;
+            }
+        </div>
+
+       <div class="answers">
+           @Html.Partial("_answerSolvingPartial", ¸item.answer)
+       </div>
+        
+
+        <hr />
+    }
+
+</div>
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.questionText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.aktivnoPitanje)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.hasAnswer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.questionOrder)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.SurveyID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.questionText)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.questionType)
-            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.SurveyID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.questionText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.aktivnoPitanje)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.hasAnswer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.questionOrder)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.questionID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.questionID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.questionID })
+            </td>
         </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SurveyID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.questionText)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.questionType)
-                </td>
-            </tr>
-        }
-    </tbody>
+    }
 
 </table>
-
-
-

@@ -12,13 +12,13 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 			<div class="form-horizontal enter-survey-questions">
              <div class="panel panel-default">
-                <div class="panel-heading clearfix">
+                <div class="panel-heading clearfix handle">
                     <h3 class="panel-title pull-left">Enter Survey Question</h3>
-					<div class="tooltipControl pull-right">
-					@*    @if(Model.questionID == 0){ Primjer if-a sa pozivanjem vrijednosti direktno, Primjer dodavanja klase preko if-a   *@
+					<div class="tooltipControl pull-right" data-original-title="" title="">
+					
 						<button type="button" class="btn btn-danger pull-right btn-xs deleteQuestion resetAjaxMessage backToTop)">Delete Question</button> 
-					@*   @(@Model.questionID == 0 ? "" : "disabled"  *@
-					&nbsp
+					
+					&nbsp;
 					</div>
                 </div>
             <div class="panel-body">

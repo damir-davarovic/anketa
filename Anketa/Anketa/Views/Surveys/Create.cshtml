@@ -7,10 +7,10 @@
 <h2>Create a new survey</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -27,7 +27,7 @@
             @Html.LabelFor(model => model.surveyActive, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.CheckBoxFor(model => model.surveyActive, new { @checked = "checked"})
+                    @Html.CheckBoxFor(model => model.surveyActive, new { @checked = "checked" })
                     @Html.ValidationMessageFor(model => model.surveyActive, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -36,52 +36,51 @@
         <div class="form-group">
             @Html.LabelFor(model => model.surveyDescription, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.surveyDescription, new { rows = 3, @class="form-control" })
+                @Html.TextAreaFor(model => model.surveyDescription, new { rows = 3, @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.surveyDescription, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <hr />
+        @*<hr />
 
-        <div class="panel panel-default enter-survey-questions">
-            <div class="panel-heading clearfix">
-                <h3 class="panel-title pull-left">Enter Survey Question</h3>
-                <button type="button" class="btn btn-danger pull-right btn-xs">Delete Question</button>
-            </div>
-            <div class="panel-body">
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">Question Text</span>
-                    <input type="text" class="form-control" placeholder="Write question text here..." aria-describedby="basic-addon1">
-                    <div class="input-group-btn dropdown">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chose Question Type <span class="caret"></span></button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="#">Text</a></li>
-                            <li><a href="#">Multiple answers</a></li>
-                            <li><a href="#">Single Answer</a></li>
-                            <li><a href="#">Scale</a></li>
-                        </ul>
-                    </div><!-- /btn-group -->
+            <div class="panel panel-default enter-survey-questions">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left">Enter Survey Question</h3>
+                    <button type="button" class="btn btn-danger pull-right btn-xs">Delete Question</button>
                 </div>
-                <div class="input-group answer">
-                    <span class="input-group-addon" id="basic-addon1">Answer text</span>
-                    <input type="text" class="form-control" placeholder="Write answer text here..." aria-describedby="basic-addon1">
-                    <span class="input-group-btn">
-                        <button class="btn btn-danger delete-answer" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-                    </span>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Question Text</span>
+                        <input type="text" class="form-control" placeholder="Write question text here..." aria-describedby="basic-addon1">
+                        <div class="input-group-btn dropdown">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chose Question Type <span class="caret"></span></button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="#">Text</a></li>
+                                <li><a href="#">Multiple answers</a></li>
+                                <li><a href="#">Single Answer</a></li>
+                                <li><a href="#">Scale</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="input-group answer">
+                        <span class="input-group-addon" id="basic-addon1">Answer text</span>
+                        <input type="text" class="form-control" placeholder="Write answer text here..." aria-describedby="basic-addon1">
+                        <span class="input-group-btn">
+                            <button class="btn btn-danger delete-answer" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-success duplicate-input-group btn-xs" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Answer</button>
                 </div>
             </div>
-            <div class="panel-footer">
-                <button class="btn btn-success duplicate-input-group btn-xs" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Answer</button>
-            </div>
-        </div>
+                <button type="button" class="btn btn-success">Add Another Question</button>*@
 
-        <div class="btn-group" role="group" aria-label="...">
-            @* gumb koji treba dodati novo pitanje sa renderpartial *@
-            <button type="button" class="btn btn-success">Add Another Question</button>
-            @* submit forme *@
+        <div class="btn-group col-md-offset-2" role="group" aria-label="...">
             <input type="submit" value="Done" class="btn btn-primary" />
+            @*<button type="button" class="btn btn-danger pull-right">Discard Survey</button>*@
+            <a href="/" class="btn btn-danger">Discard Survey</a>
         </div>
-        <button type="button" class="btn btn-danger pull-right">Discard Survey</button>
 
     </div>
 }

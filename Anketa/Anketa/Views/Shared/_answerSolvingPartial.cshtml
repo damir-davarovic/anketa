@@ -1,0 +1,31 @@
+﻿@model ICollection<Anketa.Models.Answer>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.questionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.questionType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.answerText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.minAnswerValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.maxAnswerValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.correct)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.answerID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.answerID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.answerID })
+        </td>
+    </tr>
+}
+
+</table>

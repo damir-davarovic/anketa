@@ -100,7 +100,7 @@ function backToTop() {
 }
 
 $(function () {
-    $(".sortable").sortable();
+    $(".sortable").sortable({handle: '.handle'});
     $(".sortable").disableSelection();
 });
 

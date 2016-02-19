@@ -143,3 +143,12 @@ a.paginate_button{
 .singleAnswers div ul{
     padding-left:0px;
 }
+
+.handle{
+    cursor: all-scroll;
+}
+
+.question-instructions p{
+    font-size:80%;
+    color:#808080;
+}
