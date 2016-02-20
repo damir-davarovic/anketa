@@ -169,6 +169,7 @@ function deleteChoiceItem(choiceItem) {
 
 function saveQuestion(questionDiv) {
     resetAjaxMessage();
+    var parentListItem = questionDiv.closest('.questionsListItem');
     var surveyID = $("#surveyID").val();
     var question = {};
     var answer = {};
@@ -222,25 +223,19 @@ function saveQuestion(questionDiv) {
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        url: "/Questions/_AjaxSaveQuestion",
+        url: "/Questions/_AjaxSaveQuestionWithFeedback",
         data: JSON.stringify(question),
         dataType: "json",
         success: function (data) {
-            if (data.type != 1) {
+            if (data.type != 0) {
                 questionDiv.prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>");
             }
             else {
                 $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success ajaxAlertMessageDiv">' + data.message + "</div>")
-                if (data.questionId != 0) {
-                    questionDiv.find('#questionID').val(data.questionId);
-                }
-                if (data.answerId != 0) {
-                    questionDiv.find('#answerID').val(data.answerId);
-                }
-                //questionDiv.find('.deleteQuestion').addClass('disabled');
+                questionDiv.replaceWith(data.stringData);
                 questionDiv.find('#questionType').addClass('disabled');
                 $(".disabled").prop("disabled", true);
-                initializeTooltip();
+                reinitializeQuestion();
                 backToTop();
             }
         },

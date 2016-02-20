@@ -1,5 +1,4 @@
 ﻿@model Anketa.Models.Question
-	@Html.Raw("<li>")
 <div class="questionsDiv">
 @using (Ajax.BeginForm("_AjaxDeleteQuestion", "Questions", new AjaxOptions
         {                   
@@ -75,4 +74,3 @@
 </div>
 }
 </div>
-	@Html.Raw("</li>")

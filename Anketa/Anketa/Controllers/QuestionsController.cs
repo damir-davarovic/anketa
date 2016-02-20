@@ -18,7 +18,7 @@ namespace Anketa.Controllers
     {
         private SurveyContext db = new SurveyContext();
         private SecurityUtils securityUtil = new SecurityUtils();
-        private QuestionRepository qRepo = new QuestionRepository();
+        private QuestionService qService = new QuestionService();
 
         // POST: Surveys/Delete/5
         public ActionResult Delete(int id)
@@ -67,6 +67,7 @@ namespace Anketa.Controllers
             var _AjaxResponseModel = new _AjaxResponseModel();
             try
             {
+                qService.updateOrder(question, "DEL");
                 db.Questions.Remove(db.Questions.Find(question.questionID));
                 db.SaveChanges();
                 _AjaxResponseModel.message = "Question succesfully removed!";
@@ -83,10 +84,18 @@ namespace Anketa.Controllers
 
         public PartialViewResult _AjaxAddQuestion()
         {
-            Question question = qRepo.fetchTemplateQuestion();
-
+            Question question = qService.fetchTemplateQuestion();
             return PartialView("~/Views/Questions/Partials/_QuestionListPartial.cshtml", question );
         }
+
+        /// <summary>
+        /// This controller action is completely valid. 
+        /// It saves the question as is and returns only AjaxResponseModel with message.
+        /// It doesn' bind anything but question back. 
+        /// </summary>
+        /// <param name="question">Object representing question from view, passed through Ajax in JQuery.</param>
+        /// <returns>Returns just the status message which is shown to the user, on the view.</returns>
+        [Obsolete("U viewu se referencira Ajax metoda _AjaxSaveQuestionWithFeedback koja obavlja istu stvar, ali vraća već kreirani HTML sa bindanim podacima", true)]
         [HttpPost]
         public ActionResult _AjaxSaveQuestion(Question question)
         {
@@ -108,11 +117,11 @@ namespace Anketa.Controllers
             //    _AjaxResponseModel.type = 0;
             //    return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             //}
-            qRepo.updateOrder(question);
+            qService.updateOrder(question , null);
             /* Primjer Update */
             if (question.questionID >= 1) // if the question already exists
             {
-                _AjaxResponseModel = qRepo.updateQuestion(question);
+                _AjaxResponseModel = qService.updateQuestion(question);
                 return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             }
             else // if the question is not inserted yet
@@ -136,6 +145,54 @@ namespace Anketa.Controllers
                 {
                     _AjaxResponseModel.message = "Database action failed! " + e.StackTrace;
                     _AjaxResponseModel.type = 0;
+                    return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+        /// <summary>
+        /// This metod is completely valid.
+        /// Compared to <see cref="_AjaxSaveQuestion"> it recreates complete view in controller and
+        /// passes the result back to view, so it can replace the existing question div with already binded all the IDs and stuff. 
+        /// </summary>
+        /// <param name="question">Question object, sent from view.</param>
+        /// <returns>The whole DIV , meant to replace the existing.</returns>
+        [HttpPost]
+        public JsonResult _AjaxSaveQuestionWithFeedback(Question question)
+        {
+            var _AjaxResponseModel = new _AjaxResponseModel();
+            if (!ModelState.IsValid) // kada se pošalje sve s fronte onda će radit
+            {
+                var errors = ModelState.Keys.SelectMany(e => ModelState[e].Errors).Select(m => m.ErrorMessage).ToArray();
+                foreach (string errorMessage in errors)
+                {
+                    _AjaxResponseModel.message = _AjaxResponseModel.message + errorMessage + "\n";
+                }
+                _AjaxResponseModel.type = 1;
+                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+            }
+            qService.updateOrder(question, null);
+            if (question.questionID >= 1) // if the question already exists
+            {
+                _AjaxResponseModel = qService.updateQuestion(question);
+                _AjaxResponseModel.stringData = UtilitiesClass.RenderViewToString(this.ControllerContext, "~/Views/Questions/Partials/_QuestionListPartial.cshtml", question);
+                return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+            }
+            else // if the question is not inserted yet
+            {
+                try
+                {
+                    db.Questions.Add(question);
+                    db.SaveChanges();
+
+                    _AjaxResponseModel.stringData = UtilitiesClass.RenderViewToString(this.ControllerContext, "~/Views/Questions/Partials/_QuestionListPartial.cshtml", question);
+                    _AjaxResponseModel.message = "Question succesfully added!";
+                    return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    _AjaxResponseModel.message = "Database action failed! " + e.StackTrace;
+                    _AjaxResponseModel.type = 1;
                     return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
                 }
             }

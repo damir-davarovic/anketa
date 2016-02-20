@@ -14,7 +14,7 @@ namespace Anketa.DAL.AnswersDAL
     public class AnswersService
     {
         private AnswersRepository aRepo = new AnswersRepository();
-        private _AjaxResponseModel ajaxReponse = new _AjaxResponseModel() {type = 1};
+        private _AjaxResponseModel ajaxReponse = new _AjaxResponseModel();
 
         public _AjaxResponseModel _AjaxDeleteSingleChoice(AnswerChoiceSingle pChoiceItem)
         {

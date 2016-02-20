@@ -40,26 +40,36 @@ namespace Anketa.DAL.QuestionDAL
         {
             return sDB.Questions.Where(x => x.SurveyID == surveyId).OrderBy(s => s.questionOrder);
         }
-        public void updateOrder(Question question)
+        public void updateOrder(Question question , string type)
         {
-            sDB.Questions.Where(q => q.questionOrder >= question.questionOrder).Update(q => new Question { questionOrder = q.questionOrder + 1 });
+            if (type == "DEL")
+            {
+                sDB.Questions.Where(q => q.questionOrder >= question.questionOrder).Update(q => new Question { questionOrder = q.questionOrder -1 });
+            }
+            else
+            {
+                sDB.Questions.Where(q => q.questionOrder >= question.questionOrder).Update(q => new Question { questionOrder = q.questionOrder + 1 });
+            }
         }
-        public _AjaxResponseModel updateQuestion(Question question)
+        public void updateQuestion(Question question)
         {
-            var _AjaxResponseModel = new _AjaxResponseModel();
             List<AnswerChoiceSingle> tempListSingle = new List<AnswerChoiceSingle>();
             List<AnswerChoiceMultiple> tempListMultiple = new List<AnswerChoiceMultiple>();
+            Answer qAnswer = null;
+
             // https://msdn.microsoft.com/hr-hr/data/jj592676
             // mali tutorial o Attachu
-            try
-            {
-                Answer qAnswer = question.answer.First();
 
-                tempListSingle = (List<AnswerChoiceSingle>)qAnswer.radioAnswers;
-                qAnswer.radioAnswers = null;
+                if (question.answer != null)
+                {
+                    qAnswer = question.answer.First();
 
-                tempListMultiple = (List<AnswerChoiceMultiple>)qAnswer.selectAnswers;
-                qAnswer.selectAnswers = null;
+                    tempListSingle = (List<AnswerChoiceSingle>)qAnswer.radioAnswers;
+                    qAnswer.radioAnswers = null;
+
+                    tempListMultiple = (List<AnswerChoiceMultiple>)qAnswer.selectAnswers;
+                    qAnswer.selectAnswers = null;
+                }
 
                 sDB.Questions.Attach(question);
                 var qEntry = sDB.Entry<Question>(question);
@@ -103,17 +113,6 @@ namespace Anketa.DAL.QuestionDAL
                     }
                 }
                 sDB.SaveChanges();
-
-                _AjaxResponseModel.type = 1;
-                _AjaxResponseModel.message = "Question succesfully changed!";
-                return _AjaxResponseModel;
-            }
-            catch (Exception e)
-            {
-                _AjaxResponseModel.message = "Database action failed! " + e.StackTrace;
-                _AjaxResponseModel.type = 0;
-                return _AjaxResponseModel;
-            }
         }
     }
 }

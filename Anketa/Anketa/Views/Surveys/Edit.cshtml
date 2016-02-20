@@ -19,11 +19,10 @@
             @Html.Partial("~/Views/Surveys/Partials/_EditPartial.cshtml", Model.surveyModel )
 				<ul class="sortable" id="questionPlaceholder">
                 @foreach (var questionItem in Model.questionsModel) {
-					<li>
+					<li class="questionsListItem">
                     @Html.Partial("~/Views/Questions/Partials/_QuestionListPartial.cshtml", questionItem )
 					</li>
                 }
 				</ul>  
             @Ajax.ActionLink("Add question", "_AjaxAddQuestion","Questions", null,  new AjaxOptions{UpdateTargetId = "questionPlaceholder", InsertionMode = InsertionMode.InsertAfter, OnSuccess = "reinitializeQuestion()"}, new{ @class = "btn btn-success"})
             @Ajax.ActionLink("Save survey", "SaveSurvey","Surveys", null,  new AjaxOptions{UpdateTargetId = "questionPlaceholder", InsertionMode = InsertionMode.InsertAfter, OnSuccess = "reinitializeQuestion()"}, new{ @class = "btn btn-warning pull-right"})
-			@Html.ActionLink("Save survey", "SaveSurvey","Surveys", null , new{ @class = "btn btn-warning pull-right"} )
