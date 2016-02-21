@@ -23,15 +23,15 @@
 	@if(Model.selectAnswers != null){
 	<div @(@Model.questionType == 1 ? "" : "hidden") class="form-group multipleAnswers">
 		@Html.LabelFor(model => model.selectAnswers, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-10">
-				<ul class="sortable" id="selectList">
+			<div class="col-md-10 multipleAnswers">
+				<ul class="sortable" id="selectList_@Model.questionID">
                 @foreach (var selectItem in Model.selectAnswers) {
-					<li class="choiceItem"> 
 						@Html.Partial("~/Views/Answer/Partials/_SelectPartial.cshtml", selectItem )
-					</li>
                 }
 				</ul>
-				<button class="btn btn-success btn-xs addMultiple" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add choice</button>
+				<button class="btn btn-success duplicate-input-group btn-xs addChoice" type="button" value="selectList_@Model.questionID">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add choice
+				</button>
 			</div>
 	</div>
 	}
@@ -39,14 +39,13 @@
 	@if(Model.radioAnswers != null){
 	<div @(@Model.questionType == 2 ? "" : "hidden") class="form-group singleAnswers">
 		@Html.LabelFor(model => model.radioAnswers, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-10">
+			<div class="col-md-10 singleAnswers">
 				<ul class="sortable" id="radioList_@Model.questionID">
                 @foreach (var radioItem in Model.radioAnswers) { 
 						@Html.Partial("~/Views/Answer/Partials/_SinglePartial.cshtml", radioItem )
                 }
 				</ul>
-
-				<button class="btn btn-success duplicate-input-group btn-xs addSingle2" type="button" value="radioList_@Model.questionID">
+				<button class="btn btn-success duplicate-input-group btn-xs addChoice" type="button" value="radioList_@Model.questionID">
 					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add choice
 				</button>
 			</div>

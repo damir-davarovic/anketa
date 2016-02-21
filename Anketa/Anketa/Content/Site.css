@@ -144,6 +144,10 @@ a.paginate_button{
     padding-left:0px;
 }
 
+.multipleAnswers div ul{
+    padding-left:0px;
+}
+
 .handle{
     cursor: all-scroll;
 }

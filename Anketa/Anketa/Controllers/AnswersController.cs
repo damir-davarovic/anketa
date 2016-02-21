@@ -28,7 +28,23 @@ namespace Anketa.Controllers
             catch (Exception e)
             {
                 ajaxResponse.message = "Database action failed! " + e.StackTrace;
-                ajaxResponse.type = 0;
+                ajaxResponse.type = 1;
+                return Json(ajaxResponse, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult _AjaxDeleteMultipleChoice(AnswerChoiceMultiple pChoiceItem)
+        {
+            try
+            {
+                ajaxResponse = aService._AjaxDeleteMultipleChoice(pChoiceItem);
+                return Json(ajaxResponse, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ajaxResponse.message = "Database action failed! " + e.StackTrace;
+                ajaxResponse.type = 1;
                 return Json(ajaxResponse, JsonRequestBehavior.AllowGet);
             }
         }
@@ -45,9 +61,26 @@ namespace Anketa.Controllers
             catch (Exception e)
             {
                 ajaxResponse.message = "Something went wrong! " + e.StackTrace;
-                ajaxResponse.type = 0;
+                ajaxResponse.type = 1;
                 return Json(ajaxResponse, JsonRequestBehavior.AllowGet);
             }            
+        }
+
+        public JsonResult _AjaxAddChoiceItemMultiple()
+        {
+            AnswerChoiceMultiple templateChoiceItem = aService.fetchTemplateChoiceItemMultiple();
+            try
+            {
+                string renderedHtml = UtilitiesClass.RenderViewToString(this.ControllerContext, "~/Views/Answer/Partials/_SelectPartial.cshtml", templateChoiceItem);
+                ajaxResponse.message = renderedHtml;
+                return Json(ajaxResponse, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                ajaxResponse.message = "Something went wrong! " + e.StackTrace;
+                ajaxResponse.type = 1;
+                return Json(ajaxResponse, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 

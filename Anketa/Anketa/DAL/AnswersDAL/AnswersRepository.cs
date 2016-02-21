@@ -27,9 +27,29 @@ namespace Anketa.DAL.AnswersDAL
             }
         }
 
+        public void _AjaxDeleteMultipleChoice(AnswerChoiceMultiple pChoiceItem)
+        {
+            try
+            {
+                sDB.AnswerChoiceMultiple.Attach(pChoiceItem);
+                var choiceEntry = sDB.Entry<AnswerChoiceMultiple>(pChoiceItem);
+                choiceEntry.State = EntityState.Deleted;
+                sDB.SaveChanges();
+            }
+            catch (Exception tException)
+            {
+                throw new SurveyRuntimeException("Deletion of choice item failed! Reason: " + tException.Message);
+            }
+        }
+
         public AnswerChoiceSingle fetchTemplateChoiceItemSingle()
         {
             return new AnswerChoiceSingle(){choiceId = 0};
+        }
+
+        public AnswerChoiceMultiple fetchTemplateChoiceItemMultiple()
+        {
+            return new AnswerChoiceMultiple() { choiceId = 0 };
         }
     }
 }

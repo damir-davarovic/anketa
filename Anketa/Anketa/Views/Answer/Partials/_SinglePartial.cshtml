@@ -3,7 +3,7 @@
     ViewBag.FalseBool = false;
 }
 @Html.Raw("<li class='choiceItem'>")
-<div class="singleChoiceItem">
+<div class="ChoiceItem">
 	@Html.HiddenFor(model => model.choiceId)
 	@*<input id=@Html.Raw(Model.choiceId) type="radio" class=" choiceId disabled" value=@Html.Raw(Model.choiceId) />*@
 	<label for=@Html.Raw(Model.choiceId)>

@@ -14,7 +14,7 @@ function reinitializeQuestion() {
     reinitializeSaveQuestion();
     reinitializeQuestionTypeChange();
     initializeTooltip();
-    reinitializeChoiceItemSingle();
+    reinitializeChoiceItem();
     setDefaultStatesOfElements();
 }
 function reinitializeDeleteQuestion() {
@@ -24,7 +24,7 @@ function reinitializeDeleteQuestion() {
         deleteQuestion(questionDiv);
     });
 }
-function reinitializeDeleteChoiceItemSingle() {
+function reinitializeDeleteChoiceItem() {
     $(".removeChoice").on("click", function (event) {
         //backToTop();
         var choiceItem = $(this).closest("li.choiceItem");
@@ -32,11 +32,11 @@ function reinitializeDeleteChoiceItemSingle() {
     });
 }
 
-function reinitializeAddChoiceItemSingle() {
-    $(".addSingle2").on('click' , function (event) {
+function reinitializeAddChoiceItem() {
+    $(".addChoice").on('click', function (event) {
         var target = $(this).val();
         var targetList = $(this).closest('.answersDiv').find('ul#' + target);
-        addChoiceItemSingle(targetList);
+        addChoiceItem(targetList);
     });
 }
 
@@ -62,11 +62,11 @@ function reinitializeQuestionTypeChange() {
         }
     })
 }
-function reinitializeChoiceItemSingle() {
+function reinitializeChoiceItem() {
     $(".removeChoice").off('click');
-    $('.addSingle2').off('click');
-    reinitializeDeleteChoiceItemSingle();
-    reinitializeAddChoiceItemSingle();
+    $('.addChoice').off('click');
+    reinitializeDeleteChoiceItem();
+    reinitializeAddChoiceItem();
     setDefaultStatesOfElements();
 }
 
@@ -138,20 +138,26 @@ function deleteQuestion(questionDiv) {
 
 function deleteChoiceItem(choiceItem) {
     resetAjaxMessage();
+    var controllerAction;
     var choiceId = choiceItem.find("#choiceId").val();
     if (choiceId <= 0) { choiceItem.remove(); }
     else {
+        if (choiceItem.closest('div').hasClass('multipleAnswers')) {
+            controllerAction = "/Answers/_AjaxDeleteMultipleChoice";
+        } else {
+            controllerAction = "/Answers/_AjaxDeleteSingleChoice";
+        }
         var choiceItemObject = new Object();
         choiceItemObject.choiceId = choiceId;
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/Answers/_AjaxDeleteSingleChoice",
+            url: controllerAction,
             data: JSON.stringify(choiceItemObject),
             dataType: "json",
             success: function (data) {
                 choiceItem.remove();
-                if (data.type != 1) {
+                if (data.type != 0) {
                     $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
                 }
                 else {
@@ -281,12 +287,18 @@ function editSurvey(surveysDiv) {
     });
 }
 
-function addChoiceItemSingle(targetList) {
+function addChoiceItem(targetList) {
     resetAjaxMessage();
+    var controllerAction;
+    if (targetList.parent('div').hasClass('multipleAnswers')) {
+        controllerAction = "/Answers/_AjaxAddChoiceItemMultiple";
+    } else {
+        controllerAction = "/Answers/_AjaxAddChoiceItemSingle";
+    }
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        url: "/Answers/_AjaxAddChoiceItemSingle",
+        url: controllerAction,
         dataType: "json",
         success: function (data) {
             if (data.type == 1) {
@@ -294,7 +306,7 @@ function addChoiceItemSingle(targetList) {
             } else {
                 targetList.append(data.message);
             }
-            reinitializeChoiceItemSingle();
+            reinitializeChoiceItem();
         },
         error: function (xhr, err, data) {
             alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
@@ -409,10 +421,10 @@ $(document).ready(function () {
             editSurvey(surveysDiv);
         });
 
-        $(".addSingle2").click(function (event) {
+        $(".addChoice").click(function (event) {
             var target = $(this).val();
             var targetList = $(this).closest('.answersDiv').find('ul#' + target);
-            addChoiceItemSingle(targetList);
+            addChoiceItem(targetList);
         });
 
     $(".enter-survey-questions .dropdown-menu li a").click(function () {

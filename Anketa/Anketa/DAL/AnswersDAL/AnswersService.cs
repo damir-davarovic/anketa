@@ -31,9 +31,29 @@ namespace Anketa.DAL.AnswersDAL
             return ajaxReponse;
         }
 
+        public _AjaxResponseModel _AjaxDeleteMultipleChoice(AnswerChoiceMultiple pChoiceItem)
+        {
+            try
+            {
+                aRepo._AjaxDeleteMultipleChoice(pChoiceItem);
+                ajaxReponse.message = "Answer choice succesfully deleted!";
+            }
+            catch (SurveyRuntimeException tException)
+            {
+                ajaxReponse.message = tException.Message;
+                ajaxReponse.type = 1;
+            }
+            return ajaxReponse;
+        }
+
         public AnswerChoiceSingle fetchTemplateChoiceItemSingle()
         {
             return aRepo.fetchTemplateChoiceItemSingle();
+        }
+
+        public AnswerChoiceMultiple fetchTemplateChoiceItemMultiple()
+        {
+            return aRepo.fetchTemplateChoiceItemMultiple();
         }
     }
 }
