@@ -182,11 +182,9 @@ namespace Anketa.Controllers
             {
                 try
                 {
-                    db.Questions.Add(question);
-                    db.SaveChanges();
+                    _AjaxResponseModel = qService.insertQuestion(question);
 
                     _AjaxResponseModel.stringData = UtilitiesClass.RenderViewToString(this.ControllerContext, "~/Views/Questions/Partials/_QuestionListPartial.cshtml", question);
-                    _AjaxResponseModel.message = "Question succesfully added!";
                     return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)

@@ -19,7 +19,7 @@ namespace Anketa.DAL.QuestionDAL
 
         public void templetizeQuestionAnswer(Question question)
         {
-            if (question.questionType == TipPitanja.Description)
+            if (question.questionType == TipPitanja.Description && question.answer == null)
             {
                 List<Answer> templateAnswer = new List<Answer>();
 
@@ -49,6 +49,23 @@ namespace Anketa.DAL.QuestionDAL
                 qRepo.updateQuestion(question);
                 templetizeQuestionAnswer(question);
                 _ajaxResponseModel.message = "Question succesfully changed!";
+                return _ajaxResponseModel;
+            }
+            catch (Exception e)
+            {
+                _ajaxResponseModel.message = "Database action failed! " + e.StackTrace;
+                _ajaxResponseModel.type = 1;
+                return _ajaxResponseModel;
+            }
+        }
+
+        public _AjaxResponseModel insertQuestion(Question question)
+        {
+            var _ajaxResponseModel = new _AjaxResponseModel();
+            try{
+                qRepo.insertQuestion(question);
+                templetizeQuestionAnswer(question);
+                _ajaxResponseModel.message = "Question succesfully added!";
                 return _ajaxResponseModel;
             }
             catch (Exception e)

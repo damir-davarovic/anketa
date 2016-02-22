@@ -191,6 +191,7 @@
     <Compile Include="DAL\QuestionDAL\QuestionRepository.cs" />
     <Compile Include="DAL\QuestionDAL\QuestionService.cs" />
     <Compile Include="DAL\SurveyDAL\SurveyRepository.cs" />
+    <Compile Include="DAL\SurveyDAL\SurveysService.cs" />
     <Compile Include="DynamicMVC\DynamicControllerManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

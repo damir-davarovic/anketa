@@ -176,55 +176,7 @@ function deleteChoiceItem(choiceItem) {
 function saveQuestion(questionDiv) {
     resetAjaxMessage();
     var parentListItem = questionDiv.closest('.questionsListItem');
-    var surveyID = $("#surveyID").val();
-    var question = {};
-    var answer = {};
-    var answerList = new Array();
-    var answerChoiceList = new Array();
-    var orderCountChoice = 0;
-    questionDiv.find('div.actualQuestion :input').serializeArray().map(function (x) {
-        question[x.name] = x.value;
-    });
-    questionDiv.find('div.answersDiv :input').filter('.answerPart').serializeArray().map(function (x) {
-        answer[x.name] = x.value;
-    });
-    answer["answerID"] = questionDiv.find('#answerID').val();
-    answer["questionType"] = questionDiv.find('#questionType').val();
-    answer["questionID"] = question["questionID"];
-
-    question["surveyID"] = surveyID;
-    question["aktivnoPitanje"] = questionDiv.find('#aktivnoPitanje').prop('checked');
-    question["questionOrder"] = findOrderForQuestion(questionDiv);
-    question["questionType"] = questionDiv.find('#questionType').val();
-
-    var answerChoices;
-    if (question["questionType"] != "0") {
-        if (question["questionType"] != "3") {
-            if (question["questionType"] == "1") {
-                answerChoices = questionDiv.find('.multipleAnswers').find('.choiceItem');
-            } else if (question["questionType"] == "2") {
-                answerChoices = questionDiv.find('.singleAnswers').find('.choiceItem');
-            }
-
-            answerChoices.each(function () {
-                orderCountChoice++;
-                var answerChoiceItem = {};
-                answerChoiceItem["choiceId"] = $(this).find('#choiceId').val();
-                answerChoiceItem["choiceText"] = $(this).find('.choiceText').val();
-                answerChoiceItem["orderNo"] = orderCountChoice;
-                answerChoiceItem["answerID"] = answer["answerID"];
-                answerChoiceList.push(answerChoiceItem);
-            });
-
-            if (question["questionType"] == "1") {
-                answer["selectAnswers"] = answerChoiceList;
-            } else {
-                answer["radioAnswers"] = answerChoiceList;
-            }
-        }
-        answerList.push(answer);
-        question["answer"] = answerList;
-    }
+    var question = findQuestionData(questionDiv);
 
     $.ajax({
         type: "POST",
@@ -256,12 +208,7 @@ function saveQuestion(questionDiv) {
 function editSurvey(surveysDiv) {
     resetAjaxMessage();
     var survey = {};
-    surveysDiv.find('form').serializeArray().map(function (x) {
-            survey[x.name] = x.value;
-    });
-    survey['surveyActive'] = surveysDiv.find('#surveyActive').prop('checked');
-    // iz nekog fing razloga je počeo stvarat input type="hidden" ispod samog checkboxa... Naravno da je konstantna vrijednost toga false...
-    // ne znam samo kako/zašto je prije radio
+    survey = findSurveyData(surveysDiv);
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -316,6 +263,123 @@ function addChoiceItem(targetList) {
     });
 }
 
+function findSurveyData(surveysDiv) {
+    var survey = {};
+    surveysDiv.find('form').serializeArray().map(function (x) {
+        survey[x.name] = x.value;
+    });
+    survey['surveyActive'] = surveysDiv.find('#surveyActive').prop('checked');
+    return survey;
+}
+
+function findQuestionData(questionDiv) {
+    var surveyID = $("#surveyID").val();
+    var question = {};
+    var answer = {};
+    var answerList = new Array();
+    var answerChoiceList = new Array();
+    var orderCountChoice = 0;
+    questionDiv.find('div.actualQuestion :input').serializeArray().map(function (x) {
+        question[x.name] = x.value;
+    });
+    questionDiv.find('div.answersDiv :input').filter('.answerPart').serializeArray().map(function (x) {
+        answer[x.name] = x.value;
+    });
+    answer["answerID"] = questionDiv.find('#answerID').val();
+    answer["questionType"] = questionDiv.find('#questionType').val();
+    answer["questionID"] = question["questionID"];
+
+    question["surveyID"] = surveyID;
+    question["aktivnoPitanje"] = questionDiv.find('#aktivnoPitanje').prop('checked');
+    question["questionOrder"] = findOrderForQuestion(questionDiv);
+    question["questionType"] = questionDiv.find('#questionType').val();
+
+    var answerChoices;
+    if (question["questionType"] != "0") {
+        if (question["questionType"] != "3") {
+            if (question["questionType"] == "1") {
+                answerChoices = questionDiv.find('.multipleAnswers').find('.choiceItem');
+            } else if (question["questionType"] == "2") {
+                answerChoices = questionDiv.find('.singleAnswers').find('.choiceItem');
+            }
+
+            answerChoices.each(function () {
+                orderCountChoice++;
+                var answerChoiceItem = {};
+                answerChoiceItem["choiceId"] = $(this).find('#choiceId').val();
+                answerChoiceItem["choiceText"] = $(this).find('.choiceText').val();
+                answerChoiceItem["orderNo"] = orderCountChoice;
+                answerChoiceItem["answerID"] = answer["answerID"];
+                answerChoiceList.push(answerChoiceItem);
+            });
+
+            if (question["questionType"] == "1") {
+                answer["selectAnswers"] = answerChoiceList;
+            } else {
+                answer["radioAnswers"] = answerChoiceList;
+            }
+        }
+        answerList.push(answer);
+        question["answer"] = answerList;
+    }
+
+    return question;
+}
+
+function saveSurvey() {
+    var surveyEditModel = new Object();
+    // Objekt koji će služiti za prijenos podataka - sadržava Survey objekt i listu Question objekata - postoji u Solution-u s istim nazivom
+
+    // dohvat podataka za Survey
+    var surveysDiv = $('.surveysDiv');
+    var surveyModel = findSurveyData(surveysDiv);
+    surveyEditModel.surveyModel = surveyModel;
+    // KRAJ dohvata podataka za Survey
+
+    var questionsModel = new Array();
+
+    $('.questionsDiv').each(function () {
+        var questionDiv = $(this);
+        var question = findQuestionData(questionDiv);
+        questionsModel.push(question);
+    });
+    surveyEditModel.questionsModel = questionsModel;
+    // Ovaj Ajax se okida da bi posalo podatke u Controller, ALI osim u slučaju pucanja validacije neće dobiti odgovor. 
+    // Znači, samo u responsu samo pokazuje validacijsku grešku, ništa drugo. 
+    // Ili error, naravno...
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/Surveys/SaveSurvey",
+        data: JSON.stringify(surveyEditModel),
+        dataType: "json",
+        success: function (data) {
+            if (data.type != 0) {
+                $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+                backToTop();
+            }
+            //else {
+            //    $.ajax({
+            //        type: "GET",
+            //        contentType: "application/json",
+            //        url: "/Surveys/Edit/" + data.surveyId,
+            //        data: JSON.stringify(data.surveyId),
+            //        dataType: "json"
+            //    })
+            //} // radi, ali ne refresha...
+        }
+        //,
+        //error: function (xhr, err, data) {
+        //    alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+        //    alert("responseText: " + xhr.responseText);
+        //    $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
+        //}
+    }).done(function (r) {
+        window.location.href = "/Surveys/RediredtToEdit/" + surveyEditModel.surveyModel.surveyID;
+            //'@Url.Action("Surveys","Edit", new { id=' + surveyEditModel.surveyModel.surveyID + '})';
+    });
+}
+
 function setQuestionTemplateDescription(questionDiv) {
     questionDiv.find('.descriptionAnswer').prop('hidden', false);
     questionDiv.find('.scaleAnswers').prop('hidden', true);
@@ -349,6 +413,11 @@ function setQuestionTemplateMultiple(questionDiv) {
 
 // region Document.ready
 $(document).ready(function () {
+
+    if (window.location.hash) {
+        $("#_AjaxInfoMessage").prepend('<div class ="alert alert-success ajaxAlertMessageDiv">Survey succesfully saved!</div>');
+        backToTop();
+    }
 
     //$('form').each(function () {
     //    $(this).validate();
@@ -425,6 +494,10 @@ $(document).ready(function () {
             var target = $(this).val();
             var targetList = $(this).closest('.answersDiv').find('ul#' + target);
             addChoiceItem(targetList);
+        });
+
+        $(".saveSurvey").click(function (event) {
+            saveSurvey();
         });
 
     $(".enter-survey-questions .dropdown-menu li a").click(function () {

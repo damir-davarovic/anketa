@@ -51,6 +51,7 @@ namespace Anketa.DAL.QuestionDAL
                 sDB.Questions.Where(q => q.questionOrder >= question.questionOrder).Update(q => new Question { questionOrder = q.questionOrder + 1 });
             }
         }
+
         public void updateQuestion(Question question)
         {
             List<AnswerChoiceSingle> tempListSingle = new List<AnswerChoiceSingle>();
@@ -73,7 +74,7 @@ namespace Anketa.DAL.QuestionDAL
 
                 sDB.Questions.Attach(question);
                 var qEntry = sDB.Entry<Question>(question);
-                qEntry.State = EntityState.Modified;
+                qEntry.State = EntityState.Modified;                
 
                 if (question.answer != null)
                 {
@@ -113,6 +114,79 @@ namespace Anketa.DAL.QuestionDAL
                     }
                 }
                 sDB.SaveChanges();
+        }
+
+        public void insertQuestion(Question question)
+        {
+            List<AnswerChoiceSingle> tempListSingle = new List<AnswerChoiceSingle>();
+            List<AnswerChoiceMultiple> tempListMultiple = new List<AnswerChoiceMultiple>();
+            Answer qAnswer = null;
+
+            if (question.answer != null)
+            {
+                qAnswer = question.answer.First();
+                tempListSingle = (List<AnswerChoiceSingle>)qAnswer.radioAnswers;
+                qAnswer.radioAnswers = null;
+
+                tempListMultiple = (List<AnswerChoiceMultiple>)qAnswer.selectAnswers;
+                qAnswer.selectAnswers = null;
+
+                question.answer = null;
+            }
+
+            sDB.Questions.Attach(question);
+            var qEntry = sDB.Entry<Question>(question);
+            qEntry.State = EntityState.Added;
+            sDB.SaveChanges();
+
+            if (qAnswer != null)
+            {
+                qAnswer.questionID = question.questionID;
+                var aEntry = sDB.Entry<Answer>(qAnswer);
+                if (qAnswer.answerID != 0)
+                {
+                    aEntry.State = EntityState.Modified;
+                }
+                else
+                {
+                    aEntry.State = EntityState.Added;
+                }
+                sDB.SaveChanges();
+
+                if (question.questionType == TipPitanja.Single)
+                {
+                    foreach (AnswerChoiceSingle sChoice in tempListSingle)
+                    {
+                        sChoice.answerID = qAnswer.answerID;
+                        var rEntry = sDB.Entry<AnswerChoiceSingle>(sChoice);
+                        if (sChoice.choiceId == 0)
+                        {
+                            rEntry.State = EntityState.Added;
+                        }
+                        else
+                        {
+                            rEntry.State = EntityState.Modified;
+                        }
+                    }
+                }
+                if (question.questionType == TipPitanja.Multiple)
+                {
+                    foreach (AnswerChoiceMultiple mChoice in tempListMultiple)
+                    {
+                        mChoice.answerID = qAnswer.answerID;
+                        var mEntry = sDB.Entry<AnswerChoiceMultiple>(mChoice);
+                        if (mChoice.choiceId == 0)
+                        {
+                            mEntry.State = EntityState.Added;
+                        }
+                        else
+                        {
+                            mEntry.State = EntityState.Modified;
+                        }
+                    }
+                }
+            }
+            sDB.SaveChanges();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Anketa.DAL.AnswersDAL
             }
             catch (Exception tException)
             {
-                throw new SurveyRuntimeException("Deletion of choice item failed! Reason: " + tException.Message);
+                throw new SurveyRuntimeException("Deletion of choice item failed! Reason:\n" + tException.Message);
             }
         }
 
@@ -38,7 +38,7 @@ namespace Anketa.DAL.AnswersDAL
             }
             catch (Exception tException)
             {
-                throw new SurveyRuntimeException("Deletion of choice item failed! Reason: " + tException.Message);
+                throw new SurveyRuntimeException("Deletion of choice item failed! Reason:\n" + tException.Message);
             }
         }
 

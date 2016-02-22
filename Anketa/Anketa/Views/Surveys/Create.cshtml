@@ -23,7 +23,14 @@
             </div>
         </div>
 
-        <div class="form-group">
+		<div class="form-group">
+            @Html.LabelFor(model => model.surveyActive, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                    @Html.EditorFor(model => model.surveyActive)
+            </div>
+        </div>
+
+@*        <div class="form-group">
             @Html.LabelFor(model => model.surveyActive, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
@@ -31,7 +38,7 @@
                     @Html.ValidationMessageFor(model => model.surveyActive, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.surveyDescription, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -76,10 +83,15 @@
             </div>
                 <button type="button" class="btn btn-success">Add Another Question</button>*@
 
-        <div class="btn-group col-md-offset-2" role="group" aria-label="...">
+@*        <div class="btn-group col-md-offset-2" role="group" aria-label="...">
             <input type="submit" value="Done" class="btn btn-primary" />
-            @*<button type="button" class="btn btn-danger pull-right">Discard Survey</button>*@
+            <button type="button" class="btn btn-danger pull-right">Discard Survey</button>
             <a href="/" class="btn btn-danger">Discard Survey</a>
+        </div>*@
+
+	    <div class="form-actions no-color">
+            <input type="submit" value="Create" class="btn btn-success" /> 
+            @Html.ActionLink("Back to List", "Index", null , new{ @class = "btn btn-warning"} )
         </div>
 
     </div>

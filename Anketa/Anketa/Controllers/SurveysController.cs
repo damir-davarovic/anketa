@@ -15,6 +15,7 @@ using Anketa.DAL.QuestionDAL;
 using Anketa.Models.SurveyModels;
 using System.ComponentModel.DataAnnotations;
 using Anketa.Models.AjaxModels;
+using Anketa.DAL.SurveyDAL;
 
 //Ovaj cijeli controller se generiro sam.
 
@@ -25,6 +26,8 @@ namespace Anketa.Controllers
         private SurveyContext db = new SurveyContext();
         private SecurityUtils securityUtil = new SecurityUtils();
         private QuestionRepository qRepo = new QuestionRepository();
+        private SurveysService sService = new SurveysService();
+        private QuestionService qService = new QuestionService();
 
         // GET: Surveys
         public ActionResult Index()
@@ -68,6 +71,7 @@ namespace Anketa.Controllers
                 survey.ownerID = GlobalVariables.getUserProfileInfoId();
                 db.Surveys.Add(survey);
                 db.SaveChanges();
+                TempData["Create"] = "Survey <i> " + survey.surveyName + "</i> succesfully created!";
                 return RedirectToAction("Edit/"+survey.surveyID);
             }
 
@@ -82,23 +86,21 @@ namespace Anketa.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             SurveyEditModel surveyModel = new SurveyEditModel((int)id);
-            //Survey survey = db.Surveys.Find(id);
-            //QuestionRepository qRepo = new QuestionRepository();
-            //IEnumerable<Question> questions = qRepo.fetchQuestionsBySurveyId(survey.surveyID);
             if (surveyModel.surveyModel == null)
             {
                 return HttpNotFound();
             }
-            //var tuple = new Tuple<Survey, IEnumerable<Question>>(survey, questions);
-            // so far we have fetched the survey and it's questions
-            // we have to translate them to a view
-            //return View(survey);
             if (HttpContext.Request.UrlReferrer != null)
             {
-                if (HttpContext.Request.UrlReferrer.ToString().Contains("Create"))
+                if (TempData.Keys.Contains("Create"))
                 {
                     ViewBag.surveyModelEditMessageType = 1;
-                    ViewBag.surveyModelEditMessage = "Survey <i>" + surveyModel.surveyModel.surveyName + "</i> succesfully created!";
+                    ViewBag.surveyModelEditMessage = TempData["Create"];
+                }
+                else if (TempData.Keys.Contains("RedirectToEdit"))
+                {
+                    ViewBag.surveyModelEditMessageType = 1;
+                    ViewBag.surveyModelEditMessage = TempData["RedirectToEdit"];
                 }
                 else if (TempData.Keys.Contains("Delete"))
                 {
@@ -107,6 +109,18 @@ namespace Anketa.Controllers
                 }
             }            
             return View(surveyModel);
+        }
+
+        // GET: Surveys/Edit/5
+        public ActionResult RediredtToEdit(int? id)
+        {
+            SurveyEditModel surveyModel = new SurveyEditModel((int)id);
+            if (surveyModel.surveyModel == null)
+            {
+                return HttpNotFound();
+            }
+            TempData["RedirectToEdit"] = "Survey " + surveyModel.surveyModel.surveyName + "</i> succesfully updated!";
+            return RedirectToAction("Edit/"+id);
         }
 
         // POST: Surveys/Edit/5
@@ -142,27 +156,13 @@ namespace Anketa.Controllers
             ViewBag.surveyModelEditMessageType = 1;
             ViewBag.surveyModelEditMessage = "Survey <i>" + surveyEditModel.surveyModel.surveyName + "</i> succesfully changed!";
             return View(surveyEditModel);
-            //var surveyName = entry.OriginalValues["surveyName"].ToString();
-            //var surveyNameNew = entry.CurrentValues["surveyName"].ToString();
-            //var suName = entry.Property(x => x.surveyName).CurrentValue;
-            //var suNameO = entry.Property(x => x.surveyName).OriginalValue;
-            //if(entry.OriginalValues["surveyName"] != entry.CurrentValues["surveyName"])
-            //{
-            //    entry.Property(x => x.surveyName).IsModified = true;
-            //}
-            //if (entry.OriginalValues["surveyDescription"] != entry.CurrentValues["surveyDescription"])
-            //{
-            
-            //}
-            //if (entry.OriginalValues["surveyActive"] != entry.CurrentValues["surveyActive"])
-            //{
-            
-            //}
         }
 
         public ActionResult _AjaxEdit([Bind] Survey survey)
         {
             var _AjaxResponseModel = new _AjaxResponseModel();
+
+            #region Validation
             if (!ModelState.IsValid)
                 // ovdje bih htio uguzit, odnosno zamijenit server sa client-side validacijom
                 // ja sam sad ovdje iskoristio ugrađenu validaciju i vratio customizirani rezultat
@@ -192,6 +192,8 @@ namespace Anketa.Controllers
                 _AjaxResponseModel.type = 0;
                 return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             }
+            #endregion Validation
+
             db.Surveys.Attach(survey);
             var entry = db.Entry<Survey>(survey);
             entry.Property(x => x.surveyName).IsModified = true;
@@ -265,6 +267,57 @@ namespace Anketa.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        public ActionResult SaveSurvey(SurveyEditModel fullSurvey)
+        {
+            _AjaxResponseModel _ajaxResponse = new _AjaxResponseModel();
+            Survey incomingSurvey = fullSurvey.surveyModel;
+            IEnumerable<Question> incomingQuestion = fullSurvey.questionsModel;
+
+            #region Validation
+            if (!ModelState.IsValid)
+            {
+                var errorDictionary = ModelState.Where(y => y.Value.Errors.Count > 0).ToDictionary(y => y.Key, y => y.Value.Errors.Select(e => e.ErrorMessage).ToArray());
+                foreach (KeyValuePair<string, string[]> validationEntry in errorDictionary)
+                {
+                    _ajaxResponse.message = _ajaxResponse.message + validationEntry.Value.First().ToString() + "\n";
+                }
+                _ajaxResponse.type = 1;
+                return Json(_ajaxResponse, JsonRequestBehavior.AllowGet);
+            }
+            List<ValidationResult> validationResult = securityUtil.TryToValidate(incomingSurvey);
+            if (validationResult.Count() > 0)
+            {
+                _ajaxResponse.message = validationResult[0].ErrorMessage;
+                _ajaxResponse.type = 1;
+                return Json(_ajaxResponse, JsonRequestBehavior.AllowGet);
+            }
+            #endregion Validation
+
+
+            _ajaxResponse = sService.updateSurvey(incomingSurvey);
+            if (incomingQuestion != null)
+            {
+                foreach (Question questionItem in incomingQuestion)
+                {
+                    if (questionItem.questionID == 0)
+                    {
+                        _ajaxResponse = qService.insertQuestion(questionItem);
+                    }
+                    else
+                    {
+                        _ajaxResponse = qService.updateQuestion(questionItem);
+                    }
+                    if (_ajaxResponse.type != 0)
+                    {
+                        return Json(_ajaxResponse, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            return Json(_ajaxResponse, JsonRequestBehavior.AllowGet);
+            // this is not a final return. AJAX response redirects this to RediredtToEdit
         }
     }
 }
