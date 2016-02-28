@@ -357,6 +357,8 @@ function saveSurvey() {
             if (data.type != 0) {
                 $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
                 backToTop();
+            } else {
+                window.location.href = "/Surveys/RediredtToEdit/" + surveyEditModel.surveyModel.surveyID;
             }
             //else {
             //    $.ajax({
@@ -374,10 +376,7 @@ function saveSurvey() {
         //    alert("responseText: " + xhr.responseText);
         //    $("#_AjaxInfoMessage").prepend('<div class ="alert alert-danger ajaxAlertMessageDiv">' + data.message + "</div>")
         //}
-    }).done(function (r) {
-        window.location.href = "/Surveys/RediredtToEdit/" + surveyEditModel.surveyModel.surveyID;
-            //'@Url.Action("Surveys","Edit", new { id=' + surveyEditModel.surveyModel.surveyID + '})';
-    });
+    })
 }
 
 function setQuestionTemplateDescription(questionDiv) {

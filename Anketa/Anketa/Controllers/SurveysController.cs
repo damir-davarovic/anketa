@@ -180,7 +180,7 @@ namespace Anketa.Controllers
                 var errorDictionary = ModelState.Where(y => y.Value.Errors.Count > 0).ToDictionary(y => y.Key, y => y.Value.Errors.Select(e => e.ErrorMessage).ToArray());
                 foreach (KeyValuePair<string, string[]> validationEntry in errorDictionary)
                 {
-                    _AjaxResponseModel.message = _AjaxResponseModel.message + validationEntry.Value.First().ToString() + "\n";
+                    _AjaxResponseModel.message = _AjaxResponseModel.message + validationEntry.Value.First().ToString() + "<br />";
                 }
                 _AjaxResponseModel.type = 2;
                 return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
@@ -282,7 +282,7 @@ namespace Anketa.Controllers
                 var errorDictionary = ModelState.Where(y => y.Value.Errors.Count > 0).ToDictionary(y => y.Key, y => y.Value.Errors.Select(e => e.ErrorMessage).ToArray());
                 foreach (KeyValuePair<string, string[]> validationEntry in errorDictionary)
                 {
-                    _ajaxResponse.message = _ajaxResponse.message + validationEntry.Value.First().ToString() + "\n";
+                    _ajaxResponse.message = _ajaxResponse.message + validationEntry.Value.First().ToString() + "<br />";
                 }
                 _ajaxResponse.type = 1;
                 return Json(_ajaxResponse, JsonRequestBehavior.AllowGet);

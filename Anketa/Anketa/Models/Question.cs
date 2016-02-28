@@ -48,7 +48,7 @@ namespace Anketa.Models
                     {
                         foreach (AnswerChoiceMultiple answerChoice in qAnswer.selectAnswers)
                         {
-                            if (answerChoice.choiceText.Trim().Length < 1)
+                            if (answerChoice.choiceText == null || answerChoice.choiceText.Trim().Length < 1)
                             {
                                 answerChoicesInValid = true;
                             }
@@ -58,7 +58,7 @@ namespace Anketa.Models
                     {
                         foreach (AnswerChoiceSingle answerChoice in qAnswer.radioAnswers)
                         {
-                            if (answerChoice.choiceText.Trim().Length < 1)
+                            if (answerChoice.choiceText == null || answerChoice.choiceText.Trim().Length < 1)
                             {
                                 answerChoicesInValid = true;
                             }

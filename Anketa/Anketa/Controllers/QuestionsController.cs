@@ -105,7 +105,7 @@ namespace Anketa.Controllers
                 var errors = ModelState.Keys.SelectMany(e => ModelState[e].Errors).Select(m => m.ErrorMessage).ToArray();
                 foreach (string errorMessage in errors)
                 {
-                    _AjaxResponseModel.message = _AjaxResponseModel.message + errorMessage + "\n";
+                    _AjaxResponseModel.message = _AjaxResponseModel.message + errorMessage + "<br />";
                 }                
                 _AjaxResponseModel.type = 0;
                 return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
@@ -166,7 +166,7 @@ namespace Anketa.Controllers
                 var errors = ModelState.Keys.SelectMany(e => ModelState[e].Errors).Select(m => m.ErrorMessage).ToArray();
                 foreach (string errorMessage in errors)
                 {
-                    _AjaxResponseModel.message = _AjaxResponseModel.message + errorMessage + "\n";
+                    _AjaxResponseModel.message = _AjaxResponseModel.message + errorMessage + "<br />";
                 }
                 _AjaxResponseModel.type = 1;
                 return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
