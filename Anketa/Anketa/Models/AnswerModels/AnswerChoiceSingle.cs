@@ -7,11 +7,10 @@ using System.Web;
 
 namespace Anketa.Models.AnswerModels
 {
-    public class AnswerChoiceSingle
+    public class AnswerChoiceSingle 
     {
-        [Column(Order = 0), Key, Index]
+        [Key, Index]
         public int choiceId { get; set; }
-        [Column(Order = 1), Index]
         public int answerID { get; set; }
         public int orderNo { get; set; }
         public string choiceText { get; set; }

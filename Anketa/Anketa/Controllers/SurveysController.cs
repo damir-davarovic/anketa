@@ -119,7 +119,7 @@ namespace Anketa.Controllers
             {
                 return HttpNotFound();
             }
-            TempData["RedirectToEdit"] = "Survey " + surveyModel.surveyModel.surveyName + "</i> succesfully updated!";
+            TempData["RedirectToEdit"] = "Survey <i>" + surveyModel.surveyModel.surveyName + "</i> succesfully changed!";
             return RedirectToAction("Edit/"+id);
         }
 

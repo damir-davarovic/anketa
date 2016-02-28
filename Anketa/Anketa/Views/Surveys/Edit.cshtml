@@ -15,7 +15,21 @@
    http://stackoverflow.com/questions/4764011/multiple-models-in-a-view/13823027#13823027
    http://stackoverflow.com/questions/7745938/better-naming-in-tuple-classes-than-item1-item2
 *@
-            <div id="_AjaxInfoMessage"></div>
+            <div id="_AjaxInfoMessage">
+				@if(!String.IsNullOrEmpty(ViewBag.surveyModelEditMessage))
+				{
+					if(ViewBag.surveyModelEditMessageType == 0)
+					{
+						@Html.Raw("<div class='alert alert-danger'>")
+					}
+					else
+					{
+						@Html.Raw("<div class='alert alert-success'>")
+					}
+							@Html.Raw(ViewBag.surveyModelEditMessage)                
+					   @Html.Raw("</div>")
+				}
+            </div>
             @Html.Partial("~/Views/Surveys/Partials/_EditPartial.cshtml", Model.surveyModel )
 				<ul class="sortable" id="questionPlaceholder">
                 @foreach (var questionItem in Model.questionsModel) {

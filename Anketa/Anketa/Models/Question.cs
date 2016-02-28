@@ -22,14 +22,14 @@ namespace Anketa.Models
         public int SurveyID { get; set; }
         [DisplayName("Question text"), Required(ErrorMessage = "Question text is required!")]
         public string questionText { get; set; }
-        [DisplayName("Question type"), Required ]
+        [DisplayName("Question type"), Required]
         public TipPitanja questionType { get; set; }
         [DisplayName("Question active")]
         public bool aktivnoPitanje { get; set; }
         public bool hasAnswer { get; set; }
         public int questionOrder { get; set; }
 
-       public virtual ICollection<Answer> answer { get; set; }
+        public virtual ICollection<Answer> answer { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -38,13 +38,13 @@ namespace Anketa.Models
             {
                 yield return new ValidationResult("Question text is required!");
             }
-            if(answer  != null)
+            if (answer != null)
             {
                 if (questionType.Equals(TipPitanja.Single) || questionType.Equals(TipPitanja.Multiple))
                 {
                     Answer qAnswer = answer.First();
                     bool answerChoicesInValid = false;
-                    if (qAnswer.selectAnswers != null)
+                    if(qAnswer.selectAnswers != null)
                     {
                         foreach (AnswerChoiceMultiple answerChoice in qAnswer.selectAnswers)
                         {
@@ -78,7 +78,7 @@ namespace Anketa.Models
                     }
                 }
             }
-            
+
         }
     }
 }

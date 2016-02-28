@@ -37,7 +37,7 @@ namespace Anketa.DAL.QuestionDAL
             return qRepo.fetchQuestionsBySurveyId(surveyId);
         }
 
-        public void updateOrder(Question question , string type)
+        public void updateOrder(Question question, string type)
         {
             qRepo.updateOrder(question, type);
         }
@@ -45,7 +45,8 @@ namespace Anketa.DAL.QuestionDAL
         public _AjaxResponseModel updateQuestion(Question question)
         {
             var _ajaxResponseModel = new _AjaxResponseModel();
-            try{
+            try
+            {
                 qRepo.updateQuestion(question);
                 templetizeQuestionAnswer(question);
                 _ajaxResponseModel.message = "Question succesfully changed!";
@@ -62,7 +63,8 @@ namespace Anketa.DAL.QuestionDAL
         public _AjaxResponseModel insertQuestion(Question question)
         {
             var _ajaxResponseModel = new _AjaxResponseModel();
-            try{
+            try
+            {
                 qRepo.insertQuestion(question);
                 templetizeQuestionAnswer(question);
                 _ajaxResponseModel.message = "Question succesfully added!";

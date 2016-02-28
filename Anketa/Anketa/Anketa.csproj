@@ -200,6 +200,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AjaxModels\_AjaxResponseModel.cs" />
     <Compile Include="Models\AnswerModels\Answer.cs" />
+    <Compile Include="Models\AnswerModels\AnswerChoice.cs" />
     <Compile Include="Models\AnswerModels\AnswerChoiceMultiple.cs" />
     <Compile Include="Models\AnswerModels\AnswerChoiceSingle.cs" />
     <Compile Include="Models\ExceptionModels\SurveyRuntimeException.cs" />
@@ -210,6 +211,10 @@
     <Compile Include="Models\SurveyModels\SurveyCreateModel.cs" />
     <Compile Include="Models\SurveyModels\SurveyEditModel.cs" />
     <Compile Include="Models\SurveyModels\SurveyIndexModel.cs" />
+    <Compile Include="Models\SurveySolvedModels\AnswerChosen.cs" />
+    <Compile Include="Models\SurveySolvedModels\ChosenMultipleChoice.cs" />
+    <Compile Include="Models\SurveySolvedModels\ChosenSingleChoice.cs" />
+    <Compile Include="Models\SurveySolvedModels\SurveySolved.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

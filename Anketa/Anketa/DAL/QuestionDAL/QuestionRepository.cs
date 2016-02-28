@@ -29,7 +29,8 @@ namespace Anketa.DAL.QuestionDAL
             Question templateQuestion = new Question();
             List<Answer> templateAnswer = new List<Answer>();
 
-            templateAnswer.Add(new Answer() { 
+            templateAnswer.Add(new Answer()
+            {
                 radioAnswers = new List<AnswerChoiceSingle>() { new AnswerChoiceSingle() },
                 selectAnswers = new List<AnswerChoiceMultiple>() { new AnswerChoiceMultiple() }
             });
@@ -40,11 +41,11 @@ namespace Anketa.DAL.QuestionDAL
         {
             return sDB.Questions.Where(x => x.SurveyID == surveyId).OrderBy(s => s.questionOrder);
         }
-        public void updateOrder(Question question , string type)
+        public void updateOrder(Question question, string type)
         {
             if (type == "DEL")
             {
-                sDB.Questions.Where(q => q.questionOrder >= question.questionOrder).Update(q => new Question { questionOrder = q.questionOrder -1 });
+                sDB.Questions.Where(q => q.questionOrder >= question.questionOrder).Update(q => new Question { questionOrder = q.questionOrder - 1 });
             }
             else
             {
@@ -61,59 +62,59 @@ namespace Anketa.DAL.QuestionDAL
             // https://msdn.microsoft.com/hr-hr/data/jj592676
             // mali tutorial o Attachu
 
-                if (question.answer != null)
+            if (question.answer != null)
+            {
+                qAnswer = question.answer.First();
+
+                tempListSingle = (List<AnswerChoiceSingle>)qAnswer.radioAnswers;
+                qAnswer.radioAnswers = null;
+
+                tempListMultiple = (List<AnswerChoiceMultiple>)qAnswer.selectAnswers;
+                qAnswer.selectAnswers = null;
+            }
+
+            sDB.Questions.Attach(question);
+            var qEntry = sDB.Entry<Question>(question);
+            qEntry.State = EntityState.Modified;
+
+            if (question.answer != null)
+            {
+                var aEntry = sDB.Entry<Answer>(qAnswer);
+                aEntry.State = EntityState.Modified;
+                if (question.questionType == TipPitanja.Single)
                 {
-                    qAnswer = question.answer.First();
-
-                    tempListSingle = (List<AnswerChoiceSingle>)qAnswer.radioAnswers;
-                    qAnswer.radioAnswers = null;
-
-                    tempListMultiple = (List<AnswerChoiceMultiple>)qAnswer.selectAnswers;
-                    qAnswer.selectAnswers = null;
-                }
-
-                sDB.Questions.Attach(question);
-                var qEntry = sDB.Entry<Question>(question);
-                qEntry.State = EntityState.Modified;                
-
-                if (question.answer != null)
-                {
-                    var aEntry = sDB.Entry<Answer>(qAnswer);
-                    aEntry.State = EntityState.Modified;
-                    if (question.questionType == TipPitanja.Single)
+                    foreach (AnswerChoiceSingle sChoice in tempListSingle)
                     {
-                        foreach (AnswerChoiceSingle sChoice in tempListSingle)
+                        sChoice.answerID = qAnswer.answerID;
+                        var rEntry = sDB.Entry<AnswerChoiceSingle>(sChoice);
+                        if (sChoice.choiceId == 0)
                         {
-                            sChoice.answerID = qAnswer.answerID;
-                            var rEntry = sDB.Entry<AnswerChoiceSingle>(sChoice);
-                            if (sChoice.choiceId == 0)
-                            {
-                                rEntry.State = EntityState.Added;
-                            }
-                            else
-                            {
-                                rEntry.State = EntityState.Modified;
-                            }
+                            rEntry.State = EntityState.Added;
                         }
-                    }
-                    if (question.questionType == TipPitanja.Multiple)
-                    {
-                        foreach (AnswerChoiceMultiple mChoice in tempListMultiple)
+                        else
                         {
-                            mChoice.answerID = qAnswer.answerID;
-                            var mEntry = sDB.Entry<AnswerChoiceMultiple>(mChoice);
-                            if (mChoice.choiceId == 0)
-                            {
-                                mEntry.State = EntityState.Added;
-                            }
-                            else
-                            {
-                                mEntry.State = EntityState.Modified;
-                            }
+                            rEntry.State = EntityState.Modified;
                         }
                     }
                 }
-                sDB.SaveChanges();
+                if (question.questionType == TipPitanja.Multiple)
+                {
+                    foreach (AnswerChoiceMultiple mChoice in tempListMultiple)
+                    {
+                        mChoice.answerID = qAnswer.answerID;
+                        var mEntry = sDB.Entry<AnswerChoiceMultiple>(mChoice);
+                        if (mChoice.choiceId == 0)
+                        {
+                            mEntry.State = EntityState.Added;
+                        }
+                        else
+                        {
+                            mEntry.State = EntityState.Modified;
+                        }
+                    }
+                }
+            }
+            sDB.SaveChanges();
         }
 
         public void insertQuestion(Question question)

@@ -86,12 +86,12 @@ function initializeTooltip() {
     $('.tooltipControl').tooltip('destroy');
     $('.tooltipControl').tooltip({ title: "Deleting a question will delete all data linked to it.", trigger: 'hover', 'delay': { show: 500, hide: 300 } });
     //$('.tooltipControl').each(function () {
-        //var deleteButton = $(this).find('.deleteQuestion');
-        //if(deleteButton.hasClass('disabled')){
-            //$(this).tooltip({ title: "Deleting a question will delete all data linked to it.", trigger: 'hover', 'delay': { show: 500, hide: 300 } });
-        //}else{
-        //    $(this).tooltip('destroy');
-        //}
+    //var deleteButton = $(this).find('.deleteQuestion');
+    //if(deleteButton.hasClass('disabled')){
+    //$(this).tooltip({ title: "Deleting a question will delete all data linked to it.", trigger: 'hover', 'delay': { show: 500, hide: 300 } });
+    //}else{
+    //    $(this).tooltip('destroy');
+    //}
     //});
 }
 
@@ -100,7 +100,7 @@ function backToTop() {
 }
 
 $(function () {
-    $(".sortable").sortable({handle: '.handle'});
+    $(".sortable").sortable({ handle: '.handle' });
     $(".sortable").disableSelection();
 });
 
@@ -432,7 +432,7 @@ $(document).ready(function () {
         backToTop();
     });
     // #backToTop button Start
-        //plugin
+    //plugin
     jQuery.fn.topLink = function (settings) {
         settings = jQuery.extend({
             min: 1,
@@ -452,52 +452,52 @@ $(document).ready(function () {
             });
         });
     };
-        //usage w/ smoothscroll
-        //set the link
-        $('#backToTop').topLink({
-            min: 100,
-            fadeSpeed: 600
-        });
-        //smoothscroll
-        $('#backToTop').click(function (e) {
-            //    e.preventDefault(); // this part requires some scrollTo plugin
-            //    $.scrollTo(0, 300);
-            $('html, body').animate({ scrollTop: '0px' }, 800).promise().then(function () { });
-        });
+    //usage w/ smoothscroll
+    //set the link
+    $('#backToTop').topLink({
+        min: 100,
+        fadeSpeed: 600
+    });
+    //smoothscroll
+    $('#backToTop').click(function (e) {
+        //    e.preventDefault(); // this part requires some scrollTo plugin
+        //    $.scrollTo(0, 300);
+        $('html, body').animate({ scrollTop: '0px' }, 800).promise().then(function () { });
+    });
     // #backToTop button End
 
     // #delete question function
-        $(".deleteQuestion").click(function (event) {
-            var questionDiv = $(this).closest(".questionsDiv");
-            deleteQuestion(questionDiv);
-        });
+    $(".deleteQuestion").click(function (event) {
+        var questionDiv = $(this).closest(".questionsDiv");
+        deleteQuestion(questionDiv);
+    });
 
     // #delete choiceItem function
-        $(".removeChoice").click(function (event) {
-            var choiceItem = $(this).closest("li.choiceItem");
-            deleteChoiceItem(choiceItem);
-        });
-        
+    $(".removeChoice").click(function (event) {
+        var choiceItem = $(this).closest("li.choiceItem");
+        deleteChoiceItem(choiceItem);
+    });
+
     // #save question function
-        $(".saveQuestion").click(function (event) {
-            var questionDiv = $(this).closest(".questionsDiv");
-            saveQuestion(questionDiv);
-        });
+    $(".saveQuestion").click(function (event) {
+        var questionDiv = $(this).closest(".questionsDiv");
+        saveQuestion(questionDiv);
+    });
 
-        $(".editSurvey").click(function (event) {
-            var surveysDiv = $(this).closest(".surveysDiv");
-            editSurvey(surveysDiv);
-        });
+    $(".editSurvey").click(function (event) {
+        var surveysDiv = $(this).closest(".surveysDiv");
+        editSurvey(surveysDiv);
+    });
 
-        $(".addChoice").click(function (event) {
-            var target = $(this).val();
-            var targetList = $(this).closest('.answersDiv').find('ul#' + target);
-            addChoiceItem(targetList);
-        });
+    $(".addChoice").click(function (event) {
+        var target = $(this).val();
+        var targetList = $(this).closest('.answersDiv').find('ul#' + target);
+        addChoiceItem(targetList);
+    });
 
-        $(".saveSurvey").click(function (event) {
-            saveSurvey();
-        });
+    $(".saveSurvey").click(function (event) {
+        saveSurvey();
+    });
 
     $(".enter-survey-questions .dropdown-menu li a").click(function () {
         $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
@@ -506,9 +506,9 @@ $(document).ready(function () {
 
 
     $(document).on("click", ".duplicate-input-group", function () {
-        if($(this).parent(".panel-footer").prev(".panel-body").find(".answer").is(":hidden")){
+        if ($(this).parent(".panel-footer").prev(".panel-body").find(".answer").is(":hidden")) {
             $(this).parent(".panel-footer").prev(".panel-body").find(".answer:hidden").show();
-        }else{
+        } else {
             $(this).parent(".panel-footer").prev(".panel-body").find(".answer:first").clone().appendTo($(this).parent(".panel-footer").prev(".panel-body")).show();
         }
     });

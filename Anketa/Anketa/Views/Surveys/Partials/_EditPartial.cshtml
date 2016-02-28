@@ -23,19 +23,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        @if(!String.IsNullOrEmpty(ViewBag.surveyModelEditMessage))
-        {
-            if(ViewBag.surveyModelEditMessageType == 0)
-            {
-                @Html.Raw("<div class='alert alert-danger'>")
-            }
-            else
-            {
-                @Html.Raw("<div class='alert alert-success'>")
-            }
-                    @Html.Raw(ViewBag.surveyModelEditMessage)                
-               @Html.Raw("</div>")
-        }
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.surveyID)

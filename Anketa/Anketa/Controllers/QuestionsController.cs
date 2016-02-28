@@ -39,7 +39,7 @@ namespace Anketa.Controllers
             TempData["Delete"] = "Question <i>" + id + "</i> succesfully removed!";
             //return RedirectToRoute("Surveys/Edit/4");
             //return Redirect(HttpContext.Request.UrlReferrer.ToString());
-            return RedirectToAction("Edit/"+question.SurveyID, "Surveys");
+            return RedirectToAction("Edit/" + question.SurveyID, "Surveys");
         }
         //[HttpPost]
         //[Obsolete("U viewu se referencira JsonResult metoda _AjaxDeleteQuestion koja obavlja istu stvar, ali preko Ajaxa.", true)]
@@ -79,13 +79,13 @@ namespace Anketa.Controllers
                 _AjaxResponseModel.message = "Database action failed! " + e.StackTrace;
                 _AjaxResponseModel.type = 0;
                 return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
-            }            
+            }
         }
 
         public PartialViewResult _AjaxAddQuestion()
         {
             Question question = qService.fetchTemplateQuestion();
-            return PartialView("~/Views/Questions/Partials/_QuestionListPartial.cshtml", question );
+            return PartialView("~/Views/Questions/Partials/_QuestionListPartial.cshtml", question);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Anketa.Controllers
                 foreach (string errorMessage in errors)
                 {
                     _AjaxResponseModel.message = _AjaxResponseModel.message + errorMessage + "<br />";
-                }                
+                }
                 _AjaxResponseModel.type = 0;
                 return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             }
@@ -117,7 +117,7 @@ namespace Anketa.Controllers
             //    _AjaxResponseModel.type = 0;
             //    return Json(_AjaxResponseModel, JsonRequestBehavior.AllowGet);
             //}
-            qService.updateOrder(question , null);
+            qService.updateOrder(question, null);
             /* Primjer Update */
             if (question.questionID >= 1) // if the question already exists
             {
